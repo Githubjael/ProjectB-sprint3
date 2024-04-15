@@ -8,8 +8,9 @@ public class Contact : Page
     }
     public override void Options()
     {
-        System.Console.WriteLine("[L]: Leave a review"); //other options?
+        System.Console.WriteLine("[C]: Contact or ?");
         base.Options();
+        //MAKE READLINE WORK
     }
     public override void Contents()
     {
