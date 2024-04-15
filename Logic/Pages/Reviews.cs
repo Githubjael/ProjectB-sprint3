@@ -7,8 +7,10 @@ class Reviews : Page{
     }
     public override void Options()
     {
-        System.Console.WriteLine(""); //add options later
+        System.Console.WriteLine("[L]: Leave a review");
+        System.Console.WriteLine("[S]: See all review");
         base.Options();
+        //MAKE READLINE WORK
     }
     public override void Contents()
     {
