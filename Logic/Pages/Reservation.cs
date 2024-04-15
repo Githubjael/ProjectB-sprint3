@@ -4,9 +4,10 @@ class Reservation : Page
 
     public override void Options()
     {
-        System.Console.WriteLine("[1]: Make reservation");
-        System.Console.WriteLine("[2]: Cancel reservation");
+        System.Console.WriteLine("[MR]: Make reservation");
+        System.Console.WriteLine("[CR]: Cancel reservation");
         base.Options();
+        //MAKE READLINE WORK
     }
 
     public void MakeReservation()
