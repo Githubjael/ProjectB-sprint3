@@ -1,19 +1,17 @@
-class Reviews : Page{
-    private string _name = "Reviews";
+class Review : Page
+{
+    public override string Name => "Review";
 
-    public override string Name
+    public string GuestName{get;}
+    public int Rating{get;}
+    public string Comments{get;}
+    public Review(string guestName, int rating, string comments)
     {
-        get => _name;
-    }
-    public override void Options()
-    {
-        System.Console.WriteLine("[L]: Leave a review");
-        System.Console.WriteLine("[S]: See all review");
-        base.Options();
-        //MAKE READLINE WORK
+        GuestName = guestName;
+        Rating = rating;
+        Comments = comments;
     }
     public override void Contents()
     {
-        
     }
 }
