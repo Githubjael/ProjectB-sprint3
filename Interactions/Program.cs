@@ -260,7 +260,7 @@
                     break;
                 
                 case "6":
-                    Console.WriteLine("Enter your name:");
+                    Console.WriteLine("Enter your name (Empty Enter = Anonymous):");
                     string guestName = Console.ReadLine();
 
                     Console.WriteLine("Rate our restaurant (from 1 to 5):");
