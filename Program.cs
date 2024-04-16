@@ -2,6 +2,12 @@ public class Program
 {
     public static void Main()
     {
+        // H = Homepage
+        // M = Menu
+        // R = Reservation
+        // RV = Review 
+        // C = Contact
+        // E = Exit
         //create all pages
         Page homePage = new Home();
         Page ContactPage = new Contact();
