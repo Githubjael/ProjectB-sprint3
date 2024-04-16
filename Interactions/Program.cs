@@ -260,23 +260,34 @@
                     break;
                 
                 case "6":
-                    Console.WriteLine("Enter your name (Empty Enter = Anonymous):");
-                    string guestName = Console.ReadLine();
+                    string guestName = "";
+                    while (guestName == "")
+                    {
+                    Console.WriteLine("Enter your name:");
+                    guestName = Console.ReadLine();
+                    } 
 
                     Console.WriteLine("Rate our restaurant (from 1 to 5):");
                     int rating;
                     while (!int.TryParse(Console.ReadLine(), out rating) || rating < 1 || rating > 5)
                     {
-                        Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+                    Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
                     }
 
-                    Console.WriteLine("Leave your comments:");
+                    Console.WriteLine("Leave your comments (Optional):");
                     string comments = Console.ReadLine();
 
-                    Review newReview = new Review(guestName, rating, comments);
+                    string stars = new string('★', rating); 
+
+                    Review newReview = new Review(guestName, stars, comments);
+
+                    if (newReview != null)
+                    {
                     reviews.Add(newReview);
-                    Console.WriteLine("Thank you for your review!");
-                    break;
+                    ReviewAccess.WriteToJson(reviews);
+                    Console.WriteLine("\nThank you for your review!"); 
+                    }
+                break;
 
                 case "7":
                     // View reviews
