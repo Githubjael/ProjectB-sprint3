@@ -9,7 +9,14 @@ public class Program
         Page reservationPage = new Reservation();
         Page Reviews = new Reviews();
         
-        //begin program
-        homePage.Options();
+        bool Loop = true; // loop bool
+        do{
+            //begin program
+            homePage.Options();
+            var UserInput = Console.ReadLine();
+            if (UserInput.ToLower() == "e" || UserInput.ToLower() == "exit"){
+                Loop = false;
+            }
+        } while(Loop);
     }
 }
