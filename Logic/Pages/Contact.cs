@@ -1,19 +1,14 @@
-public class Contact : Page
+class Contact : Page
 {
-    private string _name = "Contact";
-
-    public override string Name
-    {
-        get => _name;
-    }
+    public override string Name => "Contact";
     public override void Options()
     {
-        System.Console.WriteLine("[C]: Contact or ?");
         base.Options();
-        //MAKE READLINE WORK
     }
     public override void Contents()
     {
-        
+        System.Console.WriteLine("Email: retaurant@example.nl");
+        System.Console.WriteLine("Phone number: 06 11 22 33 44");
+        System.Console.WriteLine("You can call between 10:00 and 22:00");
     }
 }
