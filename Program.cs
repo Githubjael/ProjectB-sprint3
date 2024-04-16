@@ -4,10 +4,8 @@ public class Program
     {
         //create all pages
         Page homePage = new Home();
-        Page contactPage = new Contact();
-        Page menuPage = new Menu();
-        Page reservationPage = new Reservation();
-        Page Reviews = new Reviews();
+        Page ContactPage = new Contact();
+        Page ReservationPage = new Reservation();
         
         bool Loop = true; // loop bool
         do{
