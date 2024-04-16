@@ -3,9 +3,9 @@ class Review : Page
     public override string Name => "Review";
 
     public string GuestName{get;}
-    public int Rating{get;}
+    public string Rating{get;}
     public string Comments{get;}
-    public Review(string guestName, int rating, string comments)
+    public Review(string guestName, string rating, string comments)
     {
         GuestName = guestName;
         Rating = rating;
