@@ -19,7 +19,7 @@ class ReservationDataAccess
     {
         // write to json
         StreamWriter writer = new(fileName);
-        string List2Json = JsonConvert.SerializeObject(ReservationList);
+        string List2Json = JsonConvert.SerializeObject(ReservationList, Formatting.Indented);
         writer.Write(List2Json);
         writer.Close();
         // write to json
