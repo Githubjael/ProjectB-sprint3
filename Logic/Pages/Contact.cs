@@ -1,14 +1,35 @@
-class Contact : Page
+public static class Contact 
 {
-    public override string Name => "Contact";
-    public override void Options()
+    private static string _name = "Contact";
+
+    public static string Name
     {
-        base.Options();
+        get => _name;
     }
-    public override void Contents()
+
+    public static void Options()
     {
-        System.Console.WriteLine("Email: retaurant@example.nl");
-        System.Console.WriteLine("Phone number: 06 11 22 33 44");
-        System.Console.WriteLine("You can call between 10:00 and 22:00");
+        Console.WriteLine("[H]: Home");
+        Console.WriteLine("???"); 
+
+        while (true)
+        {
+            string userChoice = Console.ReadLine().ToUpper();
+
+            switch (userChoice)
+            {
+                case "H":
+                    Home.Options();
+                    return;
+
+                case "???":
+                    // Add logic for the specific contact option
+                    return;
+
+                default:
+                    Console.WriteLine("Invalid input. Please try again.");
+                    break;
+            }
+        }
     }
 }
