@@ -74,7 +74,11 @@ class DisplayMonthList
             if (MonthList.Count != 0){
             if (Month == DateTime.Now.Month){
             foreach(int dag in MonthList.ToList()){
-                if (dag <= DateTime.Now.Day)
+                if (dag < DateTime.Now.Day) // Hier hele datums in doen blijkbaar
+                {
+                    MonthList.Remove(dag);
+                }
+                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
                 {
                     MonthList.Remove(dag);
                 }
