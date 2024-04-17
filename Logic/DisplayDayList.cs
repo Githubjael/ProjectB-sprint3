@@ -10,7 +10,7 @@ class DisplayDayList{
         "16:00", "16:30", "17:00"
     };
 
-    public static List<string> GiveListBasedOnDay(int day, int month){
+    public static List<string> GiveListBasedOnDay(int day, int month, int year){
         List<string> TimeList = new(){};
         foreach(string Time in DayList)
         {
@@ -18,7 +18,19 @@ class DisplayDayList{
         }
 for (int i = 0; i < TimeList.Count; i++)
 {
-    string Time = $"{day}-0{month}-2024 {TimeList[i]}";
+    string Time = $"{day}-{month}-{year} {TimeList[i]}";
+    if (day < 10 && month < 10)
+    {
+        Time = $"0{day}-0{month}-{year} {TimeList[i]}";
+    }
+    else if (month < 10)
+    {
+        Time = $"{day}-0{month}-{year} {TimeList[i]}";
+    }
+    else if (day < 10)
+    {
+        Time = $"0{day}-{month}-{year} {TimeList[i]}";
+    }
     try
     {
         DateTime hourToCompare = DateTime.ParseExact(Time, "dd-MM-yyyy HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
@@ -36,10 +48,10 @@ for (int i = 0; i < TimeList.Count; i++)
     }
 }
 
-        ReservedTable.CheckIfTableReserved(day, month);
+        ReservedTable.CheckIfTableReserved(day, month, year);
         if (TimeList.Count == 0)
         {
-            DisplayMonthList.GiveListBasedOnMonth(month).Remove(day);
+            DisplayMonthList.GiveListBasedOnMonth(month, year).Remove(day);
         }
         return TimeList;
     }
