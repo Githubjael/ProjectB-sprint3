@@ -1,4 +1,4 @@
-class Reservation : Page
+public static class Reservation
 {
     public static List<int> unavailableGuestIDs = new List<int>(); // ik een lijst om de gebruikte Guests IDs op te slaan
     private static Random random = new Random();
@@ -13,9 +13,9 @@ class Reservation : Page
         unavailableGuestIDs.Add(guestID);
         return guestID;
     }
-    public override string Name => "Reservation";
+    public static string Name => "Reservation";
 
-    public override void Contents()
+    public static void Contents()
     {
         throw new NotImplementedException();
     }

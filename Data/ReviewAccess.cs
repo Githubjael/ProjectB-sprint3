@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 class ReviewAccess
 {
-    private static string fileName = @"C:\Users\User\Desktop\Project-B\Reviews.Json";
+    private static string fileName = @"Logic\Pages\Reviews.cs";
 
     public static List<Review> ReadFromJson()
     {
