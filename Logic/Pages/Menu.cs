@@ -6,6 +6,7 @@ public static class Menu
 
     public static string Name => _name;
 
+
     public static void AddItem()
     {
         //catch bad input, make item name atleast 2 char
@@ -16,8 +17,6 @@ public static class Menu
         itemName = Console.ReadLine();
     }
         //catch bad input, make sure price is a number
-        //System.FormatException
-        // string itemPrice = Console.ReadLine();
         double itemPrice = 0.0;
         bool isValidPrice = false;
         do
@@ -84,6 +83,7 @@ public static class Menu
         Console.WriteLine("[H]: Home");
         Console.WriteLine("[V] View menu");
         Console.WriteLine("[VC] View a specific category");
+        //if user manager give option to add/remove/change menu
 
         while (true)
         {
@@ -92,7 +92,6 @@ public static class Menu
             switch (userChoice)
             {
                 case "V":
-                    //view full menu
                     return;
                 case "VC":
                     // View specific category
