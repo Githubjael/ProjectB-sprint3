@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 public static class Menu 
 {
     private static string _name = "Menu";
@@ -16,10 +17,68 @@ public static class Menu
             new MenuItem("Iced Tea", 1.99, "Drink") 
             //CHANGE CATEGORY AND MAKE INTO JSON
         };
+            
     }
 
     public static void AddItem()
     {
+        //catch bad input, make item name atleast 2 char
+        Console.WriteLine("What's the name of the item?");
+        string itemName = Console.ReadLine();
+        while (itemName.Length < 2){
+        Console.WriteLine("Name must be at least 2 characters long. Please try again:");
+        itemName = Console.ReadLine();
+    }
+        //catch bad input, make sure price is a number
+        //System.FormatException
+        // string itemPrice = Console.ReadLine();
+        double itemPrice = 0.0;
+        bool isValidPrice = false;
+        do
+        {
+            try
+            {
+                Console.WriteLine("What's the price of the item? (Use a comma!)");
+                string itemPrice2 = Console.ReadLine();
+                if (itemPrice2.Contains(".")){
+                    Console.WriteLine("Invalid input. Use a comma.");
+                }
+                else{
+                    itemPrice = Convert.ToDouble(itemPrice2);
+
+                    if(double.IsNegative(itemPrice)){
+                        Console.WriteLine("Invalid input. Please enter a positive number for the price.");
+                    }else{
+                        isValidPrice = true;
+
+                    }
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input. Please enter a number for the price.");
+            }
+        } while (!isValidPrice);
+
+
+        //catch bad input, make sure item category is atleast 2 char
+        Console.WriteLine("What's the category of the item?");
+        string itemCategory = Console.ReadLine();
+        while (itemCategory.Length < 2){
+        Console.WriteLine("Category must be at least 2 characters long. Please try again:");
+        itemCategory = Console.ReadLine();
+        }
+        MenuItem m1 = new MenuItem(itemName, itemPrice, itemCategory);
+        
+        //add to json
+        string filePath = @"..\..\..\DataSources\Menu.json";
+        StreamWriter writer = new StreamWriter(filePath, true);
+        string MenuItem2Json = JsonConvert.SerializeObject(m1);
+        writer.WriteLine(MenuItem2Json);
+        writer.Close();
+
+        Console.WriteLine("Item succesfully added");
+        Home.Options();
     }
 
     public static void RemoveItem()
@@ -47,7 +106,7 @@ public static class Menu
             switch (userChoice)
             {
                 case "V":
-                    // View menu
+                    AddItem();
                     return;
                 case "VC":
                     // View specific category
