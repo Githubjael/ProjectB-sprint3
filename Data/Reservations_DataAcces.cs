@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 class ReservationDataAccess
 {
-    public static string fileName = @"DataSources\Reservations.Json";
+    public static string fileName = @"..\..\..\DataSources\Reservations.Json";
 
     // voor nu schrijven we alle reservations naar json
     // er wordt nog niet nagekeken of de dagen/maanden/tafels etc etc available zijn 

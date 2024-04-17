@@ -93,7 +93,7 @@ public static class Reservation
         // vraag de gebruiker om een dag te kiezen
         string ChosenDayString;
         do{
-        // Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth))}.\nChoose a day.");
+        Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth))}.\nChoose a day.");
         ChosenDayString = Console.ReadLine();
         } while (!CheckReservationInfo.CheckChosenDay(ChosenDayString, ChosenMonth));
         int ChosenDay = Convert.ToInt32(ChosenDayString);
@@ -110,7 +110,7 @@ public static class Reservation
         // voor tijdstippen moet ik checken of er wel tafels beschikbaar zijn
         string ChosenTime;
         do{
-        // Console.WriteLine($"Available time slots for booking are:\n{string.Join(", ", DisplayDayList.GiveListBasedOnDay(ChosenDay, ChosenMonth))}.\nChoose a day.");
+        Console.WriteLine($"Available time slots for booking are:\n{string.Join(", ", DisplayDayList.GiveListBasedOnDay(ChosenDay, ChosenMonth))}.\nChoose a day.");
             System.Console.WriteLine("");
             ChosenTime = Console.ReadLine();
         } while (!CheckReservationInfo.CheckTime(ChosenTime));
