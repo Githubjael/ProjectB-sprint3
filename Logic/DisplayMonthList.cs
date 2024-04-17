@@ -12,7 +12,7 @@ class DisplayMonthList
                 22, 23, 24, 25, 26, 27, 28,
                 29, 30, 31
             };
-    public static List<int> GiveListBasedOnMonth(int Month)
+    public static List<int> GiveListBasedOnMonth(int Month, int year)
     {
         if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12)
         {
@@ -24,9 +24,13 @@ class DisplayMonthList
                 29, 30, 31
             };
             if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month){
+            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
             foreach(int dag in MonthList.ToList()){
-                if (dag <= DateTime.Now.Day)
+                if (dag < DateTime.Now.Day)
+                {
+                    MonthList.Remove(dag);
+                }
+                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
                 {
                     MonthList.Remove(dag);
                 }
@@ -43,7 +47,7 @@ class DisplayMonthList
                 15, 16, 17, 18, 19, 20, 21,
                 22, 23, 24, 25, 26, 27, 28, 29
             };
-            if (DateTime.DaysInMonth(DateTime.Now.Year ,Month) == 28){
+            if (DateTime.DaysInMonth(year ,Month) == 28){
                 MonthList = new List<int>(){
                 1, 2, 3, 4, 5, 6, 7,
                 8, 9, 10, 11, 12, 13, 14,
@@ -52,9 +56,13 @@ class DisplayMonthList
                 };
             }
             if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month){
+            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
             foreach(int dag in MonthList.ToList()){
-                if (dag <= DateTime.Now.Day)
+                if (dag < DateTime.Now.Day)
+                {
+                    MonthList.Remove(dag);
+                }
+                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
                 {
                     MonthList.Remove(dag);
                 }
@@ -72,9 +80,9 @@ class DisplayMonthList
                 30
             };
             if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month){
+            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
             foreach(int dag in MonthList.ToList()){
-                if (dag < DateTime.Now.Day) // Hier hele datums in doen blijkbaar
+                if (dag < DateTime.Now.Day)
                 {
                     MonthList.Remove(dag);
                 }
