@@ -1,5 +1,3 @@
-using System.Runtime;
-
 using System.Text.RegularExpressions;
 class CheckReservationInfo
 {
@@ -84,9 +82,33 @@ class CheckReservationInfo
             return false;
         }
     }
+    public static bool CheckChosenYear(string ChosenYear)
+    {
+        if (string.IsNullOrEmpty(Convert.ToString(ChosenYear)))
+        {
+            System.Console.WriteLine("*You must fill something in.");
+            return false;
+        }
+        try{
+            Convert.ToInt32(ChosenYear);
+        }
+        catch (Exception)
+        {
+            System.Console.WriteLine("*This is not a year. Please enter a valid year.");
+            return false;
+        }
+        if (Convert.ToInt32(ChosenYear) < DateTime.Now.Year)
+        {
+            System.Console.WriteLine("*This is not a valid year. Please enter a valid year.");
+            return false;
+        }
+        return true;
+    }
+
+
 
 // Check ook of de maand nog niet voorbij is he
-    public static bool CheckChosenMonth(string ChosenMonth)
+    public static bool CheckChosenMonth(string ChosenMonth, int ChosenYear)
     {
         if (string.IsNullOrEmpty(ChosenMonth))
         {
@@ -100,7 +122,7 @@ class CheckReservationInfo
             System.Console.WriteLine($"*'{ChosenMonth}' is not a valid number.");
             return false;
         }
-        if (Convert.ToInt32(ChosenMonth) < DateTime.Now.Month)
+        if (Convert.ToInt32(ChosenMonth) < DateTime.Now.Month && DateTime.Now.Year == ChosenYear)
         {
             System.Console.WriteLine("*This month comes before the current month.");
             return false;
@@ -115,14 +137,14 @@ class CheckReservationInfo
             System.Console.WriteLine("*Please enter a number between 1 and 12");
             return false;
         }
-        else if (DisplayMonthList.GiveListBasedOnMonth(Convert.ToInt32(ChosenMonth)).Count == 0)
+        else if (DisplayMonthList.GiveListBasedOnMonth(Convert.ToInt32(ChosenMonth), ChosenYear).Count == 0)
         {
             System.Console.WriteLine("This month is unfortunately full. Please choose another Month");
             return false;
         }
         return true;   
     }
-    public static bool CheckChosenDay(string ChosenDay, int ChosenMonth)
+    public static bool CheckChosenDay(string ChosenDay, int ChosenMonth, int ChosenYear)
     {
         // if (Convert.ToInt32(ChosenDay) <= 0)
         // {
@@ -143,17 +165,17 @@ class CheckReservationInfo
                 System.Console.WriteLine($"*'{ChosenDay}' is not a valid number.");
                 return false;
             }
-            if (Convert.ToInt32(ChosenDay) < DisplayMonthList.GiveListBasedOnMonth(ChosenMonth)[0])
+            if (Convert.ToInt32(ChosenDay) < DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear)[0])
             {
                 System.Console.WriteLine("*That is not a valid number.");
                 return false;
             }
-            else if (Convert.ToInt32(ChosenDay) > DisplayMonthList.GiveListBasedOnMonth(ChosenMonth)[DisplayMonthList.GiveListBasedOnMonth(ChosenMonth).Count - 1])
+            else if (Convert.ToInt32(ChosenDay) > DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear)[DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear).Count - 1])
             {
                 System.Console.WriteLine("*That is not a valid number.");
                 return false;
             }
-            else if (!DisplayMonthList.GiveListBasedOnMonth(ChosenMonth).Contains(Convert.ToInt32(ChosenDay)))
+            else if (!DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear).Contains(Convert.ToInt32(ChosenDay)))
             {
                 System.Console.WriteLine("This day is unfortunately fully booked. Choose another day.");
                 return false;
