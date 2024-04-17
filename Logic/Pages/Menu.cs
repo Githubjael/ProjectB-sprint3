@@ -6,20 +6,6 @@ public static class Menu
 
     public static string Name => _name;
 
-    static Menu()
-    {
-        Items = new List<MenuItem>
-        {
-            new MenuItem("Salmon", 15.99, "Fish"),
-            new MenuItem("Steak", 12.99, "Meat"),
-            new MenuItem("Caesar Salad", 8.99, "Vegetarian"),
-            new MenuItem("Soda", 2.49, "Drink"),
-            new MenuItem("Iced Tea", 1.99, "Drink") 
-            //CHANGE CATEGORY AND MAKE INTO JSON
-        };
-            
-    }
-
     public static void AddItem()
     {
         //catch bad input, make item name atleast 2 char
