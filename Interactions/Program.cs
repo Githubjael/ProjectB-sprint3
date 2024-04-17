@@ -297,10 +297,10 @@
                     }
                     else
                     {
-                        Console.WriteLine("Reviews:");
+                        Console.WriteLine("Reviews:\n");
                         foreach (var review in reviews)
                         {
-                            Console.WriteLine($"Guest: {review.GuestName}, Rating: {review.Rating}, Comments: {review.Comments}");
+                            Console.WriteLine($"Guest: {review.GuestName}\nRating: {review.Rating}\nComments: {review.Comments}\n");
                         }
                     }
                     break;
