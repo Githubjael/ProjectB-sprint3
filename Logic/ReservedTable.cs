@@ -24,7 +24,10 @@ static class ReservedTable
             // Maak hier een functie van in ReservedTable.cs!!!!!!
             List<Tables> ChosenTables = new List<Tables>();
                 int ToBeSeated = AmountOfGuests;
-                List<int> TableTypes = new List<int>();
+                List<int> TableTypes = new List<int>()
+                {
+                    Capacity = 2
+                };
                 // bool Loop = true;
                 int ToReserve;
                 do
@@ -92,7 +95,7 @@ static class ReservedTable
                 }
             return ChosenTables;
     }
-    public static void CheckIfTableReserved(int day, int month){
+    public static void CheckIfTableReserved(int day, int month, int year){
         // zet tafels in alle dagen van het jaar op vol als ze dat zijn
         int TimeCount = 0; // kijkt of tijdstip vol is
     List<string> TimeList = new(){
@@ -107,13 +110,13 @@ static class ReservedTable
         foreach (Tables table in TableTracker)
         {
             // kijk hier na of alle tafles op die tijdstip vol zijn
-            if (ReservationLogic.CheckReservedTable(table.ID, $"{day}/{month}/2024", Time))
+            if (ReservationLogic.CheckReservedTable(table.ID, $"{day}/{month}/{year}", Time))
             {
                 table.IsReserved();
                 TimeCount++; //checked aantal gereserveerde tafels op die dag
             }
             if (TimeCount >= TableTracker.Count){
-                DisplayDayList.GiveListBasedOnDay(day, month).Remove(Time);
+                DisplayDayList.GiveListBasedOnDay(day, month, year).Remove(Time);
                //Remove from list 
             }
             // if (DayCount >= TableTracker.Count)
