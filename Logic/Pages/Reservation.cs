@@ -1,4 +1,4 @@
-public static class Reservation
+class Reservation : Page
 {
     public static List<int> unavailableGuestIDs = new List<int>(); // ik een lijst om de gebruikte Guests IDs op te slaan
     private static Random random = new Random();
@@ -13,42 +13,20 @@ public static class Reservation
         unavailableGuestIDs.Add(guestID);
         return guestID;
     }
-    public static string Name => "Reservation";
+    public override string Name => "Reservation";
 
-    public static void Contents()
+    public override void Contents()
     {
         throw new NotImplementedException();
     }
 
-    public static void Options()
-        {
-            Console.WriteLine("[H]: Home");
-            Console.WriteLine("[M]: Make reservation");
-            Console.WriteLine("[CR]: Cancel reservation");
-    
-            while (true)
-            {
-                string userChoice = Console.ReadLine().ToUpper();
-    
-                switch (userChoice)
-                {
-                    case "M":
-                        // Make reservation
-                        MakeReservation();
-                        return;
-                    case "CR":
-                        // Cancel reservation
-                        // CancelReservation();
-                        return;
-                    case "H":
-                        Home.Options();
-                        return;
-                    default:
-                        Console.WriteLine("Invalid input. Please try again.");
-                        break;
-                }
-            }
-        }
+    public override void Options()
+    {
+        System.Console.WriteLine("[1]: Make reservation");
+        System.Console.WriteLine("[2]: Cancel reservation");
+        base.Options();
+        string Choice = Console.ReadLine();
+    }
     public static void MakeReservation()
     {
         ReservedTable.PopulateTables(); // Maakt Tafelobjecten aan
@@ -80,22 +58,29 @@ public static class Reservation
         System.Console.WriteLine("What is your email address?");
         EmailAddress = Console.ReadLine();
         } while (!CheckReservationInfo.CheckEmailAddress(EmailAddress));
-
+        // vraag welke jaar gast wilt boeken
+        string ChosenYearString;
+        do
+        {
+            System.Console.WriteLine("In what year would you like to book?");
+            ChosenYearString = Console.ReadLine();
+        } while(!CheckReservationInfo.CheckChosenYear(ChosenYearString));
+        int ChosenYear = Convert.ToInt32(ChosenYearString);
         // Vraag in welke maand de gast wilt komen
         string ChosenMonthString;
         do{
         System.Console.WriteLine("What month would you like to book? Enter number of month.");
         ChosenMonthString = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckChosenMonth(ChosenMonthString));
+        } while (!CheckReservationInfo.CheckChosenMonth(ChosenMonthString, ChosenYear));
         int ChosenMonth = Convert.ToInt32(ChosenMonthString);
 
         // Welke Dag
         // vraag de gebruiker om een dag te kiezen
         string ChosenDayString;
         do{
-        Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth))}.\nChoose a day.");
+        Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear))}.\nChoose a day.");
         ChosenDayString = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckChosenDay(ChosenDayString, ChosenMonth));
+        } while (!CheckReservationInfo.CheckChosenDay(ChosenDayString, ChosenMonth, ChosenYear));
         int ChosenDay = Convert.ToInt32(ChosenDayString);
 
         // Vraag hoeveel Personen komen
@@ -110,7 +95,7 @@ public static class Reservation
         // voor tijdstippen moet ik checken of er wel tafels beschikbaar zijn
         string ChosenTime;
         do{
-        Console.WriteLine($"Available time slots for booking are:\n{string.Join(", ", DisplayDayList.GiveListBasedOnDay(ChosenDay, ChosenMonth))}.\nChoose a day.");
+        Console.WriteLine($"Available time slots for booking are:\n{string.Join(", ", DisplayDayList.GiveListBasedOnDay(ChosenDay, ChosenMonth, ChosenYear))}.\nChoose a time slot.");
             System.Console.WriteLine("");
             ChosenTime = Console.ReadLine();
         } while (!CheckReservationInfo.CheckTime(ChosenTime));
@@ -177,7 +162,7 @@ public static class Reservation
                 found.Reserved = true;
 
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                ReservationDataModel Reservation = new ReservationDataModel(found, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
+                ReservationDataModel Reservation = new ReservationDataModel(found, guestID, $"{ChosenDay}/{ChosenMonth}/{ChosenYear}", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
                 ReservationLogic.AddReservationToList(Reservation);
 
                 // bevestig de reservering aan de gebruiker
