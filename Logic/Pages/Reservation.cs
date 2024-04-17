@@ -20,13 +20,35 @@ class Reservation : Page
         throw new NotImplementedException();
     }
 
-    public override void Options()
-    {
-        System.Console.WriteLine("[1]: Make reservation");
-        System.Console.WriteLine("[2]: Cancel reservation");
-        base.Options();
-        string Choice = Console.ReadLine();
-    }
+    public static void Options()
+        {
+            Console.WriteLine("[H]: Home");
+            Console.WriteLine("[M]: Make reservation");
+            Console.WriteLine("[CR]: Cancel reservation");
+    
+            while (true)
+            {
+                string userChoice = Console.ReadLine().ToUpper();
+    
+                switch (userChoice)
+                {
+                    case "M":
+                        // Make reservation
+                        MakeReservation();
+                        return;
+                    case "CR":
+                        // Cancel reservation
+                        CancelReservation();
+                        return;
+                    case "H":
+                        Home.Options();
+                        return;
+                    default:
+                        Console.WriteLine("Invalid input. Please try again.");
+                        break;
+                }
+            }
+        }
     public static void MakeReservation()
     {
         ReservedTable.PopulateTables(); // Maakt Tafelobjecten aan

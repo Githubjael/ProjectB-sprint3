@@ -1,11 +1,11 @@
-public class Menu : Page
+public static class Menu 
 {
-    private string _name = "Menu";
-    public List<MenuItem> Items { get; set; }
+    private static string _name = "Menu";
+    public static List<MenuItem> Items { get; set; }
 
-    public override string Name => _name;
+    public static string Name => _name;
 
-    public Menu()
+    static Menu()
     {
         Items = new List<MenuItem>
         {
@@ -18,32 +18,47 @@ public class Menu : Page
         };
     }
 
-    public void AddItem()
+    public static void AddItem()
     {
     }
 
-    public void RemoveItem()
-    {
-
-    }
-
-    public void ChangeItem() 
+    public static void RemoveItem()
     {
     }
 
-    public void DisplayMenu()
+    public static void ChangeItem() 
     {
     }
 
-    public override void Options()
+    public static void DisplayMenu()
     {
+    }
+
+    public static void Options()
+    {
+        Console.WriteLine("[H]: Home");
         Console.WriteLine("[V] View menu");
         Console.WriteLine("[VC] View a specific category");
-        base.Options();
-        //READLINE AND MAKE IT WORK
-    }
 
-    public override void Contents()
-    {
+        while (true)
+        {
+            string userChoice = Console.ReadLine().ToUpper();
+
+            switch (userChoice)
+            {
+                case "V":
+                    // View menu
+                    return;
+                case "VC":
+                    // View specific category
+                    return;
+                case "H":
+                    Home.Options();
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Please try again.");
+                    break;
+            }
+        }
     }
 }

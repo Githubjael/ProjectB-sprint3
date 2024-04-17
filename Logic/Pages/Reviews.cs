@@ -1,17 +1,34 @@
-class Review : Page
+public static class Reviews
 {
-    public override string Name => "Review";
+    private static string _name = "Reviews";
 
-    public string GuestName{get;}
-    public string Rating{get;}
-    public string Comments{get;}
-    public Review(string guestName, string rating, string comments)
+    public static string Name => _name;
+
+    public static void Options()
     {
-        GuestName = guestName;
-        Rating = rating;
-        Comments = comments;
-    }
-    public override void Contents()
-    {
+        Console.WriteLine("[H]: Home");
+        Console.WriteLine("[L]: Leave a review");
+        Console.WriteLine("[S]: See all reviews");
+
+        while (true)
+        {
+            string userChoice = Console.ReadLine().ToUpper();
+
+            switch (userChoice)
+            {
+                case "H":
+                    Home.Options();
+                    return;
+                case "L":
+
+                    return;
+                case "S":
+
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Please try again.");
+                    break;
+            }
+        }
     }
 }
