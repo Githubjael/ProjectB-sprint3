@@ -1,1 +1,6 @@
-
+{"Name":"Steak","Price":5.0,"Category":"Meat"}
+{"Name":"Salmon","Price":15.99,"Category":"Fish"}
+{"Name":"Caesar Salad","Price":8.99,"Category":"vegetarian"}
+{"Name":"Soda","Price":2.49,"Category":"Drink"}
+{"Name":"Iced Tea","Price":1.99,"Category":"Drink"}
+{"Name":"Salad","Price":2.0,"Category":"Vegetarian"}
