@@ -106,7 +106,7 @@ public static class Menu
             switch (userChoice)
             {
                 case "V":
-                    AddItem();
+                    //view full menu
                     return;
                 case "VC":
                     // View specific category
