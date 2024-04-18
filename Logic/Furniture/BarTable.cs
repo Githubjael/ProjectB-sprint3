@@ -1,6 +1,6 @@
 class BarTable : Table{
     private int _type;
-    public int Type {
+    public override int Type {
         get => _type;
         set {
             // als de value van Type positief is en 1 dan wordt er een Char toegevoegd bij ID
@@ -10,7 +10,7 @@ class BarTable : Table{
         }
     }
 
-    public BarTable(int id, int type) : base(id, false){
+    public BarTable(string id, int type) : base(id){
         Type = type;
     }
 }
