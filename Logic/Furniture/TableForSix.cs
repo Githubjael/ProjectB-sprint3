@@ -1,12 +1,13 @@
 class TableForSix : Table
 {
-        new public int Type {
-        get => base.Type;
+    private int _type;
+    public override int Type {
+        get => _type;
         set{
-            // als de value van Type positief is en 4 dan wordt er een Char toegevoegd bij ID
+            // als de value van Type positief is en 6 dan wordt er een Char toegevoegd bij ID
             if(int.IsPositive(value) && value == 6){
-                base.Type = value;
-                ID += "B";
+                _type = value;
+                ID += "C";
             }
             // niet zeker
             // else{
@@ -14,7 +15,7 @@ class TableForSix : Table
             // }
         }
     }
-    public TableForSix(int id, int type) : base(id, type){
+    public TableForSix(string id, int type) : base(id){
         Type = type;
     }
 }
