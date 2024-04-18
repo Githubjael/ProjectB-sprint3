@@ -1,5 +1,4 @@
 static class ReservedTable
-static class ReservedTable
 {
 
     public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
