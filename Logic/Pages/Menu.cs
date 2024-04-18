@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 public static class Menu 
 {
     private static string _name = "Menu";
@@ -67,22 +69,91 @@ public static class Menu
     }
 
     public static void RemoveItem()
-    {
-    }
+        {
+            Console.WriteLine("What's the name of the item you want to remove?");
+            string itemName = Console.ReadLine();
+            string filePath = @"..\..\..\DataSources\Menu.json";
+            
+            
+            // Read each line separately and remove the item if found
+            string[] lines = File.ReadAllLines(filePath);
+            bool itemRemoved = false;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                try
+                {
+                    JObject item = JObject.Parse(lines[i]);
+                    if ((string)item["Name"] == itemName)
+                    {
+                        // Remove the item from the array
+                        lines[i] = "";
+                        itemRemoved = true;
+                        break;
+                    }
+                }
+                catch (JsonReaderException)
+                {
+                    continue;
+                }
+            }
 
-    public static void ChangeItem() 
+
+            if (itemRemoved)
+            {
+                File.WriteAllLines(filePath, lines);
+
+                Console.WriteLine($"Item '{itemName}' removed successfully.");
+            }
+            else
+            {
+                Console.WriteLine($"Item '{itemName}' not found!");
+            }
+            Home.Options();
+        }
+
+    public static void ChangeItem() //later if needed
     {
     }
 
     public static void DisplayMenu()
     {
+        string filePath = @"..\..\..\DataSources\Menu.json";
+
+        // Read all lines from the file
+        string[] lines = File.ReadAllLines(filePath);
+
+        // Sort alphabetically category 
+        Array.Sort(lines, (x, y) =>
+        {
+            JObject menuObjectX = JObject.Parse(x);
+            JObject menuObjectY = JObject.Parse(y);
+
+            string categoryX = (string)menuObjectX["Category"];
+            string categoryY = (string)menuObjectY["Category"];
+
+            return categoryX.CompareTo(categoryY);
+        });
+        
+        //display the menu
+        Console.WriteLine("Name          | Price   | Category");
+        Console.WriteLine("---------------------------------");
+        foreach (string line in lines)
+        {
+            JObject menuObject = JObject.Parse(line);
+            string name = (string)menuObject["Name"];
+            double price = (double)menuObject["Price"];
+            string category = (string)menuObject["Category"];
+
+            Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category}");
+        }
     }
 
     public static void Options()
     {
+        DisplayMenu();
         Console.WriteLine("[H]: Home");
-        Console.WriteLine("[V] View menu");
-        Console.WriteLine("[VC] View a specific category");
+        Console.WriteLine("[S]: Sort the menu");
+        Console.WriteLine("[V]: View a specific category");
         //if user manager give option to add/remove/change menu
 
         while (true)
@@ -91,10 +162,13 @@ public static class Menu
 
             switch (userChoice)
             {
-                case "V":
+                case "S":
+                //view menu
+                //give options to sort by price, name and category
                     return;
-                case "VC":
+                case "V":
                     // View specific category
+                    //give of all categories made ?
                     return;
                 case "H":
                     Home.Options();
