@@ -1,4 +1,4 @@
-class Table
+public class Table
 {
     // zeker nodig
     public string ID { get; set; }

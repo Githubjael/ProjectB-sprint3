@@ -145,17 +145,17 @@ class Reservation : Page
         if (confirmation == "y")
         {
             if (guests > 6){
-                List<Tables> ChosenTables = ReservedTable.AssignTable(guests);
+                List<Table> ChosenTables = ReservedTable.AssignTable(guests);
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                foreach(Tables table in ChosenTables){
+                foreach(Table table in ChosenTables){
                 ReservationDataModel Reservation = new ReservationDataModel(table, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
                 ReservationLogic.AddReservationToList(Reservation);
                 }
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                 string tableids = "";
-                foreach (Tables table in ChosenTables)
+                foreach (Table table in ChosenTables)
                 {
                     tableids += $"{table.ID} ";
                 }
@@ -174,7 +174,7 @@ class Reservation : Page
                     _ => "?"
                 };
 
-                var found = ReservedTable.TableTracker.Find(x=>x.Type.Contains(tabletype) && x.Reserved == false);
+                var found = ReservedTable.TableTracker.Find(x=> x.Type.Equals(tabletype) && x.Reserved == false);
                 // found.GuestID = guestID;
                 found.Reserved = true;
 
@@ -184,7 +184,7 @@ class Reservation : Page
 
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
-                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.Table.ID}");
+                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.table.ID}");
 
             }
         }
