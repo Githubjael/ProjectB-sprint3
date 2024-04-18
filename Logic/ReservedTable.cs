@@ -1,4 +1,5 @@
 static class ReservedTable
+static class ReservedTable
 {
 
     public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
@@ -7,15 +8,15 @@ static class ReservedTable
     {
         for (int i = 1; i <= 8; i++)
         {
-            TableTracker.Add(new TableForTwo(i, 2));
+            TableTracker.Add(new TableForTwo(Convert.ToString(i), 2));
         }
         for (int j = 9; j <= 14 ; j++)
         {
-            TableTracker.Add(new TableForFour(j, 4));
+            TableTracker.Add(new TableForFour(Convert.ToString(j), 4));
         }
         for (int k = 15; k <= 16; k++)
         {
-            TableTracker.Add(new TableForSix(k, 6));
+            TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
     }
     public static List<Table> AssignTable(int AmountOfGuests)
@@ -85,11 +86,11 @@ static class ReservedTable
                 {
                     var tabletype = type switch
                     {
-                        1 => 2,
-                        2 => 4,
-                        3 => 6,
+                        1 => 1,
+                        2 => 2,
+                        3 => 3,
                     };
-                    var found = ReservedTable.TableTracker.Find(x => x.Type == tabletype && x.Reserved == false);
+                    var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
                     found.IsReserved();
                     ChosenTables.Add(found);
                 }
