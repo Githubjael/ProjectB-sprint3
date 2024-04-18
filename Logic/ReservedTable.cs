@@ -85,9 +85,9 @@ static class ReservedTable
                 {
                     var tabletype = type switch
                     {
-                        1 => 1,
-                        2 => 2,
-                        3 => 3,
+                        1 => 2,
+                        2 => 4,
+                        3 => 6,
                     };
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
                     found.IsReserved();
