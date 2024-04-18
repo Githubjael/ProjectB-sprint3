@@ -3,7 +3,7 @@ public class ReservationDataModel
 // [{Date: {"datum":{{}, {}, {}, {}}, {"datum": {{}, ...}}]
 {
     [JsonPropertyName("Table")]
-    public List<Table> Tables {get; set;}
+    public List<Table> Tables = new List<Table>();
 
     [JsonPropertyName("GuestID")]
     public int GuestID {get; set;}
