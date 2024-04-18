@@ -1,28 +1,28 @@
 static class ReservedTable
 {
 
-    public static List<Tables> TableTracker = new List<Tables>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
+    public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
 
     public static void PopulateTables() // deze moet in Reservations logische laag + info halen over gereserveerde tafels uit json
     {
         for (int i = 1; i <= 8; i++)
         {
-            TableTracker.Add(new Tables(Convert.ToString(i), "2 persons table"));
+            TableTracker.Add(new TableForTwo(i, 2));
         }
         for (int j = 9; j <= 14 ; j++)
         {
-            TableTracker.Add(new Tables(Convert.ToString(j), "4 persons table"));
+            TableTracker.Add(new TableForFour(j, 4));
         }
         for (int k = 15; k <= 16; k++)
         {
-            TableTracker.Add(new Tables(Convert.ToString(k), "6 persons table"));
+            TableTracker.Add(new TableForSix(k, 6));
         }
     }
-    public static List<Tables> AssignTable(int AmountOfGuests)
+    public static List<Table> AssignTable(int AmountOfGuests)
     {
             // tableAssignments.Add(guestID, tableID);
             // Maak hier een functie van in ReservedTable.cs!!!!!!
-            List<Tables> ChosenTables = new List<Tables>();
+            List<Table> ChosenTables = new List<Table>();
                 int ToBeSeated = AmountOfGuests;
                 List<int> TableTypes = new List<int>();
                 // bool Loop = true;
@@ -82,11 +82,11 @@ static class ReservedTable
                 {
                     var tabletype = type switch
                     {
-                        1 => "2 persons table",
-                        2 => "4 persons table",
-                        3 => "6 persons table",
+                        1 => 1,
+                        2 => 2,
+                        3 => 3,
                     };
-                    var found = TableTracker.Find(x => x.Type.Contains(tabletype) && x.Reserved == false);
+                    var found = TableTracker.Find(x => x.Type.Equals(tabletype) && x.Reserved == false);
                     found.Reserved = true;
                     ChosenTables.Add(found);
                 }
@@ -104,7 +104,7 @@ static class ReservedTable
     };
         foreach(string Time in TimeList)
         {
-        foreach (Tables table in TableTracker)
+        foreach (Table table in TableTracker)
         {
             // kijk hier na of alle tafles op die tijdstip vol zijn
             if (ReservationLogic.CheckReservedTable(table.ID, $"{day}/{month}/2024", Time))
