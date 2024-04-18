@@ -17,6 +17,10 @@ static class ReservedTable
         {
             TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
+        //to make every table reserved for a test
+        foreach (Table toreserve in TableTracker){
+            toreserve.IsReserved();
+        }
     }
     public static List<Table> AssignTable(int AmountOfGuests)
     {
