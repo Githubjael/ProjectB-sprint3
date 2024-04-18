@@ -7,7 +7,7 @@ public class Table
     // niet zeker
     // public int AmountOfChairs { get; set; }
     // gewone constructor
-    public Table(int id) // int id is een int, om het makkelijk om tafels te instantiaten
+    public Table(int id, int type) // int id is een int, om het makkelijk om tafels te instantiaten
     {
         ID = $"{id}";
         Reserved = false;
@@ -18,7 +18,7 @@ public class Table
         ID = $"{id}";
         Reserved = reserved;
     }
-        public void IsReserved()
+    public void IsReserved()
     {
         Reserved = true;
     }

@@ -1,12 +1,11 @@
 class TableForFour : Table
 {
-    private int _type;
-    public int Type {
-        get => _type;
+    new public int Type {
+        get => base.Type;
         set{
             // als de value van Type positief is en 4 dan wordt er een Char toegevoegd bij ID
             if(int.IsPositive(value) && value == 4){
-                _type = value;
+                base.Type = value;
                 ID += "B";
             }
             // niet zeker
@@ -15,7 +14,7 @@ class TableForFour : Table
             // }
         }
     }
-    public TableForFour(int id, int type) : base(id, false){
+    public TableForFour(int id, int type) : base(id, type){
         Type = type;
     }
 }

@@ -79,7 +79,14 @@ public class ReservationLogic
     {
         foreach(ReservationDataModel reservation in _reservation)
         {
-            if(reservation.Table.ID == ID && reservation.Date == Date && reservation.Time == Time)
+            if (reservation.Tables.Count > 1){
+                for (int i = 0; i < reservation.Tables.Count; i++){
+                    if (reservation.Tables[i].ID == ID && reservation.Date == Date && reservation.Time == Time){
+                        return true;
+                    }
+                }
+            }
+            else if(reservation.Tables[0].ID == ID && reservation.Date == Date && reservation.Time == Time)
             {
                 return true;
             }

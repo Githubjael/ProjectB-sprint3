@@ -1,4 +1,4 @@
-class Reservation : Page
+class Reservation
 {
     public static List<int> unavailableGuestIDs = new List<int>(); // ik een lijst om de gebruikte Guests IDs op te slaan
     private static Random random = new Random();
@@ -33,7 +33,7 @@ class Reservation : Page
                         return;
                     case "CR":
                         // Cancel reservation
-                        CancelReservation();
+                        // CancelReservation();
                         return;
                     case "H":
                         Home.Options();
@@ -148,10 +148,8 @@ class Reservation : Page
                 List<Table> ChosenTables = ReservedTable.AssignTable(guests);
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                foreach(Table table in ChosenTables){
-                ReservationDataModel Reservation = new ReservationDataModel(table, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
+                ReservationDataModel Reservation = new ReservationDataModel(ChosenTables, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
                 ReservationLogic.AddReservationToList(Reservation);
-                }
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                 string tableids = "";
@@ -165,26 +163,25 @@ class Reservation : Page
             {
                 var tabletype = guests switch
                 {
-                    1 => "2 persons table",
-                    2 => "2 persons table",
-                    3 => "4 persons table",
-                    4 => "4 persons table",
-                    5 => "6 persons table",
-                    6 => "6 persons table",
-                    _ => "?"
+                    1 => 2,
+                    3 => 4,
+                    5 => 6,
+                    >6 => 6,
+                    _ => 2
                 };
 
-                var found = ReservedTable.TableTracker.Find(x=> x.Type.Equals(tabletype) && x.Reserved == false);
-                // found.GuestID = guestID;
-                found.Reserved = true;
-
+                Table found = ReservedTable.TableTracker.Find(x => x.Type == tabletype && x.Reserved == false);
+                found.IsReserved();
+                List<Table> table = new List<Table>{
+                    found,
+                };
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                ReservationDataModel Reservation = new ReservationDataModel(found, guestID, $"{ChosenDay}/{ChosenMonth}/{ChosenYear}", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
+                ReservationDataModel Reservation = new ReservationDataModel(table, guestID, $"{ChosenDay}/{ChosenMonth}/{ChosenYear}", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
                 ReservationLogic.AddReservationToList(Reservation);
 
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
-                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.table.ID}");
+                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.Tables[0].ID}");
 
             }
         }

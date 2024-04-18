@@ -85,12 +85,12 @@ static class ReservedTable
                 {
                     var tabletype = type switch
                     {
-                        1 => 1,
-                        2 => 2,
-                        3 => 3,
+                        1 => 2,
+                        2 => 4,
+                        3 => 6,
                     };
-                    var found = TableTracker.Find(x => x.Type.Equals(tabletype) && x.Reserved == false);
-                    found.Reserved = true;
+                    var found = ReservedTable.TableTracker.Find(x => x.Type == tabletype && x.Reserved == false);
+                    found.IsReserved();
                     ChosenTables.Add(found);
                 }
             return ChosenTables;
