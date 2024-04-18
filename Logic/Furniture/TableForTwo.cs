@@ -1,11 +1,12 @@
 class TableForTwo : Table
 {
-    new public int Type {
-        get => base.Type;
+    private int _type;
+    public override int Type {
+        get => _type;
         set{
             // als de value van Type positief is en 2 dan wordt er een Char toegevoegd bij ID
             if(int.IsPositive(value) && value == 2){
-                base.Type = value;
+                _type = value;
                 ID += "A";
             }
             // niet zeker
@@ -14,7 +15,7 @@ class TableForTwo : Table
             // }
         }
     }
-    public TableForTwo(int id, int type) : base(id, type){
+    public TableForTwo(string id, int type) : base(id){
         Type = type;
     }
 }
