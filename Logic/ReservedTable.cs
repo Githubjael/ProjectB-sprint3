@@ -17,10 +17,6 @@ static class ReservedTable
         {
             TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
-        //to make every table reserved for a test
-        foreach (Table toreserve in TableTracker){
-            toreserve.IsReserved();
-        }
     }
     public static List<Table> AssignTable(int AmountOfGuests)
     {
@@ -94,7 +90,7 @@ static class ReservedTable
                         3 => 6,
                     };
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
-                    found.IsReserved();
+                    found.IsReserved(); // Waarom is dit steeds null?
                     ChosenTables.Add(found);
                 }
             return ChosenTables;
