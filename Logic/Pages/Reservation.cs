@@ -154,10 +154,12 @@ class Reservation : Page
                 List<Table> ChosenTables = ReservedTable.AssignTable(guests);
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
+                List<Table> Tables = new(){};
                 foreach(Table table in ChosenTables){
-                ReservationDataModel Reservation = new ReservationDataModel(table, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
-                ReservationLogic.AddReservationToList(Reservation);
+                    Tables.Add(table);
                 }
+                ReservationDataModel Reservation = new ReservationDataModel(Tables, guestID, $"{ChosenDay}/{ChosenMonth}/2024", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
+                ReservationLogic.AddReservationToList(Reservation);
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                 string tableids = "";
@@ -183,14 +185,14 @@ class Reservation : Page
                 var found = ReservedTable.TableTracker.Find(x => x.Type == Convert.ToInt32(tabletype) && !x.Reserved); // Waarom null? // er staat does Type (0) equals 2 personstable? 
                 Console.WriteLine();// found.GuestID = guestID;
                 found.IsReserved();
-
+                List<Table> table = new(){found};
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                ReservationDataModel Reservation = new ReservationDataModel(found, guestID, $"{ChosenDay}/{ChosenMonth}/{ChosenYear}", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
+                ReservationDataModel Reservation = new ReservationDataModel(table, guestID, $"{ChosenDay}/{ChosenMonth}/{ChosenYear}", ChosenTime, FirstName, LastName, EmailAddress, PhoneNumber);
                 ReservationLogic.AddReservationToList(Reservation);
 
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
-                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.table.ID}");
+                Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.Tables[0].ID}");
 
             }
         }
@@ -205,4 +207,5 @@ class Reservation : Page
         ReservationLogic.CancelReservation(guestID); 
     }
 }
+ 
  
