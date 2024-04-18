@@ -79,7 +79,7 @@ public class ReservationLogic
     {
         foreach(ReservationDataModel reservation in _reservation)
         {
-            for (int i = 0; i < reservation.Tables.Count; i++){
+            for (int i = 0; i < reservation.Tables.Count; i++){ // Waarom gaat ie niet door de lijst met meer dan 1 Tafel?
                 if(reservation.Tables[i].ID == ID && reservation.Date == Date && reservation.Time == Time)
                 {
                     return true;
