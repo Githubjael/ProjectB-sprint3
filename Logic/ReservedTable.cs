@@ -88,6 +88,7 @@ static class ReservedTable
                         1 => 2,
                         2 => 4,
                         3 => 6,
+                        _ => throw new NotImplementedException(),
                     };
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
                     found.IsReserved(); // Waarom is dit steeds null?

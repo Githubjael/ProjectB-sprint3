@@ -4,6 +4,5 @@ public class Program
     {
         ReservationLogic.AddReservationFromJson(); 
         Home.Options();
-        //uitschelden
     }
 }
