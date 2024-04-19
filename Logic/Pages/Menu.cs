@@ -11,14 +11,16 @@ public static class Menu
 
     public static void AddItem()
     {
-        //catch bad input, make item name atleast 2 char
+        // Catch bad input, make item name at least 2 characters
         Console.WriteLine("What's the name of the item?");
         string itemName = Console.ReadLine();
-        while (itemName.Length < 2){
-        Console.WriteLine("Name must be at least 2 characters long. Please try again:");
-        itemName = Console.ReadLine();
-    }
-        //catch bad input, make sure price is a number
+        while (itemName.Length < 2)
+        {
+            Console.WriteLine("Name must be at least 2 characters long. Please try again:");
+            itemName = Console.ReadLine();
+        }
+
+        // Catch bad input, make sure price is a (positive) number
         double itemPrice = 0.0;
         bool isValidPrice = false;
         do
@@ -27,17 +29,21 @@ public static class Menu
             {
                 Console.WriteLine("What's the price of the item? (Use a comma!)");
                 string itemPrice2 = Console.ReadLine();
-                if (itemPrice2.Contains(".")){
+                if (itemPrice2.Contains("."))
+                {
                     Console.WriteLine("Invalid input. Use a comma.");
                 }
-                else{
+                else
+                {
                     itemPrice = Convert.ToDouble(itemPrice2);
 
-                    if(double.IsNegative(itemPrice)){
+                    if (double.IsNegative(itemPrice))
+                    {
                         Console.WriteLine("Invalid input. Please enter a positive number for the price.");
-                    }else{
+                    }
+                    else
+                    {
                         isValidPrice = true;
-
                     }
                 }
             }
@@ -47,69 +53,86 @@ public static class Menu
             }
         } while (!isValidPrice);
 
-
-        //catch bad input, make sure item category is atleast 2 char
+        // Catch bad input, make sure item category is at least 2 characters
         Console.WriteLine("What's the category of the item?");
         string itemCategory = Console.ReadLine();
-        while (itemCategory.Length < 2){
-        Console.WriteLine("Category must be at least 2 characters long. Please try again:");
-        itemCategory = Console.ReadLine();
+        while (itemCategory.Length < 2)
+        {
+            Console.WriteLine("Category must be at least 2 characters long. Please try again:");
+            itemCategory = Console.ReadLine();
         }
-        MenuItem m1 = new MenuItem(itemName, itemPrice, itemCategory);
         
-        //add to json
-        string filePath = @"..\..\..\DataSources\Menu.json";
-        StreamWriter writer = new StreamWriter(filePath, true);
-        string MenuItem2Json = JsonConvert.SerializeObject(m1);
-        writer.WriteLine(MenuItem2Json);
-        writer.Close();
+        //make the input into an object
+        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
 
-        Console.WriteLine("Item succesfully added");
-        Home.Options();
-    }
+        // Read existing JSON data from the file
+        string filePath = @"..\..\..\DataSources\Menu.json";
+        string jsonData = File.ReadAllText(filePath);
+
+        // Deserialize existing JSON data to a list of MenuItem objects
+        List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(jsonData);
+
+        // Check if menuItems is null after deserialization
+        if (menuItems == null)
+        {
+            // If it's null, initialize it with an empty list
+            menuItems = new List<MenuItem>();
+        }
+        // Add the new item to the list
+        menuItems.Add(newItem);
+
+        // Serialize the updated list of items back to JSON
+        string updatedJsonData = JsonConvert.SerializeObject(menuItems, Formatting.Indented);
+
+        // Write the updated JSON data back to the file
+        File.WriteAllText(filePath, updatedJsonData);
+
+        Console.WriteLine("Item successfully added");
+        }
 
     public static void RemoveItem()
+    {
+        Console.WriteLine("What's the name of the item you want to remove?");
+        string itemName = Console.ReadLine();
+        string filePath = @"..\..\..\DataSources\Menu.json";
+
+        // Read existing JSON data from the file
+        string jsonData = File.ReadAllText(filePath);
+
+        // Deserialize JSON data to a JArray
+        JArray menuArray = JArray.Parse(jsonData);
+
+        bool itemRemoved = false;
+
+        // Iterate through the menu items
+        for (int i = 0; i < menuArray.Count; i++)
         {
-            Console.WriteLine("What's the name of the item you want to remove?");
-            string itemName = Console.ReadLine();
-            string filePath = @"..\..\..\DataSources\Menu.json";
-            
-            
-            // Read each line separately and remove the item if found
-            string[] lines = File.ReadAllLines(filePath);
-            bool itemRemoved = false;
-            for (int i = 0; i < lines.Length; i++)
+            JObject menuItem = (JObject)menuArray[i];
+            if ((string)menuItem["Name"] == itemName)
             {
-                try
-                {
-                    JObject item = JObject.Parse(lines[i]);
-                    if ((string)item["Name"] == itemName)
-                    {
-                        // Remove the item from the array
-                        lines[i] = "";
-                        itemRemoved = true;
-                        break;
-                    }
-                }
-                catch (JsonReaderException)
-                {
-                    continue;
-                }
+                // Remove the item from the menu array
+                menuArray.RemoveAt(i);
+                itemRemoved = true;
+                break;
             }
-
-
-            if (itemRemoved)
-            {
-                File.WriteAllLines(filePath, lines);
-
-                Console.WriteLine($"Item '{itemName}' removed successfully.");
-            }
-            else
-            {
-                Console.WriteLine($"Item '{itemName}' not found!");
-            }
-            Home.Options();
         }
+
+        if (itemRemoved)
+        {
+            // Serialize the updated menu array back to JSON
+            string updatedJsonData = menuArray.ToString(Formatting.Indented);
+
+            // Write the updated JSON data back to the file
+            File.WriteAllText(filePath, updatedJsonData);
+
+            Console.WriteLine($"Item '{itemName}' removed successfully.");
+        }
+        else
+        {
+            Console.WriteLine($"Item '{itemName}' not found!");
+        }
+    }
+
 
     public static void ChangeItem() //later if needed
     {
@@ -120,33 +143,36 @@ public static class Menu
         string filePath = @"..\..\..\DataSources\Menu.json";
 
         // Read all lines from the file
-        string[] lines = File.ReadAllLines(filePath);
+        string jsonString = File.ReadAllText(filePath);
 
-        // Sort alphabetically category 
-        Array.Sort(lines, (x, y) =>
-        {
-            JObject menuObjectX = JObject.Parse(x);
-            JObject menuObjectY = JObject.Parse(y);
+        // Parse the JSON string to a JArray
+        JArray menuArray = JArray.Parse(jsonString);
 
-            string categoryX = (string)menuObjectX["Category"];
-            string categoryY = (string)menuObjectY["Category"];
+        // Sort alphabetically by category 
+        menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
 
-            return categoryX.CompareTo(categoryY);
-        });
-        
-        //display the menu
+        // Display the menu
         Console.WriteLine("Name          | Price   | Category");
         Console.WriteLine("---------------------------------");
-        foreach (string line in lines)
+        foreach (JObject menuItem in menuArray)
         {
-            JObject menuObject = JObject.Parse(line);
-            string name = (string)menuObject["Name"];
-            double price = (double)menuObject["Price"];
-            string category = (string)menuObject["Category"];
+            try
+            {
+                string name = (string)menuItem["Name"];
+                double price = (double)menuItem["Price"];
+                string category = (string)menuItem["Category"];
 
-            Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category}");
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error parsing JSON: {ex.Message}");
+                continue;
+            }
         }
     }
+
+
 
     public static void Options()
     {
@@ -154,29 +180,64 @@ public static class Menu
         Console.WriteLine("[H]: Home");
         Console.WriteLine("[S]: Sort the menu");
         Console.WriteLine("[V]: View a specific category");
-        //if user manager give option to add/remove/change menu
 
-        while (true)
+        string userChoice = Console.ReadLine().ToUpper();
+
+        switch (userChoice)
         {
-            string userChoice = Console.ReadLine().ToUpper();
-
-            switch (userChoice)
-            {
-                case "S":
-                //view menu
-                //give options to sort by price, name and category
-                    return;
-                case "V":
-                    // View specific category
-                    //give of all categories made ?
-                    return;
-                case "H":
-                    Home.Options();
-                    return;
-                default:
-                    Console.WriteLine("Invalid input. Please try again.");
-                    break;
-            }
+            case "S":
+                SortMenuOptions();
+                break;
+            case "V":
+                DisplayCategories();
+                break;
+            case "H":
+                Home.Options();
+                break;
+            default:
+                Console.WriteLine("Invalid input. Please try again.");
+                Options(); // Restart the options loop
+                break;
         }
+    }
+
+    public static void SortMenuOptions()
+    {
+        Console.WriteLine("[P]: Sort by price");
+        Console.WriteLine("[N]: Sort by name");
+        Console.WriteLine("[C]: Sort by category");
+        Console.WriteLine("[G]: Go back");
+
+        string userChoiceSort = Console.ReadLine().ToUpper();
+
+        switch (userChoiceSort)
+        {
+            case "P":
+                // Implement sorting by price
+                Options(); // After sorting, return to options
+                break;
+            case "N":
+                // Implement sorting by name
+                Options(); // After sorting, return to options
+                break;
+            case "C":
+                // Implement sorting by category
+                // SortByCategory();
+                Options(); // After sorting, return to options
+                break;
+            case "G":
+                Options(); // Go back to main options menu
+                break;
+            default:
+                Console.WriteLine("Invalid input. Please try again.");
+                SortMenuOptions(); 
+                break;
+        }
+    }
+
+    public static void DisplayCategories()
+    {
+        //show every category made so far (no duplicates)
+        //user inputs one of those categories and then gets all items from that category back
     }
 }
