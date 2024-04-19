@@ -20,7 +20,7 @@ class Reservation : Page
         throw new NotImplementedException();
     }
 
-    new public static void Options()
+    public static void Options()
         {
             while(true){
             Console.WriteLine("[H]: Home");
@@ -212,7 +212,7 @@ class Reservation : Page
                 found.IsReserved();
                 List<Table> table = new(){found};
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                ReservationDataModel Reservation = new ReservationDataModel(guestID, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, FirstName, LastName, PhoneNumber, EmailAddress, table);
+                ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
                 ReservationLogic.AddReservationToList(Reservation);
 
                 // bevestig de reservering aan de gebruiker
