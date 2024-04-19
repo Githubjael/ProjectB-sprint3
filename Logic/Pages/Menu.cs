@@ -8,6 +8,9 @@ public static class Menu
 
     public static string Name => _name;
 
+    private static string WayToSort = "Category";
+
+
 
     public static void AddItem()
     {
@@ -138,7 +141,7 @@ public static class Menu
     {
     }
 
-    public static void DisplayMenu()
+    public static void DisplayMenu(string HowToSort)
     {
         string filePath = @"..\..\..\DataSources\Menu.json";
 
@@ -148,8 +151,20 @@ public static class Menu
         // Parse the JSON string to a JArray
         JArray menuArray = JArray.Parse(jsonString);
 
-        // Sort alphabetically by category 
+        // Sort alphabetically by category
+    if (HowToSort == "Category")
+    {
         menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
+    }
+    else if (HowToSort == "Price")
+    {
+        menuArray = new JArray(menuArray.OrderBy(obj => (double)obj["Price"]));
+    }
+    else if (HowToSort == "Name")
+    {
+        menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
+    }
+
 
         // Display the menu
         Console.WriteLine("Name          | Price   | Category");
@@ -176,7 +191,7 @@ public static class Menu
 
     public static void Options()
     {
-        DisplayMenu();
+        DisplayMenu(WayToSort);
         Console.WriteLine("[H]: Home");
         Console.WriteLine("[S]: Sort the menu");
         Console.WriteLine("[V]: View a specific category");
@@ -214,15 +229,17 @@ public static class Menu
         {
             case "P":
                 // Implement sorting by price
+                WayToSort = "Price";
                 Options(); // After sorting, return to options
                 break;
             case "N":
                 // Implement sorting by name
+                WayToSort = "Name";
                 Options(); // After sorting, return to options
                 break;
             case "C":
                 // Implement sorting by category
-                // SortByCategory();
+                WayToSort = "Category";
                 Options(); // After sorting, return to options
                 break;
             case "G":
@@ -237,7 +254,70 @@ public static class Menu
 
     public static void DisplayCategories()
     {
-        //show every category made so far (no duplicates)
-        //user inputs one of those categories and then gets all items from that category back
+        string filePath = @"..\..\..\DataSources\Menu.json";
+        string jsonString = File.ReadAllText(filePath);
+        JArray menuArray = JArray.Parse(jsonString);
+
+        Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
+
+        // Group menu items by category (category is key and linked to its value (itemname))
+        foreach (JObject menuItem in menuArray)
+        {
+            string category = ((string)menuItem["Category"]).ToLower(); 
+            if (!categories.ContainsKey(category))
+            {
+                categories.Add(category, new List<JObject>());
+            }
+            categories[category].Add(menuItem);
+        }
+
+        // Display categories to the user
+        Console.WriteLine("Available Categories:");
+        foreach (string category in categories.Keys)
+        {
+            Console.WriteLine("- " + category);
+        }
+
+        // Prompt user to input a category
+        Console.WriteLine("Enter a category to view its items:");
+        string selectedCategory = Console.ReadLine().ToLower();
+
+        // Check if the selected category exists
+        if (categories.ContainsKey(selectedCategory))
+        {
+            // Display items belonging to the selected category
+            Console.WriteLine($"Items in category '{selectedCategory}':");
+            Console.WriteLine("Name          | Price   | Category");
+            Console.WriteLine("---------------------------------");
+            foreach (JObject menuItem in categories[selectedCategory])
+            {
+                string name = (string)menuItem["Name"];
+                double price = (double)menuItem["Price"];
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid category. Please try again.");
+        }
+        Console.WriteLine("[V]: View another category");
+        Console.WriteLine("[G]: Go back");
+
+        string userChoiceSort = Console.ReadLine().ToUpper();
+
+        switch (userChoiceSort)
+        {
+            case "V":
+                DisplayCategories();
+                break;
+            case "G":
+                Options(); // Go back to main options menu
+                break;
+            default:
+                Console.WriteLine("Invalid input. Please try again.");
+                SortMenuOptions(); 
+                break;
     }
+
+}
 }
