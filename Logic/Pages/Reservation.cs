@@ -207,8 +207,11 @@ class Reservation : Page
                     _ => "?"
                 };
 
-                var found = ReservedTable.TableTracker.Find(x => x.Type == Convert.ToInt32(tabletype) && !x.Reserved); // Waarom null? // er staat does Type (0) equals 2 personstable? 
-                Console.WriteLine();// found.GuestID = guestID;
+                var found = ReservedTable.TableTracker.Find(x => x.ID.Contains("C") && x.Type == Convert.ToInt32(tabletype) && x.Reserved == false); // Waarom null? // er staat does Type (0) equals 2 personstable? 
+                // found.GuestID = guestID;
+                if (found is null){
+                    found = ReservationLogic.SwitchIfNull(found, Convert.ToInt16(tabletype));
+                }
                 found.IsReserved();
                 List<Table> table = new(){found};
                 // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen

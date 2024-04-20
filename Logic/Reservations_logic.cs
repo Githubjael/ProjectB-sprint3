@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 public class ReservationLogic
 {
     public static List<ReservationDataModel> _reservation = new List<ReservationDataModel>(){};
@@ -87,5 +89,27 @@ public class ReservationLogic
             }
         }
         return false;
+    }
+    // het doel van deze static function is om de table type te veranderen als er geen unreserved table
+    // beschickbaar zijn
+    public static Table SwitchIfNull(Table foundnull, int type){
+        if (foundnull is null){
+            if (type == 2){
+                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
+                return foundnull;
+            }
+            else if (type == 4){
+                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
+                return foundnull;
+            }
+            else if (type == 6){
+                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 2 && x.Reserved == false);
+                return foundnull;
+            }
+            else{
+                Console.WriteLine("Error in switching table types");
+            }
+        }
+        return foundnull;
     }
 }
