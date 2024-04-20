@@ -207,7 +207,7 @@ class Reservation : Page
                     _ => "?"
                 };
 
-                var found = ReservedTable.TableTracker.Find(x => x.ID.Contains("C") && x.Type == Convert.ToInt32(tabletype) && x.Reserved == false); // Waarom null? // er staat does Type (0) equals 2 personstable? 
+                var found = ReservedTable.TableTracker.Find(x => x.Type == Convert.ToInt32(tabletype) && x.Reserved == false); // Waarom null? // er staat does Type (0) equals 2 personstable? 
                 // found.GuestID = guestID;
                 if (found is null){
                     found = ReservationLogic.SwitchIfNull(found, Convert.ToInt16(tabletype));

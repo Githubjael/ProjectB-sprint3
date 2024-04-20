@@ -95,17 +95,19 @@ public class ReservationLogic
     public static Table SwitchIfNull(Table foundnull, int type){
         if (foundnull is null){
             if (type == 2){
+                Console.WriteLine("We don't have a 2-person table available. we wil find you a 4-person table.");
                 foundnull = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
                 return foundnull;
             }
             else if (type == 4){
+                Console.WriteLine("We don't have a 4-person table available. we wil find you a 6-person table.");
                 foundnull = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
                 return foundnull;
             }
-            else if (type == 6){
-                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 2 && x.Reserved == false);
-                return foundnull;
-            }
+            // else if (type == 6){
+            //     foundnull = ReservedTable.TableTracker.Find(x => x.Type == 2 && x.Reserved == false);
+            //     return foundnull;
+            // }
             else{
                 Console.WriteLine("Error in switching table types");
             }
