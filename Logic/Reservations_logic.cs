@@ -20,6 +20,7 @@ public class ReservationLogic
     public static void AddReservationToList(ReservationDataModel reservation)
     {
         _reservation.Add(reservation);
+        _reservation.Sort();
         ReservationDataAccess.WriteToJson(_reservation);
     }
     //  en deze lijst sturen we op een of andere manier naar json
