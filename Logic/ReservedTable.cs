@@ -119,8 +119,21 @@ static class ReservedTable
         {
         foreach (Table table in TableTracker)
         {
+            string Date = $"{day}/{month}/{year}";
+            if (day < 10 && month < 10)
+            {
+                Date = $"0{day}/0{month}/{year}";
+            }
+            else if (month < 10)
+            {
+                Date = $"{day}/0{month}/{year}";
+            }
+            else if (day < 10)
+            {
+                Date = $"0{day}/{month}/{year}";
+            }
             // kijk hier na of alle tafles op die tijdstip vol zijn
-            if (ReservationLogic.CheckReservedTable(table.ID, $"{day}/{month}/{year}", Time))
+            if (ReservationLogic.CheckReservedTable(table.ID, Date, Time))
             {
                 table.IsReserved();
                 TimeCount++; //checked aantal gereserveerde tafels op die dag
