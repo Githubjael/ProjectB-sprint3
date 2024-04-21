@@ -2,17 +2,18 @@ using System.Security.Cryptography.X509Certificates;
 
 public class ReservationLogic
 {
-    public static List<ReservationDataModel> _reservation = new List<ReservationDataModel>(){};
+    public static List<ReservationDataModel> _reservation = new List<ReservationDataModel>() { };
 
-     //  voor nu adden we alleen maar reservations naar de prive lijst
+    //  voor nu adden we alleen maar reservations naar de prive lijst
     public static void AddReservationFromJson()
     {
-        if (ReservationDataAccess.ReadFromJson() != null){
-        foreach(ReservationDataModel reservation in ReservationDataAccess.ReadFromJson())
+        if (ReservationDataAccess.ReadFromJson() != null)
         {
-            _reservation.Add(reservation);
+            foreach (ReservationDataModel reservation in ReservationDataAccess.ReadFromJson())
+            {
+                _reservation.Add(reservation);
+            }
         }
-    }
     }
 
     //  voor nu adden we alleen maar reservations naar de prive lijst
@@ -64,25 +65,26 @@ public class ReservationLogic
 
     //  korte methode om ff de reservatie op basis van guest ID te vinden.
     public static ReservationDataModel FindReservationByGuestID(int guestID)
-     {
+    {
         foreach (ReservationDataModel reservation in _reservation)  //deze loop gaat door de reservaties in de lijst , totdat hij de reservatie tegenkomt die gebonden is aan de guestID die hij uit de parameter krijgt.
         {
-        if (reservation.GuestID == guestID)
-        {
-            return reservation;
-        }
+            if (reservation.GuestID == guestID)
+            {
+                return reservation;
+            }
         }
         return null; //null == geen reservatie gevonden
     }
 
 
-        // check of tafel bezet is
+    // check of tafel bezet is
     public static bool CheckReservedTable(string ID, string Date, string Time)
     {
-        foreach(ReservationDataModel reservation in _reservation)
+        foreach (ReservationDataModel reservation in _reservation)
         {
-            for (int i = 0; i < reservation.Tables.Count; i++){ // Waarom gaat ie niet door de lijst met meer dan 1 Tafel?
-                if(reservation.Tables[i].ID == ID && reservation.Date == Date && reservation.Time == Time)
+            for (int i = 0; i < reservation.Tables.Count; i++)
+            { // Waarom gaat ie niet door de lijst met meer dan 1 Tafel?
+                if (reservation.Tables[i].ID == ID && reservation.Date == Date && reservation.Time == Time)
                 {
                     return true;
                 }
@@ -92,24 +94,32 @@ public class ReservationLogic
     }
     // het doel van deze static function is om de table type te veranderen als er geen unreserved table
     // beschickbaar zijn
-    public static void SwitchIfNull(Table foundnull, int type, int guestID, string FirstName, string LastName, string PhoneNumber, string EmailAddress, string ChosenDayFinal, string ChosenMonthFinal, int ChosenYear, string ChosenTime){
-        if (foundnull is null){
-            List<Table> tables = new List<Table>(){};
-            if (type == 2){
-                var found = ReservedTable.TableTracker.Find(x=> x.Type == 4 && x.Reserved == false);
-                if(!(found is null)){
+    public static List<Table> SwitchIfNull(Table foundnull, int type)
+    {
+        if (foundnull is null)
+        {
+            List<Table> tables = new List<Table>() { };
+            if (type == 2)
+            {
+                var found = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
+                if (!(found is null))
+                {
                     found.IsReserved();
                     tables.Add(found);
                 }
             }
-            else if (type == 4){
-                var found = ReservedTable.TableTracker.Find(x=> x.Type == 6 && x.Reserved == false);
-                if (found is null){
-                    List<int> tabletypes = new List<int>(){ 2, 4};
-                    tables = new List<Table>(){};
-                    foreach (int types in tabletypes){
-                        found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
-                        if (!(found is null)){
+            else if (type == 4)
+            {
+                var found = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
+                if (found is null)
+                {
+                    List<int> tabletypes = new List<int>() { 2, 4 };
+                    tables = new List<Table>() { };
+                    foreach (int types in tabletypes)
+                    {
+                        found = ReservedTable.TableTracker.Find(x => x.Type == types && x.Reserved == false);
+                        if (!(found is null))
+                        {
                             found.IsReserved();
                             tables.Add(found);
                         }
@@ -118,35 +128,42 @@ public class ReservationLogic
                     // AddReservationToList(Reservation);
                 }
             }
-            else if (type == 6){
-                List<int> tabletypes = new List<int>(){ 2, 4};
+            else if (type == 6)
+            {
+                List<int> tabletypes = new List<int>() { 2, 4 };
                 tables = new List<Table>();
-                foreach (int types in tabletypes){
-                    var found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
-                    if (!(found is null)){
+                foreach (int types in tabletypes)
+                {
+                    var found = ReservedTable.TableTracker.Find(x => x.Type == types && x.Reserved == false);
+                    if (!(found is null))
+                    {
                         found.IsReserved();
                         tables.Add(found);
                     }
                 }
-                if (tables.Count != 2){
-                    tabletypes = new List<int>(){ 2, 2, 2};
+                if (tables.Count != 2)
+                {
+                    tabletypes = new List<int>() { 2, 2, 2 };
                     tables = new List<Table>();
-                    foreach (int types in tabletypes){
-                    var found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
-                    if (!(found is null)){
-                        found.IsReserved();
-                        tables.Add(found);
+                    foreach (int types in tabletypes)
+                    {
+                        var found = ReservedTable.TableTracker.Find(x => x.Type == types && x.Reserved == false);
+                        if (!(found is null))
+                        {
+                            found.IsReserved();
+                            tables.Add(found);
+                        }
                     }
-                }
-                // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
-                // AddReservationToList(Reservation);
+                    // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+                    // AddReservationToList(Reservation);
                 }
             }
-            ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
-            AddReservationToList(Reservation);
+            return tables;
         }
-        else{
+        else
+        {
             Console.WriteLine("Error in adjusting tables for reservation.");
+            return new(null);
         }
     }
 }
