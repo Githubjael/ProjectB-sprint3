@@ -1,8 +1,26 @@
 public static class Reviews
 {
     private static string _name = "Reviews";
-
+    private static List<Review> reviews = new List<Review>();
     public static string Name => _name;
+
+
+    static Reviews()
+    {
+        LoadReviews();
+    }
+
+
+    private static void LoadReviews()
+    {
+        reviews = ReviewAccess.ReadFromJson();
+    }
+
+
+    private static void SaveReviews()
+    {
+        ReviewAccess.WriteToJson(reviews);
+    }
 
     public static void Options()
     {
@@ -20,11 +38,51 @@ public static class Reviews
                     Home.Options();
                     return;
                 case "L":
+                    string guestName = "";
+                    while (guestName == "")
+                    {
+                        Console.WriteLine("Enter your name:");
+                        guestName = Console.ReadLine();
+                    } 
 
-                    return;
+                    Console.WriteLine("Rate our restaurant (from 1 to 5):");
+                    int rating;
+                    while (!int.TryParse(Console.ReadLine(), out rating) || rating < 1 || rating > 5)
+                    {
+                        Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+                    }
+
+                    Console.WriteLine("Leave your comments (Optional):");
+                    string comments = Console.ReadLine();
+
+                    string stars = new string('★', rating); 
+
+                    Review newReview = new Review(guestName, stars, comments);
+
+                    if (newReview != null)
+                    {
+                        reviews.Add(newReview);
+                        SaveReviews(); 
+                        Console.WriteLine("\nThank you for your review!"); 
+                    }
+                    break;
+
                 case "S":
+                    // View reviews
+                    if (reviews.Count == 0)
+                    {
+                        Console.WriteLine("No reviews available.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Reviews:\n");
+                        foreach (var review in reviews)
+                        {
+                            Console.WriteLine($"Guest: {review.GuestName}\nRating: {review.Rating}\nComments: {review.Comments}\n\n");
+                        }
+                    }
+                    break;
 
-                    return;
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
                     break;
