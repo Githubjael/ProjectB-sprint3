@@ -97,6 +97,10 @@ class Reservation : Page
         do{
         System.Console.WriteLine("What month would you like to book? Enter number of month.");
         ChosenMonthString = Console.ReadLine();
+        if (Convert.ToInt32(ChosenMonthString) < 10)
+        {
+            ChosenMonthString = $"0{ChosenMonthString}";
+        }
         } while (!CheckReservationInfo.CheckChosenMonth(ChosenMonthString, ChosenYear));
         int ChosenMonth = Convert.ToInt32(ChosenMonthString);
 
@@ -107,6 +111,10 @@ class Reservation : Page
         do{
         Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear))}.\nChoose a day.");
         ChosenDayString = Console.ReadLine();
+        if (Convert.ToInt32(ChosenMonthString) < 10)
+        {
+            ChosenMonthString = $"0{ChosenMonthString}";
+        }
         } while (!CheckReservationInfo.CheckChosenDay(ChosenDayString, ChosenMonth, ChosenYear));
         int ChosenDay = Convert.ToInt32(ChosenDayString);
 
@@ -150,7 +158,6 @@ class Reservation : Page
         }
         // toon de reserveringsinformatie
         Console.WriteLine($"Your reservation details:\n{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear} at {ChosenTime}, for {guests} guests");
-
         string confirmation;
         bool valid = false; 
         int guestID = GenerateRandomGuestID();
