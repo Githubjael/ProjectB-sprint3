@@ -92,26 +92,61 @@ public class ReservationLogic
     }
     // het doel van deze static function is om de table type te veranderen als er geen unreserved table
     // beschickbaar zijn
-    public static Table SwitchIfNull(Table foundnull, int type){
+    public static void SwitchIfNull(Table foundnull, int type, int guestID, string FirstName, string LastName, string PhoneNumber, string EmailAddress, string ChosenDayFinal, string ChosenMonthFinal, int ChosenYear, string ChosenTime){
         if (foundnull is null){
+            List<Table> tables = new List<Table>(){};
             if (type == 2){
-                Console.WriteLine("We don't have a 2-person table available. we wil find you a 4-person table.");
-                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
-                return foundnull;
+                var found = ReservedTable.TableTracker.Find(x=> x.Type == 4 && x.Reserved == false);
+                if(!(found is null)){
+                    found.IsReserved();
+                    tables.Add(found);
+                }
             }
             else if (type == 4){
-                Console.WriteLine("We don't have a 4-person table available. we wil find you a 6-person table.");
-                foundnull = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
-                return foundnull;
+                var found = ReservedTable.TableTracker.Find(x=> x.Type == 6 && x.Reserved == false);
+                if (found is null){
+                    List<int> tabletypes = new List<int>(){ 2, 4};
+                    tables = new List<Table>(){};
+                    foreach (int types in tabletypes){
+                        found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
+                        if (!(found is null)){
+                            found.IsReserved();
+                            tables.Add(found);
+                        }
+                    }
+                    // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+                    // AddReservationToList(Reservation);
+                }
             }
-            // else if (type == 6){
-            //     foundnull = ReservedTable.TableTracker.Find(x => x.Type == 2 && x.Reserved == false);
-            //     return foundnull;
-            // }
-            else{
-                Console.WriteLine("Error in switching table types");
+            else if (type == 6){
+                List<int> tabletypes = new List<int>(){ 2, 4};
+                tables = new List<Table>();
+                foreach (int types in tabletypes){
+                    var found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
+                    if (!(found is null)){
+                        found.IsReserved();
+                        tables.Add(found);
+                    }
+                }
+                if (tables.Count != 2){
+                    tabletypes = new List<int>(){ 2, 2, 2};
+                    tables = new List<Table>();
+                    foreach (int types in tabletypes){
+                    var found = ReservedTable.TableTracker.Find(x=> x.Type == types && x.Reserved == false);
+                    if (!(found is null)){
+                        found.IsReserved();
+                        tables.Add(found);
+                    }
+                }
+                // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+                // AddReservationToList(Reservation);
+                }
             }
+            ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+            AddReservationToList(Reservation);
         }
-        return foundnull;
+        else{
+            Console.WriteLine("Error in adjusting tables for reservation.");
+        }
     }
 }
