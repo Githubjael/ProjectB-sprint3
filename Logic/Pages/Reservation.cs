@@ -1,242 +1,140 @@
-class Reservation : Page
+static class ReservedTable
 {
-    public static List<int> unavailableGuestIDs = new List<int>(); // ik een lijst om de gebruikte Guests IDs op te slaan
-    private static Random random = new Random();
-    public static int GenerateRandomGuestID()
-    {
-        int guestID;
-        do
-        {
-            guestID = random.Next(1, 17);
-        } while (unavailableGuestIDs.Contains(guestID));
 
-        unavailableGuestIDs.Add(guestID);
-        return guestID;
+    public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
+
+    public static void PopulateTables() // deze moet in Reservations logische laag + info halen over gereserveerde tafels uit json
+    {
+        for (int i = 1; i <= 8; i++)
+        {
+            TableTracker.Add(new TableForTwo(Convert.ToString(i), 2));
+        }
+        for (int j = 9; j <= 14 ; j++)
+        {
+            TableTracker.Add(new TableForFour(Convert.ToString(j), 4));
+        }
+        for (int k = 15; k <= 16; k++)
+        {
+            TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
+        }
     }
-    public override string Name => "Reservation";
-
-    public override void Contents()
+    public static List<Table> AssignTable(int AmountOfGuests)
     {
-        throw new NotImplementedException();
-    }
-
-    public static void Options()
-        {
-            while(true){
-            Console.WriteLine("[H]: Home");
-            Console.WriteLine("[M]: Make reservation");
-            Console.WriteLine("[CR]: Cancel reservation");
-
-                string userChoice = Console.ReadLine().ToUpper();
-
-                switch (userChoice)
+            // tableAssignments.Add(guestID, tableID);
+            // Maak hier een functie van in ReservedTable.cs!!!!!!
+            List<Table> ChosenTables = new List<Table>();
+                int ToBeSeated = AmountOfGuests;
+                List<int> TableTypes = new List<int>()
                 {
-                    case "M":
-                        // Make reservation
-                        MakeReservation();
-                        Options();
-                        return;
-                    case "CR":
-                        // Cancel reservation
-                        System.Console.WriteLine("Enter your guest ID"); // voorbeeld guestID deze wordt normaal ingevoerd in program maar dat zien we later wel
-                        int guestID = Convert.ToInt32(Console.ReadLine());
-                        ReservationLogic.CancelReservation(guestID);
-                        Options();
-                        return;
-                    case "H":
-                        Home.Options();
-                        return;
-                    default:
-                        Console.WriteLine("Invalid input. Please try again.");
-                        Options();
-                        break;
-                }
-            }
-        }
-    public static void MakeReservation()
-    {
-        ReservedTable.PopulateTables(); // Maakt Tafelobjecten aan
-        // Vraag om Voornaam
-        string FirstName;
-        do{
-        System.Console.WriteLine("What is your first name?");
-        FirstName = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckFirstName(FirstName));
-
-
-        // Vraag achternaam
-        string LastName;
-        do{
-        System.Console.WriteLine("What is your last name?");
-        LastName = Console.ReadLine();
-        } while(!CheckReservationInfo.CheckLastName(LastName));
-
-        // Vraag telefoonnummer
-        string PhoneNumber;
-        do{
-        System.Console.WriteLine("What is your phone number?");
-        PhoneNumber = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckPhoneNumber(PhoneNumber));
-
-        string EmailAddress;
-        // Vraag emailadres
-        do{
-        System.Console.WriteLine("What is your email address?");
-        EmailAddress = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckEmailAddress(EmailAddress));
-        // vraag welke jaar gast wilt boeken
-        string ChosenYearString;
-        do
-        {
-            System.Console.WriteLine("In what year would you like to book?");
-            ChosenYearString = Console.ReadLine();
-        } while(!CheckReservationInfo.CheckChosenYear(ChosenYearString));
-        int ChosenYear = Convert.ToInt32(ChosenYearString);
-        // Vraag in welke maand de gast wilt komen
-        string ChosenMonthString;
-        do{
-        System.Console.WriteLine("What month would you like to book? Enter number of month.");
-        ChosenMonthString = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckChosenMonth(ChosenMonthString, ChosenYear));
-        int ChosenMonth = Convert.ToInt32(ChosenMonthString);
-
-
-        // Welke Dag
-        // vraag de gebruiker om een dag te kiezen
-        string ChosenDayString;
-        do{
-        Console.WriteLine($"Available days for booking are:\n{string.Join(", ", DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear))}.\nChoose a day.");
-        ChosenDayString = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckChosenDay(ChosenDayString, ChosenMonth, ChosenYear));
-        int ChosenDay = Convert.ToInt32(ChosenDayString);
-
-
-        // Vraag hoeveel Personen komen
-        string Guests;
-        do{
-        System.Console.WriteLine("How many guests are coming including yourself?");
-        Guests = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckGuests(Guests));
-        int guests = Convert.ToInt32(Guests);
-
-        // HIER KOMEN DE TIJDSTIPPEN TE STAAN
-        // voor tijdstippen moet ik checken of er wel tafels beschikbaar zijn
-        string ChosenTime;
-        do{
-        Console.WriteLine($"Available time slots for booking are:\n{string.Join(", ", DisplayDayList.GiveListBasedOnDay(ChosenDay, ChosenMonth, ChosenYear))}.\nChoose a time slot.");
-            System.Console.WriteLine("");
-            ChosenTime = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckTime(ChosenTime));
-        string ChosenMonthFinal;
-        string ChosenDayFinal;
-        if (ChosenMonth < 10 && ChosenDay < 10)
-        {
-            ChosenMonthFinal = $"0{ChosenMonth}";
-            ChosenDayFinal = $"0{ChosenDay}";
-        }
-        else if (ChosenMonth < 10)
-        {
-            ChosenMonthFinal = $"0{ChosenMonth}";
-            ChosenDayFinal =Convert.ToString(ChosenDay);
-        }
-        else if (ChosenDay < 10)
-        {
-            ChosenDayFinal = $"0{ChosenDay}";
-            ChosenMonthFinal = Convert.ToString(ChosenMonth);
-        }
-        else{
-            ChosenMonthFinal = Convert.ToString(ChosenMonth);
-            ChosenDayFinal =Convert.ToString(ChosenDay);
-        }
-        // toon de reserveringsinformatie
-        Console.WriteLine($"Your reservation details:\n{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear} at {ChosenTime}, for {guests} guests");
-
-        string confirmation;
-        bool valid = false; 
-        int guestID = GenerateRandomGuestID();
-        do
-        {
-            Console.WriteLine("Do you confirm your reservation? y/n");
-            confirmation = Console.ReadLine().ToLower();
-
-            if (string.IsNullOrEmpty(confirmation))
-            {
-                Console.WriteLine("Invalid input. You must enter 'y' (yes) or 'n' (no)");
-            }
-            else if (!confirmation.All(char.IsLetter))
-            {
-                Console.WriteLine("Invalid input. You must enter 'y' (yes) or 'n' (no)");
-            }
-            else
-            {
-                valid = true; 
-            }
-        } while (!valid);
-
-        if (confirmation == "y")
-        {
-            if (guests > 6){
-                List<Table> ChosenTables = ReservedTable.AssignTable(guests);
-                // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                List<Table> Tables = new(){};
-                foreach(Table table in ChosenTables){
-                    Tables.Add(table);
-                }
-                ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, Tables);
-                ReservationLogic.AddReservationToList(Reservation);
-                // bevestig de reservering aan de gebruiker
-                Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
-                string tableids = "";
-                foreach (Table table in ChosenTables)
-                {
-                    tableids += $"{table.ID} ";
-                }
-                Console.WriteLine($"Your Guest ID {guestID}, Your table numbers = {tableids}");
-            }
-            else
-            {
-                var tabletype = guests switch
-                {
-                    1 => "2",
-                    2 => "2",
-                    3 => "4",
-                    4 => "4",
-                    5 => "6",
-                    6 => "6",
-                    _ => "?"
+                    Capacity = 2
                 };
-
-                var found = ReservedTable.TableTracker.Find(x => x.Type == Convert.ToInt32(tabletype) && x.Reserved == false); // Waarom null? // er staat does Type (0) equals 2 personstable? 
-                // found.GuestID = guestID;
-                if (found is null){
-                    var NewFound = ReservationLogic.SwitchIfNull(found, Convert.ToInt32(tabletype));
-                    var tables = NewFound;
-                    ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
-                    ReservationLogic.AddReservationToList(Reservation);
+                // bool Loop = true;
+                int ToReserve;
+                do
+                {
+                    if (ToBeSeated >= 6)
+                    {
+                        Console.WriteLine($"Choose a Table to reserve(1-3):");
+                        Console.WriteLine($"1) 2 persons table");
+                        Console.WriteLine($"2) 4 persons table");
+                        Console.WriteLine($"3) 6 persons table");
+                    }
+                    else if (ToBeSeated >= 3)
+                    {
+                        Console.WriteLine($"Choose a Table to reserve(1-3):");
+                        Console.WriteLine($"1) 2 persons table");
+                        Console.WriteLine($"2) 4 persons table");
+                    }
+                    else if (ToBeSeated >= 1)
+                    {
+                        Console.WriteLine($"Choose a Table to reserve(1-3):");
+                        Console.WriteLine($"1) 2 persons table");
+                    }
+                    string answer = Console.ReadLine();
+                    if (string.IsNullOrEmpty(answer))
+                    {
+                        Console.WriteLine("Invalid input. You must enter '1', '2', '3' .");
+                    }
+                    else if(answer != "1" && answer != "2" && answer != "3")
+                    {
+                        Console.WriteLine("Invalid input. You must enter '1', '2', '3' .");
+                    }
+                    if (answer == "3")
+                    {
+                        ToBeSeated -= 6;
+                        Console.WriteLine("Thank you!");
+                        ToReserve = Convert.ToInt16(answer);
+                        TableTypes.Add(ToReserve);
+                    }
+                    else if (answer == "2")
+                    {
+                        ToBeSeated -= 4;
+                        Console.WriteLine("Thank you!");
+                        ToReserve = Convert.ToInt16(answer);
+                        TableTypes.Add(ToReserve);
+                    }
+                    else if(answer == "1")
+                    {
+                        ToBeSeated -= 2;
+                        Console.WriteLine("Thank you!");
+                        ToReserve = Convert.ToInt16(answer);
+                        TableTypes.Add(ToReserve);
+                    }
+                } while(ToBeSeated > 0);
+                foreach(int type in TableTypes)
+                {
+                    var tabletype = type switch
+                    {
+                        1 => 2,
+                        2 => 4,
+                        3 => 6,
+                    };
+                    var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
+                    if (found is null)
+                    {
+                        var tables = ReservationLogic.SwitchIfNull(found, tabletype);
+                        foreach(Table table in tables)
+                        {
+                            ChosenTables.Add(table);
+                        }
+                    }
+                    else{
+                    found.IsReserved(); // Waarom is dit steeds null?
+                    ChosenTables.Add(found);
+                    }
                 }
-                else{
-                    List<Table> table = new(){found};
-                    found.IsReserved();
-                    ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
-                    ReservationLogic.AddReservationToList(Reservation);
-                    // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                    // bevestig de reservering aan de gebruiker
-                    Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
-                    Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.Tables[0].ID}");
-                }
-
-            }
-        }
-        else if (confirmation == "n")
-        {
-            Console.WriteLine("Your reservation is not confirmed, Bye!");
-        }
-}
-
-    public static void CancelReservation(int guestID)
-    {
-        ReservationLogic.CancelReservation(guestID); 
+            return ChosenTables;
     }
-}
- 
+    public static void CheckIfTableReserved(int day, int month, int year){
+        // zet tafels in alle dagen van het jaar op vol als ze dat zijn
+        int TimeCount = 0; // kijkt of tijdstip vol is
+    List<string> TimeList = new(){
+        "10:00", "10:30", "11:00",
+        "11:30", "12:00", "12:30",
+        "13:00", "13:30", "14:00",
+        "14:30", "15:00", "15:30",
+        "16:00", "16:30", "17:00"
+    };
+        foreach(string Time in TimeList)
+        {
+        foreach (Table table in TableTracker)
+        {
+            // kijk hier na of alle tafles op die tijdstip vol zijn
+            if (ReservationLogic.CheckReservedTable(table.ID, $"{day}/{month}/{year}", Time))
+            {
+                table.IsReserved();
+                TimeCount++; //checked aantal gereserveerde tafels op die dag
+            }
+            if (TimeCount >= TableTracker.Count){
+                DisplayDayList.GiveListBasedOnDay(day, month, year).Remove(Time);
+               //Remove from list 
+            }
+            // if (DayCount >= TableTracker.Count)
+            // {
+            //     DisplayMonthList.MonthList.Remove(day);
+            // } ----> GEBEURD IN DisplayDayList
+        }
+        }
+    }   
+
+} 
