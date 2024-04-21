@@ -88,11 +88,20 @@ static class ReservedTable
                         1 => 2,
                         2 => 4,
                         3 => 6,
-                        _ => throw new NotImplementedException(),
                     };
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
+                    if (found is null)
+                    {
+                        var tables = ReservationLogic.SwitchIfNull(found, tabletype);
+                        foreach(Table table in tables)
+                        {
+                            ChosenTables.Add(table);
+                        }
+                    }
+                    else{
                     found.IsReserved(); // Waarom is dit steeds null?
                     ChosenTables.Add(found);
+                    }
                 }
             return ChosenTables;
     }
