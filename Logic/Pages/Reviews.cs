@@ -1,9 +1,8 @@
-public static class Reviews
+class Reviews : Page
 {
-    private static string _name = "Reviews";
-    private static List<Review> reviews = new List<Review>();
-    public static string Name => _name;
 
+    private static List<Review> reviews = new List<Review>();
+    public override string Name => "Reviews";
 
     static Reviews()
     {
@@ -88,5 +87,10 @@ public static class Reviews
                     break;
             }
         }
+    }
+
+    public override void Contents()
+    {
+        throw new NotImplementedException();
     }
 }
