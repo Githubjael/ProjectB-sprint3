@@ -65,7 +65,8 @@ public static class Reviews
                         SaveReviews(); 
                         Console.WriteLine("\nThank you for your review!"); 
                     }
-                    break;
+                    Options();
+                    return;
 
                 case "S":
                     // View reviews
@@ -84,7 +85,8 @@ public static class Reviews
                             }
                         }
                     }
-                    break;
+                    Options();
+                    return;
 
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
