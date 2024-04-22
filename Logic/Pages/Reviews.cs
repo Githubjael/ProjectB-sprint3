@@ -1,8 +1,7 @@
-
 public static class Reviews
 {
     private static string _name = "Reviews";
-    private static readonly List<Review> reviews = new List<Review>();
+    private static List<Review> reviews = new List<Review>();
     public static string Name => _name;
 
 
@@ -14,7 +13,7 @@ public static class Reviews
 
     private static void LoadReviews()
     {
-        ReviewAccess.ReadFromJson();
+        reviews = ReviewAccess.ReadFromJson();
     }
 
 
@@ -79,7 +78,7 @@ public static class Reviews
                         Console.WriteLine("Reviews:\n");
                         foreach (var review in reviews)
                         {
-                            if (review != null) // Add a null check here
+                            if (review != null)
                             {
                                 Console.WriteLine($"Guest: {review.GuestName}\nRating: {review.Rating}\nComments: {review.Comments}\n\n");
                             }
@@ -94,3 +93,4 @@ public static class Reviews
         }
     }
 }
+
