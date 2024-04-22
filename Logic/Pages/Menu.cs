@@ -136,9 +136,10 @@ public static class Menu
         }
     }
 
+    public static void SearchItem(){ //maybe add later
 
-    public static void ChangeItem() //later if needed
-    {
+    }
+    public static void ChangeItem(){ //maybe add later
     }
 
     public static void DisplayMenu(string HowToSort)
@@ -195,6 +196,8 @@ public static class Menu
         Console.WriteLine("[H]: Home");
         Console.WriteLine("[S]: Sort the menu");
         Console.WriteLine("[V]: View a specific category");
+        Console.WriteLine("[A]: Add item (Make it so only manager can see it)");
+        Console.WriteLine("[R]: Remove item (Make it so only manager can see it)");
 
         string userChoice = Console.ReadLine().ToUpper();
 
@@ -207,6 +210,14 @@ public static class Menu
                 DisplayCategories();
                 break;
             case "H":
+                Home.Options();
+                break;
+            case "A":
+                AddItem();
+                Home.Options();
+                break;
+            case "R":
+                RemoveItem();
                 Home.Options();
                 break;
             default:
