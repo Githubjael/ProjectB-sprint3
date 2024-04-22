@@ -1,7 +1,7 @@
 public static class Reviews
 {
     private static string _name = "Reviews";
-    private static List<Review> reviews = new List<Review>();
+    public static List<Review> reviews = new List<Review>();
     public static string Name => _name;
 
 
