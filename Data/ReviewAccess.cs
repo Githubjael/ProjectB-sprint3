@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 class ReviewAccess
 {
-    private static string fileName = @"C:\Users\Hilal\OneDrive\Bureaublad\imdone\ProjectB-sprint3-main\DataSources\Reviews.Json"; //vergeet niet je eigen path te copy
+    private static string fileName = @"..\..\..\DataSources\Reviews.Json"; //vergeet niet je eigen path te copy
 
     public static List<Review> ReadFromJson()
     {
