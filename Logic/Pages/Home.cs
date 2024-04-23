@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 
 public static class Home
 {
-    public static string IsLoggedIn { get; private set; }
+    public static bool IsLoggedIn { get; private set; }
     private static string _name = "Home";
-    private static List<Person> Users = new List<Person>();
-
+    private static List<Guest> Users = new List<Guest>();
+    public static string guestName { get; private set; }
+    public static string guestEmail { get; private set;}
+    private static Guest _guest;
     public static string Name
     {
         get => _name;
@@ -17,6 +20,10 @@ public static class Home
     public static void Options()
     {
         //restaurant info print here (make into json)
+        if (IsLoggedIn)
+        {
+            System.Console.WriteLine($"Welkom back, {guestName}!");
+        }
         Console.WriteLine("[M]: Menu");
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
@@ -102,17 +109,19 @@ public static class Home
         }
 
 
-        var newUser = new Guest(firstName, lastName, email, phoneNumber, password);
-        UsersAccess.SaveUser(newUser);
+        _guest = new Guest(firstName, lastName, email, phoneNumber, password);
+        UsersAccess.SaveUser(_guest);
 
-        Console.WriteLine("Account created successfully. You can now log in.");
+        Console.WriteLine($"Account created successfully. Thank you for signing up {_guest.FirstName}!");
+        System.Console.WriteLine("Make sure you log in");
+        Options();
     }
+
 
     public static void LogIn()
     {
-        bool isLoggedIn = false;
-
-        while (!isLoggedIn)
+        // Log in als manager of log in als guest bla bla bla
+        while (!IsLoggedIn)
         {
             Console.WriteLine("Email address:");
             string email = Console.ReadLine();
@@ -123,15 +132,18 @@ public static class Home
             var user = UsersAccess.GetUser(email);
             if (user != null && user.Password == password)
             {
-                IsLoggedIn = "true";
                 Console.WriteLine("Logged in successfully!");
-                isLoggedIn = true; 
+                IsLoggedIn = true;
+                guestEmail = user.EmailAddress;
+                guestName = user.FirstName;
+                Console.WriteLine();
+                Console.WriteLine();
+                Options(); 
             }
             else
             {
                 Console.WriteLine("Invalid email or password. Please try again.");
             }
-        }
     }
-
+    }
 }
