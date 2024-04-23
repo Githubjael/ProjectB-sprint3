@@ -100,6 +100,7 @@ public class ReservationLogic
         if (foundnull is null)
         {
             List<Table> tables = new List<Table>() { };
+            string message = "";
             if (type == 2)
             {
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
@@ -107,8 +108,8 @@ public class ReservationLogic
                 {
                     found.IsReserved();
                     tables.Add(found);
+                    message = "My apologies, we've had to change you from 2 person tables to a 4 person table.";
                 }
-                Console. WriteLine("My apologies, we've had to change you from 2 person tables to a 4 person table.");
             }
             else if (type == 4)
             {
@@ -124,8 +125,8 @@ public class ReservationLogic
                         {
                             found.IsReserved();
                             tables.Add(found);
+                            message = "My apologies, we've had to change you from a 4 person tables to a 6 person / 4 and 2 person table table.";
                         }
-                        Console. WriteLine("My apologies, we've had to change you from a 4 person tables to a 4 and 2 person table/ 6 person table.");
                     }
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
@@ -142,8 +143,8 @@ public class ReservationLogic
                     {
                         found.IsReserved();
                         tables.Add(found);
+                        message = "My apologies, we've had to change you from a 6 person tables to a 4 and 2 person table.";
                     }
-                    Console. WriteLine("My apologies, we've had to change you from a 6 person tables to a 4 and 2 person table.");
 
                 }
                 if (tables.Count != 2)
@@ -157,13 +158,14 @@ public class ReservationLogic
                         {
                             found.IsReserved();
                             tables.Add(found);
+                            message = "My apologies, we've had to change you from a 6 person table to three 2 person table.";
                         }
-                        Console. WriteLine("My apologies, we've had to change you from a 6 person table to three 2 person table.");
                     }
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
             }
+            Console.WriteLine(message);
             return tables;
         }
         else
