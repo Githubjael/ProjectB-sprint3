@@ -1,5 +1,6 @@
 class Reservation : Page
 {
+    public static Tuple<string, string, string, string> PersonalDetails;
     public static List<int> unavailableGuestIDs = new List<int>(); // ik een lijst om de gebruikte Guests IDs op te slaan
     private static Random random = new Random();
     public static int GenerateRandomGuestID()
@@ -53,9 +54,9 @@ class Reservation : Page
                 }
             }
         }
-    public static void MakeReservation()
+    
+    public static Tuple<string, string, string, string> IfNotLoggedIn()
     {
-        ReservedTable.PopulateTables(); // Maakt Tafelobjecten aan
         // Vraag om Voornaam
         string FirstName;
         do{
@@ -85,6 +86,20 @@ class Reservation : Page
         EmailAddress = Console.ReadLine();
         } while (!CheckReservationInfo.CheckEmailAddress(EmailAddress));
         // vraag welke jaar gast wilt boeken
+
+        return Tuple.Create(FirstName, LastName, PhoneNumber, EmailAddress);
+    }
+    public static void MakeReservation()
+    {
+        if (!Home.IsLoggedIn)
+        {
+            PersonalDetails = IfNotLoggedIn();
+        }
+        else
+        {
+            System.Console.WriteLine($"Hi {Home.guestName}, please fill in your reservation details.");
+        }
+        ReservedTable.PopulateTables(); // Maakt Tafelobjecten aan
         string ChosenYearString;
         do
         {
@@ -190,8 +205,18 @@ class Reservation : Page
                 foreach(Table table in ChosenTables){
                     Tables.Add(table);
                 }
-                ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, Tables);
+                //
+                if (!Home.IsLoggedIn)
+                {
+                ReservationDataModel Reservation = new ReservationDataModel(guestID, PersonalDetails.Item1, PersonalDetails.Item2, PersonalDetails.Item3, PersonalDetails.Item4, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, Tables);
                 ReservationLogic.AddReservationToList(Reservation);
+                }
+                else
+                {
+                    Guest guest = UsersAccess.GetUser(Home.guestEmail);
+                    ReservationDataModel Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, Tables);
+                    ReservationLogic.AddReservationToList(Reservation);
+                }
                 // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                 string tableids = "";
@@ -219,14 +244,34 @@ class Reservation : Page
                 if (found is null){
                     var NewFound = ReservationLogic.SwitchIfNull(found, Convert.ToInt32(tabletype));
                     var tables = NewFound;
-                    ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+                    // ReservationDataModel Reservation;
+                    if (!Home.IsLoggedIn)
+                    {
+                    ReservationDataModel Reservation = new ReservationDataModel(guestID, PersonalDetails.Item1, PersonalDetails.Item2, PersonalDetails.Item3, PersonalDetails.Item4, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     ReservationLogic.AddReservationToList(Reservation);
+                    }
+                    else
+                    {
+                        Guest guest = UsersAccess.GetUser(Home.guestEmail);
+                        ReservationDataModel Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
+                        ReservationLogic.AddReservationToList(Reservation);
+                    }
                 }
                 else{
                     List<Table> table = new(){found};
                     found.IsReserved();
-                    ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
+                    ReservationDataModel Reservation;
+                    if (!Home.IsLoggedIn)
+                    {
+                    Reservation = new ReservationDataModel(guestID, PersonalDetails.Item1, PersonalDetails.Item2, PersonalDetails.Item3, PersonalDetails.Item4, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
                     ReservationLogic.AddReservationToList(Reservation);
+                    }
+                    else
+                    {
+                        Guest guest = UsersAccess.GetUser(Home.guestEmail);
+                        Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
+                        ReservationLogic.AddReservationToList(Reservation);
+                    }
                     // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
                     // bevestig de reservering aan de gebruiker
                     Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
