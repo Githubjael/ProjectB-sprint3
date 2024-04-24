@@ -26,6 +26,58 @@ public class ReservationLogic
     //  en deze lijst sturen we op een of andere manier naar json
     //  We roepen een method vanuit ReservationDataAccess (de write to json method)
 
+    public static void PrintAllReservations()
+    {
+        // See all reservations
+        for(int i = 0; i < _reservation.Count; i++)
+        {
+            ReservationDataModel reservation = _reservation[i];
+            Console.WriteLine("===============");
+            Console.WriteLine($"Reservation: {i + 1}");
+            PrintReservation(reservation);
+        }
+    }
+
+    public static void PrintReservationsBasedOnDate(string Date)
+    {
+        for(int i = 0; i < _reservation.Count; i++)
+        {
+            ReservationDataModel reservation = _reservation[i];
+            if (reservation.Date == Date)
+            {
+            Console.WriteLine("===============");
+            Console.WriteLine($"Reservation: {i + 1}");
+            PrintReservation(reservation);
+            }
+        }
+    }
+
+    public static void PrintReservationBasedOnTime(string Date, string Time)
+    {
+        for(int i = 0; i < _reservation.Count; i++)
+        {
+            ReservationDataModel reservation = _reservation[i];
+            if (reservation.Date == Date && reservation.Time == Time)
+            {
+            Console.WriteLine("===============");
+            Console.WriteLine($"Reservation: {i + 1}");
+            PrintReservation(reservation);
+            } 
+        }
+    }
+
+    public static void PrintReservation(ReservationDataModel reservation)
+    {
+        System.Console.WriteLine($"Date: {reservation.Date}");
+        System.Console.WriteLine($"Time: {reservation.Time}");
+        System.Console.WriteLine($"Guest id: {reservation.GuestID}");
+        System.Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
+        System.Console.WriteLine($"Email address: {reservation.EmailAddress}");
+        foreach(Table table in reservation.Tables)
+        {
+            System.Console.WriteLine($"Table id: {table.ID}");
+        }
+    }
 
     public static void CancelReservation(int guestID)
     {
@@ -100,7 +152,6 @@ public class ReservationLogic
         if (foundnull is null)
         {
             List<Table> tables = new List<Table>() { };
-            string message = "";
             if (type == 2)
             {
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
@@ -108,7 +159,6 @@ public class ReservationLogic
                 {
                     found.IsReserved();
                     tables.Add(found);
-                    message = "My apologies, we've had to change you from 2 person tables to a 4 person table.";
                 }
             }
             else if (type == 4)
@@ -116,7 +166,7 @@ public class ReservationLogic
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
                 if (found is null)
                 {
-                    List<int> tabletypes = new List<int>() { 2, 2 };
+                    List<int> tabletypes = new List<int>() { 2, 4 };
                     tables = new List<Table>() { };
                     foreach (int types in tabletypes)
                     {
@@ -127,14 +177,13 @@ public class ReservationLogic
                             tables.Add(found);
                         }
                     }
-                    message = "My apologies, we've had to change you from a 4 person tables to a 6 person / 4 and 2 person table table.";
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
             }
             else if (type == 6)
             {
-                List<int> tabletypes = new List<int>() { 2, 4 };
+                List<int> tabletypes = new List<int>() { 2, 4};
                 tables = new List<Table>();
                 foreach (int types in tabletypes)
                 {
@@ -144,7 +193,6 @@ public class ReservationLogic
                         found.IsReserved();
                         tables.Add(found);
                     }
-                    message = "My apologies, we've had to change you from a 6 person tables to a 4 and 2 person table.";
                 }
                 if (tables.Count != 2)
                 {
@@ -159,12 +207,10 @@ public class ReservationLogic
                             tables.Add(found);
                         }
                     }
-                    message = "My apologies, we've had to change you from a 6 person table to three 2 person table.";
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
             }
-            Console.WriteLine(message);
             return tables;
         }
         else
