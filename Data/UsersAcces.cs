@@ -2,27 +2,27 @@ using Newtonsoft.Json;
 
 class UsersAccess
 {
-    private static string fileName = @"C:\Users\Hilal\OneDrive\Bureaublad\eindelijk\ProjectB-sprint3-main\DataSources\users.json"; //vergeet niet je eigen path te copy
+    private static string fileName = @"C:\Users\User\Desktop\Project B\DataSources\Users.Json"; //vergeet niet je eigen path te copy
 
-    public static List<Person> ReadFromJson()
+    public static List<Guest> ReadFromJson()
     {
         try
         {
             using (StreamReader reader = new StreamReader(fileName))
             {
                 string json = reader.ReadToEnd();
-                List<Person> allusers = JsonConvert.DeserializeObject<List<Person>>(json);
+                List<Guest> allusers = JsonConvert.DeserializeObject<List<Guest>>(json);
                 return allusers;
             }
         }
         catch (FileNotFoundException)
         {
             Console.WriteLine("no json file found");
-            return new List<Person>();
+            return new List<Guest>();
         }
     }
 
-    public static void WriteToJson(List<Person> users)
+    public static void WriteToJson(List<Guest> users)
     {
         try
         {
@@ -39,34 +39,34 @@ class UsersAccess
         }
     }
 
-    public static void SaveUser(Person user)
+    public static void SaveUser(Guest user)
     {
         var users = LoadUsers();
         users.Add(user); 
         SaveUsers(users);
     }
 
-    private static List<Person> LoadUsers()
+    private static List<Guest> LoadUsers()
     {
         if (!File.Exists(fileName))
-            return new List<Person>();
+            return new List<Guest>();
 
         using (StreamReader file = File.OpenText(fileName))
         {
             var serializer = new JsonSerializer();
-            var users = (List<Person>)serializer.Deserialize(file, typeof(List<Person>));
-            return users ?? new List<Person>();
+            var users = (List<Guest>)serializer.Deserialize(file, typeof(List<Guest>));
+            return users ?? new List<Guest>();
         }
     }
 
 
 
-    public static void SaveUsers(List<Person> users)
+    public static void SaveUsers(List<Guest> users)
     {
         WriteToJson(users);
     }
 
-    public static Person GetUser(string email)
+    public static Guest GetUser(string email)
     {
         var users = LoadUsers();
         return users.Find(u => u.EmailAddress == email);
