@@ -132,6 +132,7 @@ public static class Home
             if (choice == "y")
             {
                 IsLoggedIn = false;
+                Console.WriteLine("You are now logged out !\n\n");
                 Options();
             }
             else if (choice == "n")
