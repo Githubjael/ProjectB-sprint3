@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 class UsersAccess
 {
-    private static string fileName = @"C:\Users\User\Desktop\Project B\DataSources\Users.Json"; //vergeet niet je eigen path te copy
+    private static string fileName = @"..\..\..\DataSources\Users.Json"; //vergeet niet je eigen path te copy
 
     public static List<Guest> ReadFromJson()
     {
