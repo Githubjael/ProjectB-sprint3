@@ -125,9 +125,9 @@ public class ReservationLogic
                         {
                             found.IsReserved();
                             tables.Add(found);
-                            message = "My apologies, we've had to change you from a 4 person tables to a 6 person / 4 and 2 person table table.";
                         }
                     }
+                    message = "My apologies, we've had to change you from a 4 person tables to a 6 person / 4 and 2 person table table.";
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
@@ -143,9 +143,8 @@ public class ReservationLogic
                     {
                         found.IsReserved();
                         tables.Add(found);
-                        message = "My apologies, we've had to change you from a 6 person tables to a 4 and 2 person table.";
                     }
-
+                    message = "My apologies, we've had to change you from a 6 person tables to a 4 and 2 person table.";
                 }
                 if (tables.Count != 2)
                 {
@@ -158,9 +157,9 @@ public class ReservationLogic
                         {
                             found.IsReserved();
                             tables.Add(found);
-                            message = "My apologies, we've had to change you from a 6 person table to three 2 person table.";
                         }
                     }
+                    message = "My apologies, we've had to change you from a 6 person table to three 2 person table.";
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
