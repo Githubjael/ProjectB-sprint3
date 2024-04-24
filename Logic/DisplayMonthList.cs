@@ -1,99 +1,60 @@
-class DisplayMonthList
-{
-    // Hier ga ik er al vanuit dat de maanden possible zijn (als in niet voorbij, ik kan bijvoorbeeld niet in february 2024 gaan boeken)
+using System.Globalization;
 
-    // Maandenlijst, later gaat elke maand zn lijst krijgen
-    // Elke x wanneer een dag vol is, dan gaat de nummer van die dag uit de lijst.
-    // Zelfde geld voor AvailableHours, elke dag zal zijn eigen lijst hebben
-    public static List<int> MonthList = new List<int>(){
-                1, 2, 3, 4, 5, 6, 7,
-                8, 9, 10, 11, 12, 13, 14,
-                15, 16, 17, 18, 19, 20, 21,
-                22, 23, 24, 25, 26, 27, 28,
-                29, 30, 31
-            };
-    public static List<int> GiveListBasedOnMonth(int Month, int year)
+class DisplayDayList{
+    // hier komen alle tijdstippen. Restaurant is open van 10:00 tot 17:00
+    public static List<string> DayList = new(){
+        "10:00", "10:30", "11:00",
+        "11:30", "12:00", "12:30",
+        "13:00", "13:30", "14:00",
+        "14:30", "15:00", "15:30",
+        "16:00", "16:30", "17:00"
+    };
+
+    public static List<string> GiveListBasedOnDay(int day, int month, int year){
+        // List<string> TimeList = new(){};
+        // foreach(string Time in DayList)
+        // {
+        //     TimeList.Add(Time);
+        // }
+for (int i = 0; i < DayList.Count; i++)
+{
+    string Time = $"{day}-{month}-{year} {DayList[i]}";
+    if (day < 10 && month < 10)
     {
-        if (Month == 1 || Month == 3 || Month == 5 || Month == 7 || Month == 8 || Month == 10 || Month == 12)
-        {
-            MonthList = new List<int>(){
-                1, 2, 3, 4, 5, 6, 7,
-                8, 9, 10, 11, 12, 13, 14,
-                15, 16, 17, 18, 19, 20, 21,
-                22, 23, 24, 25, 26, 27, 28,
-                29, 30, 31
-            };
-            if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
-            foreach(int dag in MonthList.ToList()){
-                if (dag < DateTime.Now.Day)
-                {
-                    MonthList.Remove(dag);
-                }
-                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
-                {
-                    MonthList.Remove(dag);
-                }
-            }
-            }
-            }
-            return MonthList;
-        }
-        else if (Month == 2)
-        {
-            MonthList = new List<int>(){
-                1, 2, 3, 4, 5, 6, 7,
-                8, 9, 10, 11, 12, 13, 14,
-                15, 16, 17, 18, 19, 20, 21,
-                22, 23, 24, 25, 26, 27, 28, 29
-            };
-            if (DateTime.DaysInMonth(year ,Month) == 28){
-                MonthList = new List<int>(){
-                1, 2, 3, 4, 5, 6, 7,
-                8, 9, 10, 11, 12, 13, 14,
-                15, 16, 17, 18, 19, 20, 21,
-                22, 23, 24, 25, 26, 27, 28 
-                };
-            }
-            if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
-            foreach(int dag in MonthList.ToList()){
-                if (dag < DateTime.Now.Day)
-                {
-                    MonthList.Remove(dag);
-                }
-                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
-                {
-                    MonthList.Remove(dag);
-                }
-            }
-            }
-            }
-            return MonthList;
-        }
-        else{
-            MonthList = new List<int>(){
-                1, 2, 3, 4, 5, 6, 7,
-                8, 9, 10, 11, 12, 13, 14,
-                15, 16, 17, 18, 19, 20, 21,
-                22, 23, 24, 25, 26, 27, 28, 29,
-                30
-            };
-            if (MonthList.Count != 0){
-            if (Month == DateTime.Now.Month && year == DateTime.Now.Year){
-            foreach(int dag in MonthList.ToList()){
-                if (dag < DateTime.Now.Day)
-                {
-                    MonthList.Remove(dag);
-                }
-                else if (dag == DateTime.Now.Day && DateTime.Now.Hour >= 17)
-                {
-                    MonthList.Remove(dag);
-                }
-            }
-            }
-            }
-            return MonthList;
+        Time = $"0{day}-0{month}-{year} {DayList[i]}";
     }
+    else if (month < 10)
+    {
+        Time = $"{day}-0{month}-{year} {DayList[i]}";
     }
+    else if (day < 10)
+    {
+        Time = $"0{day}-{month}-{year} {DayList[i]}";
+    }
+    try
+    {
+        DateTime hourToCompare = DateTime.ParseExact(Time, "dd-MM-yyyy HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
+        if (hourToCompare < DateTime.Now)
+        {
+            DayList.RemoveAt(i);
+            // After removing an element, adjust the index to account for the removed item
+            i--;
+        }
+    }
+    catch (FormatException)
+    {
+        // Handle invalid time format
+        Console.WriteLine($"Invalid time format: {DayList[i]}");
+    }
+}
+
+        ReservedTable.CheckIfTableReserved(day, month, year); // OMG GUYS AN INFINITE LOOP!
+        // Maar het is de enige reference naar deze method ;-(
+        if (DayList.Count == 0)
+        {
+            DisplayMonthList.GiveListBasedOnMonth(month, year).Remove(day);
+        }
+        return DayList;
+    }
+
 }
