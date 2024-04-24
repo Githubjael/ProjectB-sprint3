@@ -28,8 +28,9 @@ public static class Home
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
         Console.WriteLine("[C]: Contact");
-        Console.WriteLine("[L]: Log in");
         Console.WriteLine("[S]: Sign up");
+        Console.WriteLine("[L]: Log in");
+        Console.WriteLine("[LO]: Log out");
 
         while (true)
         {
@@ -54,6 +55,9 @@ public static class Home
                     return;
                 case "C":
                     Contact.Options();
+                    return;
+                case "LO":
+                    LogOut();
                     return;
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
@@ -117,6 +121,24 @@ public static class Home
         Options();
     }
 
+    public static void LogOut()
+    {
+        string choice;
+        while (IsLoggedIn)
+        {
+            Console.WriteLine("Do you want to log uit? (y/n)");
+            choice = Console.ReadLine().ToLower();
+            if (choice == "y")
+            {
+                IsLoggedIn = false;
+                Options();
+            }
+            else
+            {
+                IsLoggedIn = true;
+            }
+        }
+    }
 
     public static void LogIn()
     {
@@ -145,5 +167,9 @@ public static class Home
                 Console.WriteLine("Invalid email or password. Please try again.");
             }
     }
+
+    }
+}
+
     }
 }
