@@ -116,7 +116,7 @@ public class ReservationLogic
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
                 if (found is null)
                 {
-                    List<int> tabletypes = new List<int>() { 2, 4 };
+                    List<int> tabletypes = new List<int>() { 2, 2 };
                     tables = new List<Table>() { };
                     foreach (int types in tabletypes)
                     {
