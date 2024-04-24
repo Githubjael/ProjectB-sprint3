@@ -217,14 +217,14 @@ class Reservation : Page
                     ReservationDataModel Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, Tables);
                     ReservationLogic.AddReservationToList(Reservation);
                 }
-                // bevestig de reservering aan de gebruiker
                 Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                 string tableids = "";
-                foreach (Table table in ChosenTables)
+                foreach (Table table in Tables)
                 {
                     tableids += $"{table.ID} ";
                 }
                 Console.WriteLine($"Your Guest ID {guestID}, Your table numbers = {tableids}");
+                // bevestig de reservering aan de gebruiker
             }
             else
             {
@@ -256,6 +256,13 @@ class Reservation : Page
                         ReservationDataModel Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                         ReservationLogic.AddReservationToList(Reservation);
                     }
+                    Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
+                    string tableids = "";
+                    foreach (Table table in tables)
+                    {
+                        tableids += $"{table.ID} ";
+                    }
+                    Console.WriteLine($"Your Guest ID {guestID}, Your table numbers = {tableids}");
                 }
                 else{
                     List<Table> table = new(){found};
@@ -272,10 +279,10 @@ class Reservation : Page
                         Reservation = new ReservationDataModel(guestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, table);
                         ReservationLogic.AddReservationToList(Reservation);
                     }
-                    // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
-                    // bevestig de reservering aan de gebruiker
                     Console.WriteLine($"Your reservation is confirmed.\nThank you for choosing our restaurant, we look forward to serving you!");
                     Console.WriteLine($"Your Guest ID {Reservation.GuestID}, Your table number = {Reservation.Tables[0].ID}");
+                    // We maken een object van de Reservering om in een lijst te dumpen om naar json te sturen
+                    // bevestig de reservering aan de gebruiker
                 }
 
             }
