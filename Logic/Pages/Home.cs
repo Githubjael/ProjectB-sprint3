@@ -121,6 +121,7 @@ public static class Home
         Options();
     }
 
+
     public static void LogOut()
     {
         string choice;
@@ -133,12 +134,19 @@ public static class Home
                 IsLoggedIn = false;
                 Options();
             }
+            else if (choice == "n")
+            {
+                IsLoggedIn = true;
+                Options();
+            }
             else
             {
                 IsLoggedIn = true;
+                Options();
             }
         }
     }
+
 
     public static void LogIn()
     {
