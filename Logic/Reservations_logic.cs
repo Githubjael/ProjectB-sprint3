@@ -180,6 +180,10 @@ public class ReservationLogic
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
+                else{
+                    found.IsReserved();
+                    tables.Add(found);
+                }
             }
             else if (type == 6)
             {
