@@ -10,7 +10,7 @@ public static class Contact
     public static void Options()
     {
         Console.WriteLine("[H]: Home");
-        Console.WriteLine("???"); 
+        Console.WriteLine("[CI]"); 
 
         while (true)
         {
@@ -22,8 +22,13 @@ public static class Contact
                     Home.Options();
                     return;
 
-                case "???":
+                case "CI":
                     // Add logic for the specific contact option
+                    Console.WriteLine("For further questions you could contact us with the following:\n");
+                    Console.WriteLine("Restaurant Service Phone Number: 0611223344");
+                    Console.WriteLine("Restaurant Service Email: JakesRestaurant@Gmail.com");
+
+                    Console.WriteLine("Its quite busy these days in our restaurant, so please have patience if we dont get back immediatly.");
                     return;
 
                 default:
