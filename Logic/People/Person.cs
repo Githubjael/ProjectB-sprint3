@@ -14,4 +14,12 @@ public class Person
         phoneNumber = phonenumber;
         Password = password;
     }
+
+    public Person(string firstName, string lastName, string emailAddress, string phoneNumber)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        EmailAddress = emailAddress;
+        this.phoneNumber = phoneNumber;
+    }
 }
