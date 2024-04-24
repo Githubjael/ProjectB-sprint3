@@ -154,11 +154,21 @@ public class ReservationLogic
             List<Table> tables = new List<Table>() { };
             if (type == 2)
             {
+                // 6 tafels geven als ook vol
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 4 && x.Reserved == false);
                 if (!(found is null))
                 {
                     found.IsReserved();
                     tables.Add(found);
+                }
+                else
+                {
+                    found = ReservedTable.TableTracker.Find(x => x.Type == 6 && !x.Reserved);
+                    if (!(found is null))
+                    {
+                        found.IsReserved();
+                        tables.Add(found);
+                    }
                 }
             }
             else if (type == 4)
@@ -166,7 +176,7 @@ public class ReservationLogic
                 var found = ReservedTable.TableTracker.Find(x => x.Type == 6 && x.Reserved == false);
                 if (found is null)
                 {
-                    List<int> tabletypes = new List<int>() { 2, 4 };
+                    List<int> tabletypes = new List<int>() { 2, 2 };
                     tables = new List<Table>() { };
                     foreach (int types in tabletypes)
                     {
@@ -180,7 +190,8 @@ public class ReservationLogic
                     // ReservationDataModel Reservation = new ReservationDataModel(guestID, FirstName, LastName, PhoneNumber, EmailAddress, $"{ChosenDayFinal}/{ChosenMonthFinal}/{ChosenYear}", ChosenTime, tables);
                     // AddReservationToList(Reservation);
                 }
-                else{
+                else
+                {
                     found.IsReserved();
                     tables.Add(found);
                 }
