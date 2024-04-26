@@ -72,7 +72,8 @@ class Reservation : Page
             string LastName = AskLastName();
             string Email = AskEmailAddress();
             string PhoneNumber = AskPhoneNumber();
-            DateTime Date = AskDate();
+            List<string> BookedDates = ReservationLogic.VolGeboekteDatums();
+            DateTime Date = AskDate(BookedDates);
             string TimeSlot = AskTimeSlot(Date);
             int Guests = AskAmountOfGuests();
               List<Table> Tables;
@@ -103,7 +104,8 @@ class Reservation : Page
         else
         {
             Guest guest = UsersAccess.GetUser(Home.guestEmail);
-            DateTime Date = AskDate();
+            List<string> BookedDates = ReservationLogic.VolGeboekteDatums();
+            DateTime Date = AskDate(BookedDates);
             int Guests = AskAmountOfGuests();
             string TimeSlot = AskTimeSlot(Date);
             List<Table> Tables;
@@ -173,12 +175,24 @@ class Reservation : Page
         return EmailAddress;
     }
 
-    public static DateTime AskDate()
+    public static DateTime AskDate(List<string> BookedDates)
     {
     {
         string date;
+        List<string> BookedDatesNotFull = ReservationLogic.GeboekteDatums();
+        System.Console.WriteLine();
+        System.Console.WriteLine("Please note that availability is limited on the following dates; apologies for any inconvenience.");
+        foreach(string BookedDate in BookedDates)
+        {
+            System.Console.WriteLine($"- {BookedDate} (fully booked)");
+        }
+        foreach(string BookedDate in BookedDatesNotFull)
+        {
+            System.Console.WriteLine($"- {BookedDate}");
+        }
         do
         {
+            System.Console.WriteLine();
             Console.WriteLine("When do you want to book? Provide the date in the following format:\nday-month-year.");
             date = Console.ReadLine();
 
@@ -191,7 +205,7 @@ class Reservation : Page
                 date = string.Join("-", dateParts); // Reconstruct the date string
             }
 
-        } while (!CheckReservationInfo.CheckDate(date));
+        } while (!CheckReservationInfo.CheckDate(date, BookedDates));
 
         // Parse the validated date string into a DateTime object
         DateTime reservationDate = DateTime.ParseExact(date, "dd-MM-yyyy", null);
