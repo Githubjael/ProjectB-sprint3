@@ -89,8 +89,13 @@ class CheckReservationInfo
     }
 
 
-public static bool CheckDate(string date)
+public static bool CheckDate(string date, List<string> BookedDates)
     {
+        if (BookedDates.Contains(date))
+        {
+            System.Console.WriteLine("The date you're interested in is fully booked.");
+            return false;
+        }
         if (string.IsNullOrEmpty(date))
         {
             System.Console.WriteLine("*Please fill something in.");
