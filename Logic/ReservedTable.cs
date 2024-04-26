@@ -1,16 +1,20 @@
-using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 
 static class ReservedTable
 {
-    // TimeCount blijft 0!!!!
     private static int _timeCount = 0;
-    public static int TimeCount
-    {
-        get => _timeCount;
-        set => _timeCount = value;
-    }
     public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
 
+    public static void Increment()
+    {
+        _timeCount ++;
+    }
+
+    public static void Reset()
+    {
+        _timeCount = 0;
+    }
     public static void PopulateTables() // deze moet in Reservations logische laag + info halen over gereserveerde tafels uit json
     {
         for (int i = 1; i <= 8; i++)
@@ -26,8 +30,101 @@ static class ReservedTable
             TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
     }
-    public static List<Table> AssignTable(int AmountOfGuests)
+
+    public static int CheckAvailableTables(string Date, string TimeSlot) // Checks if tables are full, if so another method will remove the timeslot
     {
+        MakeTablesAvailable(Date, TimeSlot);
+        foreach(Table table in TableTracker)
+        {
+            if (ReservationLogic.CheckReservedTable(table.ID, Date, TimeSlot))
+            {
+                table.IsReserved();
+                Increment();
+            }
+        }
+        return _timeCount;
+    }
+    public static void MakeTablesAvailable(string Date, string TimeSlot) // Makes tables available after a user chose a timeslot
+    { // Use this when you Assign Tables
+        foreach(Table table in TableTracker)
+        {
+            if(!ReservationLogic.CheckReservedTable(table.ID, Date, TimeSlot))
+            {
+                table.Cancelled();
+            }
+        }
+    }
+
+
+   public static List<string> GetTimes(string Date)
+{
+    List<string> Times = new List<string> { "10:00", "17:00", "22:00" };
+
+    for (int i = Times.Count - 1; i >= 0; i--)
+    {
+        Reset();
+        if (CheckAvailableTables(Date, Times[i]) >= TableTracker.Count)
+        {
+            Times.RemoveAt(i);
+        }
+    }
+
+    return Times;
+}
+    public static List<Table> AssignTable(int AmountOfGuests, string Date, string TimeSlot) // the user already chose a Date and TimeSlot
+    {
+        List<Table> ChosenTable = new (){};
+        MakeTablesAvailable(Date, TimeSlot);
+        int TableType = AmountOfGuests switch
+        {
+            1 => 2,
+            2 => 2,
+            3 => 4,
+            4 => 4,
+            5 => 6,
+            6 => 6,
+        };
+        if (TableType == 2)
+        {
+            try{
+            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
+            table.IsReserved();
+            ChosenTable.Add(table);
+            }
+            catch (Exception)
+            {
+                ReservationLogic.SwitchIfNull(TableType);
+            }
+        }
+        else if (TableType == 4)
+        {
+            try{
+            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
+            table.IsReserved();
+            ChosenTable.Add(table);
+            }
+            catch (Exception)
+            {
+                ReservationLogic.SwitchIfNull(TableType);
+            }
+        }
+        else if (TableType == 6)
+        {
+            try{
+            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
+            table.IsReserved();
+            ChosenTable.Add(table);
+            }
+            catch (Exception)
+            {
+                ReservationLogic.SwitchIfNull(TableType);
+            } 
+        }
+        return ChosenTable;
+    }
+ public static List<Table> AssignTables(int AmountOfGuests, string Date, string TimeSlot)
+    {
+        MakeTablesAvailable(Date, TimeSlot);
             // tableAssignments.Add(guestID, tableID);
             // Maak hier een functie van in ReservedTable.cs!!!!!!
             List<Table> ChosenTables = new List<Table>();
@@ -98,75 +195,19 @@ static class ReservedTable
                         3 => 6,
                     };
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
-                    if (found is null)
+                    try{
+                        found.IsReserved();
+                        ChosenTables.Add(found);
+                    }
+                    catch(Exception)
                     {
-                        var tables = ReservationLogic.SwitchIfNull(found, tabletype);
+                        var tables = ReservationLogic.SwitchIfNull(tabletype);
                         foreach(Table table in tables)
                         {
                             ChosenTables.Add(table);
                         }
                     }
-                    else{
-                    found.IsReserved(); // Waarom is dit steeds null?
-                    ChosenTables.Add(found);
-                    }
                 }
-            return ChosenTables;
+                return ChosenTables;
     }
-    public static void CheckIfTableReserved(int day, int month, int year){
-        // zet tafels in alle dagen van het jaar op vol als ze dat zijn // kijkt of tijdstip vol is
-        List<string> TimeList = new(){
-            "10:00", "10:30", "11:00",
-            "11:30", "12:00", "12:30",
-            "13:00", "13:30", "14:00",
-            "14:30", "15:00", "15:30",
-            "16:00", "16:30", "17:00"
-        };
-        foreach(string Time in TimeList)
-        {
-        foreach (Table table in TableTracker)
-        {
-            string Date = $"{day}/{month}/{year}";
-            if (day < 10 && month < 10)
-            {
-                Date = $"0{day}/0{month}/{year}";
-            }
-            else if (month < 10)
-            {
-                Date = $"{day}/0{month}/{year}";
-            }
-            else if (day < 10)
-            {
-                Date = $"0{day}/{month}/{year}";
-            }
-            // kijk hier na of alle tafles op die tijdstip vol zijn
-            // try{
-            if (ReservationLogic.CheckReservedTable(table.ID, Date, Time))
-            {
-                table.IsReserved();
-                IncrementCount();
-                // SO basically, als alle tafels vol zijn op een tijdstip, dan gebeurd er niks
-                // Lets get to work!
-            }
-        }
-        if (_timeCount >= TableTracker.Count)
-        {
-            DisplayDayList.DayList.Remove(Time);
-            // Nu zou het moeten werken God willing
-            // Ik krijg een exception? Het werkt half dus
-        }
-        MakeZero();
-        }
-    }
-
-    public static void IncrementCount()
-    {
-        _timeCount++;
-    }
-
-    public static void MakeZero()
-    {
-        _timeCount = 0;
-    }
-}   
-
+}
