@@ -26,6 +26,71 @@ public class ReservationLogic
     //  en deze lijst sturen we op een of andere manier naar json
     //  We roepen een method vanuit ReservationDataAccess (de write to json method)
 
+    // Oke guys hier komt een method die een lijst maakt met volgeboekte datums zodat de gast weet welke dat zijn 
+
+    public static List<string> VolGeboekteDatums()
+    {
+        // Voor reservation in reservations
+        List<string> VolGeboekteDatums = new (){};
+        string Datum;
+        foreach (ReservationDataModel reservation in _reservation)
+        {
+            Datum = reservation.Date;
+            if (ReservedTable.GetTimes(Datum).Count == 0)
+            {
+                if(!VolGeboekteDatums.Contains(Datum))
+                {
+                VolGeboekteDatums.Add(Datum);
+                }
+            }
+        }
+        return VolGeboekteDatums;
+    }
+
+    public static List<string> GeboekteDatums()
+    {
+        List<string> FullyBookedDates = VolGeboekteDatums();
+        List<string> Datums = new(){};
+        List<string> Times = new(){
+            "10:00", "17:00", "22:00"
+        };
+        List<string> Booked = new(){};
+        foreach(ReservationDataModel reservation in _reservation)
+        {
+            if (!Datums.Contains(reservation.Date))
+            {
+                Datums.Add(reservation.Date);
+            }
+        }
+        foreach(string Datum in Datums)
+        {
+            foreach(string Time in Times)
+            {
+                int TableCount = 16;
+            foreach(ReservationDataModel reservation in _reservation)
+            {
+                if (reservation.Date == Datum && reservation.Time == Time)
+                {
+                    TableCount -= reservation.Tables.Count;
+                }
+            }
+            if (TableCount > 1 && TableCount != 0 && TableCount != 16)
+            {
+            Booked.Add($"{Datum}, {Time} ({TableCount} tables left)");
+            }
+            else if (TableCount == 1)
+            {
+            Booked.Add($"{Datum}, {Time} ({TableCount} table left)");
+            }
+            else if (TableCount == 0 && !FullyBookedDates.Contains(Datum))
+            {
+                Booked.Add($"{Datum}, {Time} (fully booked)");
+            }
+            }
+        }
+        return Booked;
+    }
+
     public static void PrintAllReservations()
     {
         // See all reservations
