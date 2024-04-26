@@ -68,8 +68,13 @@ class CheckReservationInfo
 
     // check of emailadres een '@' en '.' bevat
     // ook nog met yahoo, gmail, hotmail etc etc dat moet ook nog containen
-    public static bool CheckEmailAddress(string EmailAddress)
+    public static bool CheckEmail(string EmailAddress)
     {
+        if (string.IsNullOrEmpty(EmailAddress))
+        {
+            System.Console.WriteLine("*Please fill something in.");
+            return false;
+        }
         string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|hr|nl|be|en)$";
         if (Regex.IsMatch(EmailAddress, regex, RegexOptions.IgnoreCase))
         {
@@ -82,132 +87,88 @@ class CheckReservationInfo
             return false;
         }
     }
-    public static bool CheckChosenYear(string ChosenYear)
+
+
+public static bool CheckDate(string date)
     {
-        if (string.IsNullOrEmpty(Convert.ToString(ChosenYear)))
+        if (string.IsNullOrEmpty(date))
         {
-            System.Console.WriteLine("*You must fill something in.");
+            System.Console.WriteLine("*Please fill something in.");
             return false;
         }
-        try{
-            Convert.ToInt32(ChosenYear);
+        foreach (char c in date)
+        {
+            if (!char.IsDigit(c) && c != '-')
+            {
+                Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy.");
+                return false;
+            }
+        }
+
+        // Attempt to parse the date string into a DateTime object
+        if (DateTime.TryParseExact(date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
+        {
+            // Check if the parsed date is in the past
+            if (parsedDate.Date < DateTime.Today)
+            {
+                Console.WriteLine("Please provide a future date.");
+                return false;
+            }
+            // Date is valid
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy.");
+            return false;
+        }
+    }
+
+    public static bool CheckTimeSlot(string answer, List<string> TimeSlots)
+    {
+        if (string.IsNullOrEmpty(answer))
+        {
+            System.Console.WriteLine("*Please fill a number in.");
+            return false;
+        }
+        try
+        {
+            Convert.ToInt32(answer);
         }
         catch (Exception)
         {
-            System.Console.WriteLine("*This is not a year. Please enter a valid year.");
+            System.Console.WriteLine($"*'{answer}' is an invalid number. Please fill a valid number in");
             return false;
         }
-        if (Convert.ToInt32(ChosenYear) < DateTime.Now.Year)
+        if (Convert.ToInt32(answer) > TimeSlots.Count)
         {
-            System.Console.WriteLine("*This is not a valid year. Please enter a valid year.");
+            System.Console.WriteLine($"*Number should be below {TimeSlots.Count}");
+            return false;
+        }
+        else if (Convert.ToInt32(answer) < 0)
+        {
+            System.Console.WriteLine("*Only enter positive numbers please.");
             return false;
         }
         return true;
     }
 
-
-
-// Check ook of de maand nog niet voorbij is he
-    public static bool CheckChosenMonth(string ChosenMonth, int ChosenYear)
+    public static bool CheckGuests(string Guests) // Later komt nog nakijken op max amount of Guests yk
     {
-        if (string.IsNullOrEmpty(ChosenMonth))
+        if (string.IsNullOrEmpty(Guests))
         {
-            System.Console.WriteLine("*You must fill something in.");
+            System.Console.WriteLine("You must fill something in.");
             return false;
         }
-        try{
-            Convert.ToInt32(ChosenMonth);
-        }
-        catch (Exception){
-            System.Console.WriteLine($"*'{ChosenMonth}' is not a valid number.");
-            return false;
-        }
-        if (Convert.ToInt32(ChosenMonth) < DateTime.Now.Month && DateTime.Now.Year == ChosenYear)
+        try
         {
-            System.Console.WriteLine("*This month comes before the current month.");
-            return false;
+            Convert.ToInt32(Guests);
         }
-        else if (Convert.ToInt32(ChosenMonth) < 1)
+        catch (Exception)
         {
-            System.Console.WriteLine("*Please enter a number between 1 and 12");
+            System.Console.WriteLine($"'{Guests}' is an invalid number.");
             return false;
         }
-        else if (Convert.ToInt32(ChosenMonth) > 12)
-        {
-            System.Console.WriteLine("*Please enter a number between 1 and 12");
-            return false;
-        }
-        else if (DisplayMonthList.GiveListBasedOnMonth(Convert.ToInt32(ChosenMonth), ChosenYear).Count == 0)
-        {
-            System.Console.WriteLine("This month is unfortunately full. Please choose another Month");
-            return false;
-        }
-        return true;   
+        return true;
     }
-    public static bool CheckChosenDay(string ChosenDay, int ChosenMonth, int ChosenYear)
-    {
-        // if (Convert.ToInt32(ChosenDay) <= 0)
-        // {
-        //    Console.WriteLine("*choose a day/number above 0."); 
-        //    return false;
-        // }
-        if (string.IsNullOrEmpty(ChosenDay))
-        {
-            System.Console.WriteLine("*You must fill something in.");
-            return false;
-        }
-            // dit gaat later according to month
-            // zegmaar februari 28, andere maanden 30, andere maanden tot 31 als je het snapt
-            try{
-                Convert.ToInt32(ChosenDay);
-            }
-            catch (Exception){
-                System.Console.WriteLine($"*'{ChosenDay}' is not a valid number.");
-                return false;
-            }
-            if (Convert.ToInt32(ChosenDay) < DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear)[0])
-            {
-                System.Console.WriteLine("*That is not a valid number.");
-                return false;
-            }
-            else if (Convert.ToInt32(ChosenDay) > DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear)[DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear).Count - 1])
-            {
-                System.Console.WriteLine("*That is not a valid number.");
-                return false;
-            }
-            else if (!DisplayMonthList.GiveListBasedOnMonth(ChosenMonth, ChosenYear).Contains(Convert.ToInt32(ChosenDay)))
-            {
-                System.Console.WriteLine("This day is unfortunately fully booked. Choose another day.");
-                return false;
-            }
-            return true; 
-        }
-
-        public static bool CheckGuests(string Guests)
-        {
-            try{
-                Convert.ToInt32(Guests);
-            }
-            catch(Exception)
-            {
-                System.Console.WriteLine("*You must only type in numbers");
-                return false;
-            }
-            if (Convert.ToInt32(Guests) <= 0)
-            {
-                System.Console.WriteLine("*Atleast one guest is a must to make a reservation.");
-                return false;
-            }
-            return true;
-        }
-        public static bool CheckTime(string Time){
-            foreach(string time in DisplayDayList.DayList)
-            {
-                if (time == Time){
-                    return true;
-                }
-            }
-            System.Console.WriteLine("Invalid choice of time. Choose another time for your reservation.");
-            return false;
-        }
 }
