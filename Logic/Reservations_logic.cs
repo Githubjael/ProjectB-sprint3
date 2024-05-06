@@ -38,7 +38,7 @@ public class ReservationLogic
             Datum = reservation.Date;
             if (ReservedTable.GetTimes(Datum).Count == 0)
             {
-                if(!VolGeboekteDatums.Contains(Datum))
+                if(!VolGeboekteDatums.Contains(Datum) && DateTime.Parse(Datum) > DateTime.Now)
                 {
                 VolGeboekteDatums.Add(Datum);
                 }
@@ -57,7 +57,7 @@ public class ReservationLogic
         List<string> Booked = new(){};
         foreach(ReservationDataModel reservation in _reservation)
         {
-            if (!Datums.Contains(reservation.Date))
+            if (!Datums.Contains(reservation.Date) && DateTime.Parse(reservation.Date) > DateTime.Now)
             {
                 Datums.Add(reservation.Date);
             }
@@ -155,12 +155,14 @@ public class ReservationLogic
 
             if (DateTime.TryParse(reservationToRemove.Date + " " + reservationToRemove.Time, out reservationDateTime))
             {
+                if(!Home.ManagerLoggedIn){
                 // ik controleer hoelang er nog voor de reservatie is/ dus of er nog minder dan 2 uur is / want dan is het annuleren niet meer mogelijk !
                 if ((reservationDateTime - now).TotalHours < 2)
                 {
                     Console.WriteLine("Sorry, you can't cancel the reservation as it's less than 2 hours before/Past the reservation time. ");
                     return;
                 }
+            }
 
                 // de rrservatie wordt geanulleerd 
                 _reservation.Remove(reservationToRemove);
