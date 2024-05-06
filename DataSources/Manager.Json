@@ -1,1 +1,10 @@
-
+[
+    {
+        "FirstName" : "Jane",
+        "LastName" : "Doe",
+        "EmailAddress" : "JaneDoe@gmail.com",
+        "PhoneNumber" : "0611223344",
+        "Password" : "JaneDoe123",
+        "EmployeeCode" : "AppelTaart"
+    }
+]
