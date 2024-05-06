@@ -1,7 +1,7 @@
-public static class Reviews
+public class Reviews
 {
     private static string _name = "Reviews";
-    public static List<Review> reviews = new List<Review>();
+    public static List<Review> _reviews = PutInList();	
     public static string Name => _name;
 
 
@@ -13,13 +13,77 @@ public static class Reviews
 
     private static void LoadReviews()
     {
-        reviews = ReviewAccess.ReadFromJson();
+        _reviews = ReviewAccess.ReadFromJson();
+    }
+
+    private static List<Review> PutInList()
+    {
+        _reviews = ReviewAccess.ReadFromJson();
+        return _reviews;
     }
 
 
     private static void SaveReviews()
     {
-        ReviewAccess.WriteToJson(reviews);
+        ReviewAccess.WriteToJson(_reviews);
+    }
+
+    public static string AverageRating()
+    {
+        string AverageReview = new string("");
+        double AverageRating = 0;
+       foreach(Review review in _reviews)
+       {
+        int Count = 0;
+        foreach( char star in review.Rating)
+        {
+            Count++;
+        }
+        AverageRating += Count;
+       }
+       try{
+        AverageRating = AverageRating / _reviews.Count;
+       }
+       catch(Exception)
+       {
+        AverageRating = 0;
+       }
+       if ( AverageRating > 0)
+       {
+        for (int i = 1; i <= (int)Math.Ceiling(AverageRating); i++)
+        {
+            AverageReview += new string("★");
+        }
+       }
+        if (AverageRating != 5)
+        {
+        for (int j = (int)Math.Ceiling(AverageRating) + 1; j <= 5; j++)
+        {
+            AverageReview += new string("☆");
+        }
+        }
+        return $"{AverageReview} {Math.Round(AverageRating, 1)}";
+    }
+
+    public static void Remove(int reviewID)
+    {
+        int ID = 0;
+        for(int i = 0; i < _reviews.Count; i++)
+        {
+            if (_reviews[i].ID == reviewID)
+            {
+                _reviews.RemoveAt(i);
+            }
+        }
+        SaveReviews();
+        LoadReviews();
+    }
+
+    public static void RemoveAll()
+    {
+        _reviews.Clear();
+        SaveReviews();
+        LoadReviews();
     }
 
     public static void Options()
@@ -54,39 +118,42 @@ public static class Reviews
 
                     Console.WriteLine("Leave your comments (Optional):");
                     string comments = Console.ReadLine();
-
                     string stars = new string('★', rating); 
+                    int ID = 0;
+                    if (_reviews == null || _reviews.Count == 0)
+                    {
+                        _reviews = new List<Review>();
+                        ID = 1;
+                    }
+                    else
+                    {
+                        ID = _reviews[_reviews.Count - 1].ID + 1;
+                    }
 
-                    Review newReview = new Review(guestName, stars, comments);
+                    Review newReview = new Review(ID, guestName, stars, comments);
 
                     if (newReview != null)
                     {
-                        reviews.Add(newReview);
-                        SaveReviews(); 
+                        _reviews.Add(newReview);
+                        SaveReviews();
+                        LoadReviews();
                         Console.WriteLine("\nThank you for your review!"); 
                     }
-                    Options();
-                    return;
+                    Reviews.Options();
+                    break;
 
                 case "S":
                     // View reviews
-                    if (reviews == null || reviews.Count == 0)
+                    if (_reviews == null || _reviews.Count == 0)
                     {
                         Console.WriteLine("No reviews available.");
                     }
                     else
                     {
-                        Console.WriteLine("Reviews:\n");
-                        foreach (var review in reviews)
-                        {
-                            if (review != null)
-                            {
-                                Console.WriteLine($"Guest: {review.GuestName}\nRating: {review.Rating}\nComments: {review.Comments}\n\n");
-                            }
-                        }
+                        ReviewLogic.SeeAllReviews();
+                        Reviews.Options();
                     }
-                    Options();
-                    return;
+                    break;
 
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
@@ -95,4 +162,5 @@ public static class Reviews
         }
     }
 }
+
 
