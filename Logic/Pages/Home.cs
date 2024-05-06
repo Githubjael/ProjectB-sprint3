@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 public static class Home
 {
     public static bool IsLoggedIn { get; private set; }
+    public static bool ManagerLoggedIn {get; private set;}
     private static string _name = "Home";
     private static List<Guest> Users = new List<Guest>();
     public static string guestName { get; private set; }
@@ -19,8 +20,21 @@ public static class Home
 
     public static void Options()
     {
+        // Console.Clear();
         //restaurant info print here (make into json)
-        if (IsLoggedIn)
+        Manager manager = ManagerAccess.ReadFromJson()[0];
+        System.Console.WriteLine();
+        System.Console.WriteLine(new string("𓌉◯ 𓇋 Jake's Restaurant 𓌉◯ 𓇋"));
+        string streep = "";
+        string shortIntro = $"{Reviews.AverageRating()} - €{Menu.MaxPrice()} and lower - 10:00-22:00";
+        foreach(char x in shortIntro)
+        {
+            streep += "-";
+        }
+        System.Console.WriteLine(streep);
+        System.Console.WriteLine(shortIntro);
+        System.Console.WriteLine(streep);
+        if (IsLoggedIn || ManagerLoggedIn)
         {
             System.Console.WriteLine($"Welkom back, {guestName}!");
         }
@@ -28,9 +42,10 @@ public static class Home
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
         Console.WriteLine("[C]: Contact");
-        Console.WriteLine("[S]: Sign up");
+        if (!IsLoggedIn && !ManagerLoggedIn){
         Console.WriteLine("[L]: Log in");
-        Console.WriteLine("[LO]: Log out");
+        Console.WriteLine("[S]: Sign up");
+        }
 
         while (true)
         {
@@ -39,25 +54,43 @@ public static class Home
             switch (UserChoice)
             {
                 case "L":
+                    // Console.Clear();
                     LogIn();
                     break;
                 case "S":
+                    // Console.Clear();
                     SignUp();
                     break;
                 case "M":
+                    // Console.Clear();
                     Menu.Options();
                     return;
                 case "R":
+                    if (ManagerLoggedIn)
+                    {
+                    // Console.Clear();
+                    manager.ReservationOptions();
+                    }
+                    else{
+                    // Console.Clear();
                     Reservation.Options();
+                    }
                     return;
                 case "RV":
-                    Reviews.Options();
+                if (ManagerLoggedIn)
+                    {
+                    // Console.Clear();
+                    manager.ReviewOptions();
+                    }
+                    else
+                    {
+                        // Console.Clear();
+                        Reviews.Options();
+                    }
                     return;
                 case "C":
+                    // Console.Clear();
                     Contact.Options();
-                    return;
-                case "LO":
-                    LogOut();
                     return;
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
@@ -65,6 +98,7 @@ public static class Home
             }
         }
     }
+
     public static void SignUp()
     {
         string firstName;
@@ -122,37 +156,10 @@ public static class Home
     }
 
 
-    public static void LogOut()
-    {
-        string choice;
-        while (IsLoggedIn)
-        {
-            Console.WriteLine("Do you want to log uit? (y/n)");
-            choice = Console.ReadLine().ToLower();
-            if (choice == "y")
-            {
-                IsLoggedIn = false;
-                Console.WriteLine("You are now logged out !\n\n");
-                Options();
-            }
-            else if (choice == "n")
-            {
-                IsLoggedIn = true;
-                Options();
-            }
-            else
-            {
-                IsLoggedIn = true;
-                Options();
-            }
-        }
-    }
-
-
     public static void LogIn()
     {
         // Log in als manager of log in als guest bla bla bla
-        while (!IsLoggedIn)
+        while (!IsLoggedIn || !ManagerLoggedIn)
         {
             Console.WriteLine("Email address:");
             string email = Console.ReadLine();
@@ -161,24 +168,34 @@ public static class Home
             string password = Console.ReadLine();
 
             var user = UsersAccess.GetUser(email);
+            Manager manager = ManagerAccess.ReadFromJson()[0];
             if (user != null && user.Password == password)
             {
                 Console.WriteLine("Logged in successfully!");
                 IsLoggedIn = true;
                 guestEmail = user.EmailAddress;
                 guestName = user.FirstName;
+                ManagerLoggedIn = false;
                 Console.WriteLine();
                 Console.WriteLine();
                 Options(); 
+            }
+            else if (user == null && manager.EmailAddress == email && manager.Password == password)
+            {
+                System.Console.WriteLine("Manager code:");
+                string ManagerCode = Console.ReadLine();
+                if (ManagerCode == manager.EmployeeCode)
+                {
+                    System.Console.WriteLine($"Welcome back, {manager.FirstName}");
+                    ManagerLoggedIn = true;
+                    IsLoggedIn = false;
+                    Options();
+                }
             }
             else
             {
                 Console.WriteLine("Invalid email or password. Please try again.");
             }
     }
-
-    }
-}
-
     }
 }
