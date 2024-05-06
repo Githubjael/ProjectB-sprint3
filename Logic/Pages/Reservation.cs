@@ -58,6 +58,8 @@ class Reservation : Page
 
     public static void MakeReservation()
     {
+        ReservationDataAccess.ReadFromJson();
+        Console.Clear();
         if(Home.IsLoggedIn)
         {
             System.Console.WriteLine($"Hi {Home.guestName}! please provide us with the following details:");
@@ -72,6 +74,7 @@ class Reservation : Page
             string LastName = AskLastName();
             string Email = AskEmailAddress();
             string PhoneNumber = AskPhoneNumber();
+            Console.Clear();
             List<string> BookedDates = ReservationLogic.VolGeboekteDatums();
             DateTime Date = AskDate(BookedDates);
             string TimeSlot = AskTimeSlot(Date);
@@ -80,6 +83,7 @@ class Reservation : Page
             if (Guests > 6)
             {
                 Tables =  ReservedTable.AssignTables(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
+                Console.Clear();
             }
             else{
                 Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
@@ -98,7 +102,6 @@ class Reservation : Page
             {
                 System.Console.WriteLine(table.ID);
             }
-
             }
         }
         else
@@ -116,6 +119,7 @@ class Reservation : Page
             else{
                 Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             }
+            Console.Clear();
             int GuestID = GenerateRandomGuestID();
             ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables);
             ReservationLogic.AddReservationToList(Reservation);
@@ -181,7 +185,9 @@ class Reservation : Page
         string date;
         List<string> BookedDatesNotFull = ReservationLogic.GeboekteDatums();
         System.Console.WriteLine();
+        if (!(BookedDatesNotFull.Count == 0 && BookedDates.Count == 0)){
         System.Console.WriteLine("Please note that availability is limited on the following dates; apologies for any inconvenience.");
+        }
         foreach(string BookedDate in BookedDates)
         {
             System.Console.WriteLine($"- {BookedDate} (fully booked)");
@@ -240,15 +246,15 @@ class Reservation : Page
             System.Console.WriteLine("Our restaurant serves a maximum of 52 guests at a timeslot");
             // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
             // Dat ga ik wat later doen btw
-            System.Console.WriteLine("Right now we have x tables available and therefore place for y guests at {chosen timeslot}.");
             // Vraag user of hij datum of tijd wilt veranderen...
             System.Console.WriteLine("How many guests are coming including yourself?");
             Guests = Console.ReadLine();
-        } while(!CheckReservationInfo.CheckGuests(Guests));
+        } while(!CheckReservationInfo.CheckGuests(Guests) && Convert.ToInt32(Guests) > 52);
         return Convert.ToInt32(Guests);
     }
     public static void CancelReservation(int guestID)
     {
+        Console.Clear();
         ReservationLogic.CancelReservation(guestID); 
     }
 }
