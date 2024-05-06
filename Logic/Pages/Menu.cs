@@ -10,7 +10,22 @@ public static class Menu
 
     private static string WayToSort = "Category";
 
-
+    public static string MaxPrice()
+    {
+        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
+        using StreamReader reader = new(filePath);
+        var json = reader.ReadToEnd();
+        List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(json);
+        double MaxPrice = 0;
+        foreach(MenuItem item in Menu)
+        {
+            if(item.Price > MaxPrice)
+            {
+                MaxPrice = item.Price;
+            }
+        }
+        return $"{MaxPrice}";
+    }
 
     public static void AddItem()
     {
@@ -69,7 +84,7 @@ public static class Menu
         MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
 
         // Read existing JSON data from the file
-        string filePath = @"..\..\..\DataSources\Menu.json";
+        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
         string jsonData = File.ReadAllText(filePath);
 
         // Deserialize existing JSON data to a list of MenuItem objects
@@ -97,7 +112,7 @@ public static class Menu
     {
         Console.WriteLine("What's the name of the item you want to remove?");
         string itemName = Console.ReadLine();
-        string filePath = @"..\..\..\DataSources\Menu.json";
+        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -144,7 +159,7 @@ public static class Menu
 
     public static void DisplayMenu(string HowToSort)
     {
-        string filePath = @"..\..\..\DataSources\Menu.json";
+        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
 
         // Read all lines from the file
         string jsonString = File.ReadAllText(filePath);
@@ -196,8 +211,10 @@ public static class Menu
         Console.WriteLine("[H]: Home");
         Console.WriteLine("[S]: Sort the menu");
         Console.WriteLine("[V]: View a specific category");
-        Console.WriteLine("[A]: Add item (Make it so only manager can see it)");
-        Console.WriteLine("[R]: Remove item (Make it so only manager can see it)");
+        if (Home.ManagerLoggedIn){
+        Console.WriteLine("[A]: Add item");
+        Console.WriteLine("[R]: Remove item");
+        }
 
         string userChoice = Console.ReadLine().ToUpper();
 
@@ -265,7 +282,7 @@ public static class Menu
 
     public static void DisplayCategories()
     {
-        string filePath = @"..\..\..\DataSources\Menu.json";
+        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
         string jsonString = File.ReadAllText(filePath);
         JArray menuArray = JArray.Parse(jsonString);
 
