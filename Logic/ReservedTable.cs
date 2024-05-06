@@ -59,11 +59,16 @@ static class ReservedTable
    public static List<string> GetTimes(string Date)
 {
     List<string> Times = new List<string> { "10:00", "17:00", "22:00" };
+    // Als timelist verandered kunnen we het gewoon sturen als parameter
 
     for (int i = Times.Count - 1; i >= 0; i--)
     {
         Reset();
         if (CheckAvailableTables(Date, Times[i]) >= TableTracker.Count)
+        {
+            Times.RemoveAt(i);
+        }
+        else if (DateTime.Parse($"{Date} {Times[i]}") < DateTime.Now)
         {
             Times.RemoveAt(i);
         }
