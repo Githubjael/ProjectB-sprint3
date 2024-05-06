@@ -89,9 +89,9 @@ class CheckReservationInfo
     }
 
 
-public static bool CheckDate(string date, List<string> BookedDates)
+public static bool CheckDate(string date, List<string> FullyBookedDates)
     {
-        if (BookedDates.Contains(date))
+        if (FullyBookedDates.Contains(date))
         {
             System.Console.WriteLine("The date you're interested in is fully booked.");
             return false;
@@ -113,8 +113,21 @@ public static bool CheckDate(string date, List<string> BookedDates)
         // Attempt to parse the date string into a DateTime object
         if (DateTime.TryParseExact(date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
         {
+        if (string.IsNullOrEmpty(date))
+        {
+            System.Console.WriteLine("*Please fill something in.");
+            return false;
+        }
+        foreach (char c in date)
+        {
+            if (!char.IsDigit(c) && c != '-')
+            {
+                Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy.");
+                return false;
+            }
+        }
             // Check if the parsed date is in the past
-            if (parsedDate.Date < DateTime.Today)
+            if (parsedDate.Date < DateTime.Today || ReservedTable.GetTimes(date).Count == 0)
             {
                 Console.WriteLine("Please provide a future date.");
                 return false;
@@ -128,6 +141,44 @@ public static bool CheckDate(string date, List<string> BookedDates)
             return false;
         }
     }
+
+    public static bool CheckOtherDates(string Date)
+    {
+        if (string.IsNullOrEmpty(Date))
+        {
+            System.Console.WriteLine("*Please fill something in.");
+            return false;
+        }
+        foreach (char c in Date)
+        {
+            if (!char.IsDigit(c) && c != '-')
+            {
+                Console.WriteLine("Invalid characters detected. Please provide the Date in the format: dd-MM-yyyy.");
+                return false;
+            }
+        }
+
+        // Attempt to parse the Date string into a DateTime object
+        if (DateTime.TryParseExact(Date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
+        {
+        foreach (char c in Date)
+        {
+            if (!char.IsDigit(c) && c != '-')
+            {
+                Console.WriteLine("Invalid characters detected. Please provide the Date in the format: dd-MM-yyyy.");
+                return false;
+            }
+        }
+            // Date is valid
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy.");
+            return false;
+        }
+    }
+
 
     public static bool CheckTimeSlot(string answer, List<string> TimeSlots)
     {
