@@ -1,4 +1,4 @@
-public class Table
+public abstract class Table
 {
     // zeker nodig
     public string ID { get; set; }
@@ -12,13 +12,6 @@ public class Table
         ID = $"{id}";
         Reserved = false;
     }
-    // als we een tafel moeten maken dat al reserved is? niet zeker
-    public void IsReserved()
-    {
-        Reserved = true;
-    }
-    public void Cancelled()
-    {
-        Reserved = false;
-    }
+    public abstract void IsReserved();
+    public abstract void Cancelled();
 }
