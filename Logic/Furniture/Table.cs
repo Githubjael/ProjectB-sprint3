@@ -3,7 +3,7 @@ public class Table
     // zeker nodig
     public string ID { get; set; }
     public bool Reserved { get; set; }
-    public virtual int Type { get; set; }
+    public int Type { get; set; }
     // niet zeker
     // public int AmountOfChairs { get; set; }
     // gewone constructor
@@ -13,7 +13,7 @@ public class Table
         Reserved = false;
     }
     // als we een tafel moeten maken dat al reserved is? niet zeker
-        public void IsReserved()
+    public void IsReserved()
     {
         Reserved = true;
     }
