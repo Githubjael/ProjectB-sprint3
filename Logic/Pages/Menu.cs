@@ -10,9 +10,10 @@ public static class Menu
 
     private static string WayToSort = "Category";
 
+    private static string filePath = @"..\..\..\DataSources\Menu.json";
+
     public static string MaxPrice()
     {
-        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
         using StreamReader reader = new(filePath);
         var json = reader.ReadToEnd();
         List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(json);
@@ -32,11 +33,30 @@ public static class Menu
         // Catch bad input, make item name at least 2 characters
         Console.WriteLine("What's the name of the item?");
         string itemName = Console.ReadLine();
+        bool ifInJsonFile = false;
+            // Deserialize existing JSON data to a list of MenuItem objects
+        List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
+
+        // Check if menuItems is null after deserialization
+        if (menuItems == null)
+        {
+            // If it's null, initialize it with an empty list
+            menuItems = new List<MenuItem>();
+        }
+
+        // Check if the item name already exists
+        if (menuItems.Any(item => item.Name.ToLower() == itemName.ToLower()))
+        {
+            Console.WriteLine("Item with the same name already exists. Please choose a different name.");
+            AddItem(); // Restart the method to prompt for a new item
+            return;
+        }
         while (itemName.Length < 2)
         {
             Console.WriteLine("Name must be at least 2 characters long. Please try again:");
             itemName = Console.ReadLine();
         }
+
 
         // Catch bad input, make sure price is a (positive) number
         double itemPrice = 0.0;
@@ -84,11 +104,7 @@ public static class Menu
         MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
 
         // Read existing JSON data from the file
-        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
         string jsonData = File.ReadAllText(filePath);
-
-        // Deserialize existing JSON data to a list of MenuItem objects
-        List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(jsonData);
 
         // Check if menuItems is null after deserialization
         if (menuItems == null)
@@ -112,7 +128,6 @@ public static class Menu
     {
         Console.WriteLine("What's the name of the item you want to remove?");
         string itemName = Console.ReadLine();
-        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -159,8 +174,6 @@ public static class Menu
 
     public static void DisplayMenu(string HowToSort)
     {
-        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
-
         // Read all lines from the file
         string jsonString = File.ReadAllText(filePath);
 
@@ -282,7 +295,6 @@ public static class Menu
 
     public static void DisplayCategories()
     {
-        string filePath = @"C:\Users\User\Desktop\Project B\DataSources\Menu.Json";
         string jsonString = File.ReadAllText(filePath);
         JArray menuArray = JArray.Parse(jsonString);
 
