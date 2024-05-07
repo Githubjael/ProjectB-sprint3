@@ -42,9 +42,12 @@ public static class Home
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
         Console.WriteLine("[C]: Contact");
+        Console.WriteLine("[LO]: Log Out");
+
         if (!IsLoggedIn && !ManagerLoggedIn){
         Console.WriteLine("[L]: Log in");
         Console.WriteLine("[S]: Sign up");
+
         }
 
         while (true)
@@ -60,6 +63,9 @@ public static class Home
                 case "S":
                     // Console.Clear();
                     SignUp();
+                    break;
+                case "LO":
+                    LogOut();
                     break;
                 case "M":
                     // Console.Clear();
@@ -198,4 +204,27 @@ public static class Home
             }
     }
     }
+
+    public static void LogOut()
+    {
+        if (IsLoggedIn)
+        {
+
+            Console.WriteLine($"Logging out {guestName}...");
+            IsLoggedIn = false;
+            guestName = null;
+            guestEmail = null;
+        }
+        else if (ManagerLoggedIn)
+        {
+            Console.WriteLine("Logging out manager...");
+            ManagerLoggedIn = false;
+        }
+        else
+        {
+            Console.WriteLine("No user logged in.");
+        }
+        Options();
+    }  
+
 }
