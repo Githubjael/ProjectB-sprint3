@@ -32,9 +32,9 @@ public static class Menu
     {
         // Catch bad input, make item name at least 2 characters
         Console.WriteLine("What's the name of the item?");
-        string itemName = Console.ReadLine();
+        string itemName = Console.ReadLine().Trim();
         bool ifInJsonFile = false;
-            // Deserialize existing JSON data to a list of MenuItem objects
+        // Deserialize existing JSON data to a list of MenuItem objects
         List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
 
         // Check if menuItems is null after deserialization
@@ -65,7 +65,7 @@ public static class Menu
         {
             try
             {
-                Console.WriteLine("What's the price of the item? (Use a comma!)");
+                Console.WriteLine("What's the price of the item? (For example: '5,00')");
                 string itemPrice2 = Console.ReadLine();
                 if (itemPrice2.Contains("."))
                 {
