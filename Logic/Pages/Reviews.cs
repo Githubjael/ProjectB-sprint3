@@ -30,6 +30,8 @@ public class Reviews
 
     public static string AverageRating()
     {
+        if (_reviews.Count == 0 || _reviews == null)
+            return "☆☆☆☆☆ 0";
         string AverageReview = new string("");
         double AverageRating = 0;
        foreach(Review review in _reviews)
