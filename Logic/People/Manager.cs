@@ -14,11 +14,11 @@ class Manager : Person, IEmployee
 // [2] Change the menu
 // [3] See all reservations
 
-    public void ChangeRestaurantInfo(RestaurantInfo Info, string adres, string email, string phoneNumber){
-        Info.Adress = adres;
-        Info.Email = email;
-        Info.Phone_number = phoneNumber;
-    }
+    // public void ChangeRestaurantInfo(RestaurantInfo Info, string adres, string email, string phoneNumber){
+    //     Info.Adress = adres;
+    //     Info.Email = email;
+    //     Info.Phone_number = phoneNumber;
+    // }
 
     public void ReservationOptions()
     {
