@@ -24,7 +24,9 @@ static class HomeOptions
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
         Console.WriteLine("[C]: Contact");
-        Console.WriteLine("[LO]: Log Out");
+        if (Home.IsLoggedIn && Home.ManagerLoggedIn){
+            Console.WriteLine("[LO]: Log Out");
+        }
 
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
         Console.WriteLine("[L]: Log in");
