@@ -19,8 +19,13 @@ static class ReservationMenu
                 case "CR":
                     // Cancel reservation
                     System.Console.WriteLine("Enter your guest ID"); // voorbeeld guestID deze wordt normaal ingevoerd in program maar dat zien we later wel
+                    try{
                     int guestID = Convert.ToInt32(Console.ReadLine());
                     ReservationLogic.CancelReservation(guestID);
+                    }
+                    catch (Exception ex){
+                        System.Console.WriteLine("Please enter a valid number");
+                    }
                     Options();
                     return;
                 case "H":
