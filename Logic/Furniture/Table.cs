@@ -1,4 +1,4 @@
-public abstract class Table
+public class Table
 {
     // zeker nodig
     public string ID { get; set; }
@@ -12,6 +12,12 @@ public abstract class Table
         ID = $"{id}";
         Reserved = false;
     }
-    public abstract void IsReserved();
-    public abstract void Cancelled();
+    public void IsReserved()
+    {
+        Reserved = true;
+    }
+    public void Cancelled()
+    {
+        Reserved = false;
+    }
 }
