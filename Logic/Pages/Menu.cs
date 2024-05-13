@@ -65,7 +65,7 @@ public static class Menu
         {
             try
             {
-                Console.WriteLine("What's the price of the item? (For example: '5,00')");
+                Console.WriteLine("What's the price of the item? (For example: 5,00)");
                 string itemPrice2 = Console.ReadLine();
                 if (itemPrice2.Contains("."))
                 {
@@ -243,12 +243,22 @@ public static class Menu
                 Home.Options();
                 break;
             case "A":
-                AddItem();
-                Home.Options();
+                if(Home.ManagerLoggedIn){
+                    AddItem();
+                }
+                else{
+                    Console.WriteLine("Invalid input. Please try again."); 
+                }
+                Options();
                 break;
             case "R":
-                RemoveItem();
-                Home.Options();
+                if(Home.ManagerLoggedIn){
+                    RemoveItem();
+                }
+                else{
+                    Console.WriteLine("Invalid input. Please try again.");
+                }
+                Options();
                 break;
             default:
                 Console.WriteLine("Invalid input. Please try again.");
