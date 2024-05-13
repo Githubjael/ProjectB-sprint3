@@ -1,4 +1,4 @@
-class Guest : Person
+public class Guest : Person
 {
     private bool PassWordIsSet = false;
     private string _passWord;
