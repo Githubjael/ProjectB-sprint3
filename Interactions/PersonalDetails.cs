@@ -102,15 +102,29 @@ static class PersonalDetails
     public static int AskAmountOfGuests()
     {
         string Guests;
+        int GuestsInt;
         do
         {
             System.Console.WriteLine("Our restaurant serves a maximum of 52 guests at a timeslot");
-            // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
-            // Dat ga ik wat later doen btw
-            // Vraag user of hij datum of tijd wilt veranderen...
+                // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
+                // Dat ga ik wat later doen btw
+                // Vraag user of hij datum of tijd wilt veranderen...
             System.Console.WriteLine("How many guests are coming including yourself?");
             Guests = Console.ReadLine();
-        } while(!CheckReservationInfo.CheckGuests(Guests) && Convert.ToInt32(Guests) > 52);
-        return Convert.ToInt32(Guests);
+            if (!int.TryParse(Guests, out GuestsInt))
+            {
+                System.Console.WriteLine("Please enter a valid number.");
+                continue; // Prompt user again
+            }
+
+            if (GuestsInt > 52)
+            {
+                System.Console.WriteLine("Sorry, our restaurant can accommodate a maximum of 52 guests at a timeslot.");
+                continue; // Prompt user again
+            }
+
+        } while (!CheckReservationInfo.CheckGuests(Guests)); // Loop until the input is valid
+
+        return GuestsInt;
     }
 }
