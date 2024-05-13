@@ -1,13 +1,6 @@
-public static class RestaurantInfo{
-    public  static string Adress{get; set;}
-    public  static string Email{get; set;}
-    public static string Phone_number{get; set;}
-
-    // public RestaurantInfo(string adress, string email, string phone_number)
-    // {
-    //     this.Adress = adress;
-    //     this.Email = email;
-    //     this.Phone_number = phone_number;
-    // }
+public class RestaurantInfo{
+    public static string Adress{get; set;} = "Wijnhaven 30";
+    public static string Email{get; set;} = "JakesRestaurant@gmail.com";
+    public static string PhoneNumber{get; set;} = "06 112 233 44";
 
 }
