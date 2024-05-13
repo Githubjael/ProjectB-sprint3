@@ -24,7 +24,7 @@ static class HomeOptions
         Console.WriteLine("[R]: Reservation");
         Console.WriteLine("[RV]: Review");
         Console.WriteLine("[C]: Contact");
-        if (Home.IsLoggedIn && Home.ManagerLoggedIn){
+        if (Home.IsLoggedIn || Home.ManagerLoggedIn){
             Console.WriteLine("[LO]: Log Out");
         }
 
@@ -41,15 +41,30 @@ static class HomeOptions
             switch (UserChoice)
             {
                 case "L":
+                    if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
-                    Home.LogIn();
+                        Home.LogIn();
+                    }
+                    else{
+                        Console.WriteLine("Invalid input. Please try again.");
+                    }
                     break;
                 case "S":
+                    if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
-                    Home.SignUp();
+                        Home.SignUp();
+                    }
+                    else{
+                        Console.WriteLine("Invalid input. Please try again.");
+                    }
                     break;
                 case "LO":
+                if (Home.IsLoggedIn && Home.ManagerLoggedIn){
                     Home.LogOut();
+                }
+                else{
+                    Console.WriteLine("Invalid input. Please try again.");
+                }
                     break;
                 case "M":
                     // Console.Clear();
