@@ -3,20 +3,20 @@ static class ReservationMenu
     public static void Options()
     {
         while(true){
-        Console.WriteLine("[H]: Home");
-        Console.WriteLine("[M]: Make reservation");
-        Console.WriteLine("[CR]: Cancel reservation");
+        Console.WriteLine("[1]: Home");
+        Console.WriteLine("[2]: Make reservation");
+        Console.WriteLine("[3]: Cancel reservation");
 
             string userChoice = Console.ReadLine().ToUpper();
 
             switch (userChoice)
             {
-                case "M":
+                case "2":
                     // Make reservation
                     Reservation.MakeReservation();
                     Options();
                     return;
-                case "CR":
+                case "3":
                     // Cancel reservation
                     System.Console.WriteLine("Enter your guest ID"); // voorbeeld guestID deze wordt normaal ingevoerd in program maar dat zien we later wel
                     try{
@@ -28,7 +28,7 @@ static class ReservationMenu
                     }
                     Options();
                     return;
-                case "H":
+                case "1":
                     Home.Options();
                     return;
                 default:
