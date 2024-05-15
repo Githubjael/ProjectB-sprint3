@@ -20,17 +20,17 @@ static class HomeOptions
         {
             System.Console.WriteLine($"Welkom back, {Home.guestName}!");
         }
-        Console.WriteLine("[M]: Menu");
-        Console.WriteLine("[R]: Reservation");
-        Console.WriteLine("[RV]: Review");
-        Console.WriteLine("[C]: Contact");
+        Console.WriteLine("[1]: Menu");
+        Console.WriteLine("[2]: Reservation");
+        Console.WriteLine("[3]: Review");
+        Console.WriteLine("[4]: Contact");
         if (Home.IsLoggedIn || Home.ManagerLoggedIn){
-            Console.WriteLine("[LO]: Log Out");
+            Console.WriteLine("[5]: Log Out");
         }
 
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
-        Console.WriteLine("[L]: Log in");
-        Console.WriteLine("[S]: Sign up");
+        Console.WriteLine("[5]: Log in");
+        Console.WriteLine("[6]: Sign up");
 
         }
 
@@ -40,16 +40,19 @@ static class HomeOptions
 
             switch (UserChoice)
             {
-                case "L":
+                case "5":
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
                         Home.LogIn();
+                    }
+                    else if(Home.IsLoggedIn || Home.ManagerLoggedIn){
+                        Home.LogOut();
                     }
                     else{
                         Console.WriteLine("Invalid input. Please try again.");
                     }
                     break;
-                case "S":
+                case "6":
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
                         Home.SignUp();
@@ -58,19 +61,11 @@ static class HomeOptions
                         Console.WriteLine("Invalid input. Please try again.");
                     }
                     break;
-                case "LO":
-                if (Home.IsLoggedIn && Home.ManagerLoggedIn){
-                    Home.LogOut();
-                }
-                else{
-                    Console.WriteLine("Invalid input. Please try again.");
-                }
-                    break;
-                case "M":
+                case "1":
                     // Console.Clear();
                     Menu.Options();
                     return;
-                case "R":
+                case "2":
                     if (Home.ManagerLoggedIn)
                     {
                     // Console.Clear();
@@ -81,7 +76,7 @@ static class HomeOptions
                     Reservation.Options();
                     }
                     return;
-                case "RV":
+                case "3":
                 if (Home.ManagerLoggedIn)
                     {
                     // Console.Clear();
@@ -93,7 +88,7 @@ static class HomeOptions
                         Reviews.Options();
                     }
                     return;
-                case "C":
+                case "4":
                     // Console.Clear();
                     Contact.Options();
                     return;
