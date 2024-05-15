@@ -9,8 +9,8 @@ public static class Contact
 
     public static void Options()
     {
-        Console.WriteLine("[H]: Home");
-        Console.WriteLine("[CI]: Contact Information"); 
+        Console.WriteLine("[1]: Home");
+        Console.WriteLine("[2]: Contact Information"); 
 
         while (true)
         {
@@ -18,11 +18,11 @@ public static class Contact
 
             switch (userChoice)
             {
-                case "H":
+                case "1":
                     Home.Options();
                     return;
 
-                case "CI":
+                case "2":
                     // Add logic for the specific contact option
                     Console.WriteLine("For further questions you could contact us with the following:\n");
                     Console.WriteLine("Restaurant Service Phone Number: 0611223344");
