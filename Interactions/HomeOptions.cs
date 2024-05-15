@@ -44,9 +44,12 @@ static class HomeOptions
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
                         Home.LogIn();
+                        Home.Options(); 
+
                     }
                     else if(Home.IsLoggedIn || Home.ManagerLoggedIn){
                         Home.LogOut();
+                        Home.Options(); 
                     }
                     else{
                         Console.WriteLine("Invalid input. Please try again.");
@@ -56,6 +59,8 @@ static class HomeOptions
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
                         Home.SignUp();
+                        Home.Options(); 
+
                     }
                     else{
                         Console.WriteLine("Invalid input. Please try again.");
