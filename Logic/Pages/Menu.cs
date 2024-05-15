@@ -31,8 +31,12 @@ public static class Menu
     public static void AddItem()
     {
         // Catch bad input, make item name at least 2 characters
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
         Console.WriteLine("What's the name of the item?");
         string itemName = Console.ReadLine().Trim();
+        if (itemName.ToLower() == "q"){
+            return;
+        }
         bool ifInJsonFile = false;
         // Deserialize existing JSON data to a list of MenuItem objects
         List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
@@ -67,6 +71,9 @@ public static class Menu
             {
                 Console.WriteLine("What's the price of the item? (For example: 5,00)");
                 string itemPrice2 = Console.ReadLine();
+                if (itemPrice2.ToLower() == "q"){
+                    return;
+                }
                 if (itemPrice2.Contains("."))
                 {
                     Console.WriteLine("Invalid input. Use a comma.");
@@ -94,6 +101,9 @@ public static class Menu
         // Catch bad input, make sure item category is at least 2 characters
         Console.WriteLine("What's the category of the item?");
         string itemCategory = Console.ReadLine();
+        if (itemCategory.ToLower() == "q"){
+        return;
+        }
         while (itemCategory.Length < 2)
         {
             Console.WriteLine("Category must be at least 2 characters long. Please try again:");
@@ -128,6 +138,9 @@ public static class Menu
     {
         Console.WriteLine("What's the name of the item you want to remove?");
         string itemName = Console.ReadLine();
+        if (itemName.ToLower() == "q"){
+        return;
+        }
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -216,33 +229,31 @@ public static class Menu
         }
     }
 
-
-
     public static void Options()
     {
         DisplayMenu(WayToSort);
-        Console.WriteLine("[H]: Home");
-        Console.WriteLine("[S]: Sort the menu");
-        Console.WriteLine("[V]: View a specific category");
+        Console.WriteLine("[1]: Home");
+        Console.WriteLine("[2]: Sort the menu");
+        Console.WriteLine("[3]: View a specific category");
         if (Home.ManagerLoggedIn){
-        Console.WriteLine("[A]: Add item");
-        Console.WriteLine("[R]: Remove item");
+        Console.WriteLine("[4]: Add item");
+        Console.WriteLine("[5]: Remove item");
         }
 
         string userChoice = Console.ReadLine().ToUpper();
 
         switch (userChoice)
         {
-            case "S":
+            case "2":
                 SortMenuOptions();
                 break;
-            case "V":
+            case "3":
                 DisplayCategories();
                 break;
-            case "H":
+            case "1":
                 Home.Options();
                 break;
-            case "A":
+            case "4":
                 if(Home.ManagerLoggedIn){
                     AddItem();
                 }
@@ -251,7 +262,7 @@ public static class Menu
                 }
                 Options();
                 break;
-            case "R":
+            case "5":
                 if(Home.ManagerLoggedIn){
                     RemoveItem();
                 }
@@ -269,31 +280,31 @@ public static class Menu
 
     public static void SortMenuOptions()
     {
-        Console.WriteLine("[P]: Sort by price");
-        Console.WriteLine("[N]: Sort by name");
-        Console.WriteLine("[C]: Sort by category");
-        Console.WriteLine("[G]: Go back");
+        Console.WriteLine("[1]: Sort by price");
+        Console.WriteLine("[2]: Sort by name");
+        Console.WriteLine("[3]: Sort by category");
+        Console.WriteLine("[4]: Go back");
 
         string userChoiceSort = Console.ReadLine().ToUpper();
 
         switch (userChoiceSort)
         {
-            case "P":
+            case "1":
                 // Implement sorting by price
                 WayToSort = "Price";
                 Options(); // After sorting, return to options
                 break;
-            case "N":
+            case "2":
                 // Implement sorting by name
                 WayToSort = "Name";
                 Options(); // After sorting, return to options
                 break;
-            case "C":
+            case "3":
                 // Implement sorting by category
                 WayToSort = "Category";
                 Options(); // After sorting, return to options
                 break;
-            case "G":
+            case "4":
                 Options(); // Go back to main options menu
                 break;
             default:
@@ -350,17 +361,17 @@ public static class Menu
         {
             Console.WriteLine("Invalid category. Please try again.");
         }
-        Console.WriteLine("[V]: View another category");
-        Console.WriteLine("[G]: Go back");
+        Console.WriteLine("[1]: View another category");
+        Console.WriteLine("[2]: Go back");
 
         string userChoiceSort = Console.ReadLine().ToUpper();
 
         switch (userChoiceSort)
         {
-            case "V":
+            case "1":
                 DisplayCategories();
                 break;
-            case "G":
+            case "2":
                 Options(); // Go back to main options menu
                 break;
             default:
