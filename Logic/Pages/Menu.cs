@@ -136,6 +136,7 @@ public static class Menu
 
     public static void RemoveItem()
     {
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
         Console.WriteLine("What's the name of the item you want to remove?");
         string itemName = Console.ReadLine();
         if (itemName.ToLower() == "q"){
