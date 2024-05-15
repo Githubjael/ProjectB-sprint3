@@ -31,14 +31,35 @@ class Reservation : Page
         if(!Home.IsLoggedIn)
         {
             string FirstName = PersonalDetails.AskFirstName();
+            if (FirstName == null){
+                return;
+            }
             string LastName = PersonalDetails.AskLastName();
+            if (LastName == null){
+                return;
+            }
             string Email = PersonalDetails.AskEmailAddress();
+            if (Email == null){
+                return;
+            }
             string PhoneNumber = PersonalDetails.AskPhoneNumber();
+            if (PhoneNumber == null){
+                return;
+            }
 
             List<string> BookedDates = ReservationLogic.VolGeboekteDatums();
             DateTime Date = PersonalDetails.AskDate(BookedDates);
+            if (Date == DateTime.MinValue){
+                return;
+            }
             string TimeSlot = PersonalDetails.AskTimeSlot(Date);
+            if (TimeSlot == null){
+                return;
+            }
             int Guests = PersonalDetails.AskAmountOfGuests();
+            if (Guests == 0){
+                return;
+            }
             List<Table> Tables;
             if (Guests > 6)
             {
