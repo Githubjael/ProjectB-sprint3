@@ -14,29 +14,29 @@ class Manager : Person, IEmployee
 // [2] Change the menu
 // [3] See all reservations
 
-    // public void ChangeRestaurantInfo(RestaurantInfo Info, string adres, string email, string phoneNumber){
-    //     Info.Adress = adres;
-    //     Info.Email = email;
-    //     Info.Phone_number = phoneNumber;
-    // }
+    public void ChangeRestaurantInfo(string adres, string email, string phoneNumber){
+        RestaurantInfo.Adress = adres;
+        RestaurantInfo.Email = email;
+        RestaurantInfo.Phone_number = phoneNumber;
+    }
 
     public void ReservationOptions()
     {
         string answer = "";
-        while(answer != "h"){
+        while(answer != "1"){
         do{
-        System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[S]: See all reservations");
-        System.Console.WriteLine("[D]: See reservations on a certain date");
-        System.Console.WriteLine("[T]: See reservations on a certain time and date");
-        System.Console.WriteLine("[C]: Cancel reservation"); // Komt nog
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: See all reservations");
+        System.Console.WriteLine("[3]: See reservations on a certain date");
+        System.Console.WriteLine("[4]: See reservations on a certain time and date");
+        System.Console.WriteLine("[5]: Cancel reservation"); // Komt nog
         answer = Console.ReadLine().ToLower();
-        if (answer == "h")
+        if (answer == "1")
         {
             Home.Options();
             break;
         }
-        } while (answer != "s" && answer != "d" && answer != "t" && answer != "c");
+        } while (answer != "2" && answer != "3" && answer != "4" && answer != "5");
         SeeReservations(answer);
         }
     }
@@ -45,10 +45,10 @@ class Manager : Person, IEmployee
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "s":
+            case "2":
             ReservationLogic.PrintAllReservations();
             break;
-            case "d":
+            case "3":
             string date;
             do{
             System.Console.WriteLine("What date? (day-month-year)");
@@ -63,7 +63,7 @@ class Manager : Person, IEmployee
             } while (!CheckReservationInfo.CheckOtherDates(date));
             ReservationLogic.PrintReservationsBasedOnDate(date);
             break;
-            case "t":
+            case "4":
             string datum;
             do{
             System.Console.WriteLine("What date? (day-month-year)");
@@ -80,7 +80,7 @@ class Manager : Person, IEmployee
             string tijd = Console.ReadLine();
             ReservationLogic.PrintReservationBasedOnTime(datum, tijd);
             break;
-            case "c":
+            case "5":
             System.Console.WriteLine("What is the guest Id?");
             int GuestId = Convert.ToInt32(Console.ReadLine());
             ReservationLogic.CancelReservation(GuestId);
@@ -91,20 +91,20 @@ class Manager : Person, IEmployee
     public void ReviewOptions()
     {
         string answer = "";
-        while(answer != "h"){
+        while(answer != "1"){
         do{
-        System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[S]: See all reviews");
-        System.Console.WriteLine("[SB]: See reviews based on ratings");
-        System.Console.WriteLine("[D] Delete review");
-        System.Console.WriteLine("[DA] Delete all reviews");
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: See all reviews");
+        System.Console.WriteLine("[3]: See reviews based on ratings");
+        System.Console.WriteLine("[4] Delete review");
+        System.Console.WriteLine("[5] Delete all reviews");
         answer = Console.ReadLine().ToLower();
-        if (answer == "h")
+        if (answer == "1")
         {
             Home.Options();
             break;
         }
-        } while (answer != "s" && answer != "sb" && answer != "d" && answer != "da");
+        } while (answer != "2" && answer != "3" && answer != "4" && answer != "5");
         ReviewDetails(answer);
         }
     }
@@ -114,18 +114,18 @@ class Manager : Person, IEmployee
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "s":
+            case "2":
             ReviewLogic.SeeAllReviews();
             break;
-            case "sb":
+            case "3":
             System.Console.WriteLine("Choose rating from 1 up to 5");
             int rating = Convert.ToInt32(Console.ReadLine());
             ReviewLogic.SeeReviewsBasedOnRating(rating);
             break;
-            case "d":
+            case "4":
             ReviewLogic.DeleteReview();
             break;
-            case "da":
+            case "5":
             ReviewLogic.DeleteAllReviews();
             break;
         }  
