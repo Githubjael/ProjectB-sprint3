@@ -1,6 +1,9 @@
 class TableForTwo : Table
 {
     public TableForTwo(string id, int type) : base(id + "A"){
-        Type = type;
+        if(type == 2)
+        {
+            Type = type;
+        }
     }
 }
