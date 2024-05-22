@@ -109,44 +109,46 @@ public static class Menu
             Console.WriteLine("Category must be at least 2 characters long. Please try again:");
             itemCategory = Console.ReadLine();
         }
-
-        Console.WriteLine("What ingredients are in the items? (Please enter at least two ingredients, separated by commas)");
-        string input = Console.ReadLine();
-
-
-        if (input.ToLower() == "q")
-        {
-            return;
+        
+        //check if vegan
+        Console.WriteLine("Is it vegan? (Y/N)");
+        string IsVegan = Console.ReadLine();
+        if (IsVegan.ToLower() == "q"){
+        return;
         }
-        List<string> ingredients = input.Split(',')
-                                        .Select(ingredient => ingredient.Trim())
-                                        .Where(ingredient => !string.IsNullOrEmpty(ingredient))
-                                        .ToList();
-
-        while (ingredients.Count < 2)
+        while (IsVegan.ToLower() != "y" && IsVegan.ToLower() != "n")
         {
-            Console.WriteLine("You must enter at least 2 ingredients. Please try again:");
-            input = Console.ReadLine();
-
-            
-            if (input.ToLower() == "q")
-            {
-                return;
-            }
-
-            ingredients = input.Split(',')
-                            .Select(ingredient => ingredient.Trim())
-                            .Where(ingredient => !string.IsNullOrEmpty(ingredient))
-                            .ToList();
+            Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:");
+            IsVegan = Console.ReadLine();
         }
-        // Console.WriteLine("You entered the following ingredients:");
-        // foreach (string ingredient in ingredients)
-        // {
-        //     Console.WriteLine(ingredient);
-        // }
+        bool IsVeganBool = (IsVegan.ToLower() == "y") ? true : false;
 
+        
+        //check if spicy
+        Console.WriteLine("Is it spicy? (Y/N)");
+        string IsSpicy = Console.ReadLine();
+        if (IsSpicy.ToLower() == "q"){
+        return;
+        }
+        while (IsSpicy.ToLower() != "y" && IsSpicy.ToLower() != "n")
+        {
+            Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:");
+            IsVegan = Console.ReadLine();
+        }
+        bool IsSpicyBool = (IsSpicy.ToLower() == "y") ? true : false;
+
+        
+        if (IsVeganBool){
+            //add a vegan symbol to itemname?
+            itemCategory += " ♣";
+        }
+
+        if (IsSpicyBool){
+            //add a spicy symbol to itemname?
+            itemCategory += " 🌶";
+        }
         //make the input into an object
-        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, ingredients);
+        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -263,6 +265,7 @@ public static class Menu
                 continue;
             }
         }
+        System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
     }
 
     public static void Options()
@@ -384,18 +387,13 @@ public static class Menu
         {
             // Display items belonging to the selected category
             Console.WriteLine($"Items in category '{selectedCategory}':");
-            Console.WriteLine("Name          | Price   | Category  | Ingredients");
-            Console.WriteLine("-------------------------------------------------");
+            Console.WriteLine("Name          | Price   | Category");
+            Console.WriteLine("---------------------------------");
             foreach (JObject menuItem in categories[selectedCategory])
             {
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
-                JArray ingredientsArray = (JArray)menuItem["Ingredients"];
-                
-                // Check if ingredientsArray is null
-                string ingredients = ingredientsArray != null ? string.Join(", ", ingredientsArray) : "N/A";
-                
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory} | {ingredients, -14}");
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}");
             }
         }
         else
