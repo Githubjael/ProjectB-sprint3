@@ -109,9 +109,44 @@ public static class Menu
             Console.WriteLine("Category must be at least 2 characters long. Please try again:");
             itemCategory = Console.ReadLine();
         }
-        
+
+        Console.WriteLine("What ingredients are in the items? (Please enter at least two ingredients, separated by commas)");
+        string input = Console.ReadLine();
+
+
+        if (input.ToLower() == "q")
+        {
+            return;
+        }
+        List<string> ingredients = input.Split(',')
+                                        .Select(ingredient => ingredient.Trim())
+                                        .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                                        .ToList();
+
+        while (ingredients.Count < 2)
+        {
+            Console.WriteLine("You must enter at least 2 ingredients. Please try again:");
+            input = Console.ReadLine();
+
+            
+            if (input.ToLower() == "q")
+            {
+                return;
+            }
+
+            ingredients = input.Split(',')
+                            .Select(ingredient => ingredient.Trim())
+                            .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                            .ToList();
+        }
+        // Console.WriteLine("You entered the following ingredients:");
+        // foreach (string ingredient in ingredients)
+        // {
+        //     Console.WriteLine(ingredient);
+        // }
+
         //make the input into an object
-        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
+        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, ingredients);
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -349,13 +384,18 @@ public static class Menu
         {
             // Display items belonging to the selected category
             Console.WriteLine($"Items in category '{selectedCategory}':");
-            Console.WriteLine("Name          | Price   | Category");
-            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Name          | Price   | Category  | Ingredients");
+            Console.WriteLine("-------------------------------------------------");
             foreach (JObject menuItem in categories[selectedCategory])
             {
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}");
+                JArray ingredientsArray = (JArray)menuItem["Ingredients"];
+                
+                // Check if ingredientsArray is null
+                string ingredients = ingredientsArray != null ? string.Join(", ", ingredientsArray) : "N/A";
+                
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory} | {ingredients, -14}");
             }
         }
         else
