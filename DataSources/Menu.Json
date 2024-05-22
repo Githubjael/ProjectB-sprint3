@@ -18,5 +18,42 @@
     "Name": "Cola",
     "Price": 2.999,
     "Category": "Drink"
+  },
+  {
+    "Name": "Mojito",
+    "Price": 8.99,
+    "Category": "Drink",
+    "Ingredients": ["Rum, Mint leaves, Sugar, Lime juice, Soda water"]
+  },
+  {
+    "Name": "Martini",
+    "Price": 9.99,
+    "Category": "Drink",
+    "Ingredients": ["Gin, Dry vermouth, Olive"]
+  },
+  {
+    "Name": "Old Fashioned",
+    "Price": 15.99,
+    "Category": "Drink",
+    "Ingredients": ["Bourbon or Rye whiskey", "Sugar", "Angostura bitters", "Orange twist"]
+  },
+  {
+    "Name": "Piña Colada",
+    "Price": 15.99,
+    "Category": "Drink",
+    "Ingredients": ["Witte rum, Ananassap, Kokosmelk, Suikersiroop (optioneel), Ananasplakjes en/of kersen voor garnering, Ijsblokjes"]
+  },
+  {
+    "Name": "Cosmopolitan",
+    "Price": 15.99,
+    "Category": "Drink",
+    "Ingredients": ["Wodka, Sinaasappellikeur (bijv. Cointreau), Vers limoensap. Cranberrysap, Limoen- of sinaasappelschil voor garnering, Ijsblokjes"]
+  },
+  {
+    "Name": "Whiskey Sour",
+    "Price": 15.99,
+    "Category": "Drink",
+    "Ingredients": ["Bourbon whiskey, Vers citroensap, Suikersiroop, Maraschinokers voor garnering, Ijsblokjes"]
   }
+  
 ]
