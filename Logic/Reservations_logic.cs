@@ -181,9 +181,57 @@ public class ReservationLogic
     }
 
 
+    public static void CancelReservationByAcc(string email, string date, string time)
+    {
+        var reservationToRemove = FindReservationByEmailAndDateTime(email, date, time);
 
+        if (reservationToRemove != null)
+        {
+            DateTime now = DateTime.Now;
+            DateTime reservationDateTime;
 
-    //  korte methode om ff de reservatie op basis van guest ID te vinden.
+            if (DateTime.TryParse(reservationToRemove.Date + " " + reservationToRemove.Time, out reservationDateTime))
+            {
+                if (!Home.ManagerLoggedIn)
+                {
+                    // Check if the reservation is less than 2 hours away
+                    if ((reservationDateTime - now).TotalHours < 2)
+                    {
+                        Console.WriteLine("Sorry, you can't cancel the reservation as it's less than 2 hours before the reservation time.");
+                        return;
+                    }
+                }
+
+                // Remove the reservation
+                _reservation.Remove(reservationToRemove);
+                ReservationDataAccess.WriteToJson(_reservation);
+                Console.WriteLine("Your reservation is cancelled.");
+            }
+            else
+            {
+                Console.WriteLine("Error converting reservation time.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Reservation not found.");
+        }
+    }
+
+    
+    // Method to find a reservation by email, date, and time
+    private static ReservationDataModel FindReservationByEmailAndDateTime(string email, string date, string time)
+    {
+        return _reservation.FirstOrDefault(r => r.EmailAddress == email && r.Date == date && r.Time == time);
+    }
+
+    // Find reservations by email
+    public static List<ReservationDataModel> FindReservationsByEmail(string email)
+    {
+        return _reservation.Where(r => r.EmailAddress == email).ToList();
+    }
+
+    //  korte methode om ff de reservatie op basis van guest ID te vinden.    
     public static ReservationDataModel FindReservationByGuestID(int guestID)
     {
         foreach (ReservationDataModel reservation in _reservation)  //deze loop gaat door de reservaties in de lijst , totdat hij de reservatie tegenkomt die gebonden is aan de guestID die hij uit de parameter krijgt.
