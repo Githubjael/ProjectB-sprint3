@@ -8,14 +8,10 @@ public static class Home
 {
     public static bool IsLoggedIn { get; set; }
     public static bool ManagerLoggedIn {get; set;}
-    private static string _name = "Home";
+    public static string Name => "Home";
     private static List<Guest> Users = new List<Guest>();
     public static string guestName { get; set; }
     public static string guestEmail { get; set;}
-    public static string Name
-    {
-        get => _name;
-    }
 
     // Methodes revereren naar methodes in de interactie laag
     public static void Options() => HomeOptions.Options();
