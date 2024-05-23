@@ -52,7 +52,7 @@ static class HomeOptions
                         Home.Options(); 
                     }
                     else{
-                        Console.WriteLine("Invalid input. Please try again.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     }
                     break;
                 case "6":
@@ -63,7 +63,7 @@ static class HomeOptions
 
                     }
                     else{
-                        Console.WriteLine("Invalid input. Please try again.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     }
                     break;
                 case "1":
@@ -98,7 +98,7 @@ static class HomeOptions
                     Contact.Options();
                     return;
                 default:
-                    Console.WriteLine("Invalid input. Please try again.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     break;
             }
         }
