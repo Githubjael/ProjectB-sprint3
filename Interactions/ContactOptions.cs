@@ -1,10 +1,10 @@
 static class ContactOptions
 {
-
-    public static void Options()
+        public static void Options()
     {
-        Console.WriteLine("[1]: Home");
-        Console.WriteLine("[2]: Contact Information"); 
+        SeeContactInfo();
+        Console.WriteLine("[H]: Home");
+        Console.WriteLine(""); 
 
         while (true)
         {
@@ -12,14 +12,12 @@ static class ContactOptions
 
             switch (userChoice)
             {
-                case "1":
+                case "H":
                     Home.Options();
                     return;
 
-                case "2":
-                    SeeContactInfo();
-                    Console.WriteLine("Its quite busy these days in our restaurant because of the quality and fresh food we serve, so please have patience if we take a bit longer than usual.\n\n\n");
-                    Home.Options();
+                case "???":
+                    // Add logic for the specific contact option
                     return;
 
                 default:
@@ -30,6 +28,7 @@ static class ContactOptions
     }
     public static void SeeContactInfo()
     {
+        ContactDataModel restaurantInfo = ContactAccess.ReadFromJson()[0];
         Console.WriteLine("╔══════════════════════ CONTACT INFORMATION ════════════════════════╗");
         System.Console.WriteLine(" ");
         System.Console.WriteLine("                     Welcome to Jake's Restaurant!               ");
@@ -37,13 +36,12 @@ static class ContactOptions
         System.Console.WriteLine(" ");
         System.Console.WriteLine();
         System.Console.WriteLine();
-        System.Console.WriteLine($"                      ⚲ Address: {RestaurantInfo.Adress}");
-        System.Console.WriteLine($"                     ☏ Phone number: {RestaurantInfo.PhoneNumber}");
-        System.Console.WriteLine($"                  ✉ Email: {RestaurantInfo.Email}");
+        System.Console.WriteLine($"                      ⚲ Address: {restaurantInfo.Adress}");
+        System.Console.WriteLine($"                     ☏ Phone number: {restaurantInfo.PhoneNumber}");
+        System.Console.WriteLine($"                  ✉ Email: {restaurantInfo.Email}");
         System.Console.WriteLine();
         System.Console.WriteLine();
         System.Console.WriteLine();
         System.Console.WriteLine("╚═══════════════════════════════════════════════════════════════════╝");
     }
-}
 }
