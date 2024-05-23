@@ -34,7 +34,7 @@ using System.Threading;static class AccountManagment
                     Console.WriteLine($"Welcome back, {manager.FirstName}");
                     Home.ManagerLoggedIn = true;
                     Home.IsLoggedIn = false;
-                    Home.Options();
+                    return;
                 }
             }
             else
