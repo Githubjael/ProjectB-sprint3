@@ -51,13 +51,13 @@ public static class Menu
         // Check if the item name already exists
         if (menuItems.Any(item => item.Name.ToLower() == itemName.ToLower()))
         {
-            Console.WriteLine("Item with the same name already exists. Please choose a different name.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Item with the same name already exists. Please choose a different name."); Console.ResetColor();
             AddItem(); // Restart the method to prompt for a new item
             return;
         }
         while (itemName.Length < 2)
         {
-            Console.WriteLine("Name must be at least 2 characters long. Please try again:");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 characters long. Please try again:"); Console.ResetColor();
             itemName = Console.ReadLine();
         }
 
@@ -76,7 +76,7 @@ public static class Menu
                 }
                 if (itemPrice2.Contains("."))
                 {
-                    Console.WriteLine("Invalid input. Use a comma.");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Use a comma."); Console.ResetColor();
                 }
                 else
                 {
@@ -84,7 +84,7 @@ public static class Menu
 
                     if (double.IsNegative(itemPrice))
                     {
-                        Console.WriteLine("Invalid input. Please enter a positive number for the price.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a positive number for the price."); Console.ResetColor();
                     }
                     else
                     {
@@ -92,9 +92,8 @@ public static class Menu
                     }
                 }
             }
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid input. Please enter a number for the price.");
+            catch (FormatException){
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a number for the price."); Console.ResetColor();
             }
         } while (!isValidPrice);
 
@@ -104,9 +103,8 @@ public static class Menu
         if (itemCategory.ToLower() == "q"){
         return;
         }
-        while (itemCategory.Length < 2)
-        {
-            Console.WriteLine("Category must be at least 2 characters long. Please try again:");
+        while (itemCategory.Length < 2){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long. Please try again:"); Console.ResetColor();
             itemCategory = Console.ReadLine();
         }
         
@@ -118,7 +116,7 @@ public static class Menu
         }
         while (IsVegan.ToLower() != "y" && IsVegan.ToLower() != "n")
         {
-            Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
             IsVegan = Console.ReadLine();
         }
         bool IsVeganBool = (IsVegan.ToLower() == "y") ? true : false;
@@ -132,23 +130,23 @@ public static class Menu
         }
         while (IsSpicy.ToLower() != "y" && IsSpicy.ToLower() != "n")
         {
-            Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:");
-            IsVegan = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
+            IsSpicy = Console.ReadLine();
         }
         bool IsSpicyBool = (IsSpicy.ToLower() == "y") ? true : false;
-
         
+        string itemSymbol = "";
         if (IsVeganBool){
             //add a vegan symbol to itemname?
-            itemCategory += " ♣";
+            itemSymbol += "♣";
         }
 
         if (IsSpicyBool){
             //add a spicy symbol to itemname?
-            itemCategory += " 🌶";
+            itemSymbol += "🌶";
         }
         //make the input into an object
-        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory);
+        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, itemSymbol);
 
         // Read existing JSON data from the file
         string jsonData = File.ReadAllText(filePath);
@@ -168,10 +166,9 @@ public static class Menu
         // Write the updated JSON data back to the file
         File.WriteAllText(filePath, updatedJsonData);
 
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added succesfully"); Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added successfully"); Console.ResetColor();
         System.Threading.Thread.Sleep(1500);
-
-        }
+    }
 
     public static void RemoveItem()
     {
@@ -210,7 +207,7 @@ public static class Menu
 
             // Write the updated JSON data back to the file
             File.WriteAllText(filePath, updatedJsonData);
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' removed succesfully"); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' removed successfully"); Console.ResetColor();
             System.Threading.Thread.Sleep(1500);
 
         }
@@ -227,14 +224,14 @@ public static class Menu
     }
 
     public static void DisplayMenu(string HowToSort)
-    {
-        // Read all lines from the file
-        string jsonString = File.ReadAllText(filePath);
+{
+    // Read all lines from the file
+    string jsonString = File.ReadAllText(filePath);
 
-        // Parse the JSON string to a JArray
-        JArray menuArray = JArray.Parse(jsonString);
+    // Parse the JSON string to a JArray
+    JArray menuArray = JArray.Parse(jsonString);
 
-        // Sort alphabetically by category
+    // Sort alphabetically by category
     if (HowToSort == "Category")
     {
         menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
@@ -248,28 +245,28 @@ public static class Menu
         menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
     }
 
-
-        // Display the menu
-        Console.WriteLine("Name          | Price   | Category");
-        Console.WriteLine("---------------------------------");
-        foreach (JObject menuItem in menuArray)
+    // Display the menu
+    Console.WriteLine("Name          | Price   | Category");
+    Console.WriteLine("---------------------------------");
+    foreach (JObject menuItem in menuArray)
+    {
+        try
         {
-            try
-            {
-                string name = (string)menuItem["Name"];
-                double price = (double)menuItem["Price"];
-                string category = (string)menuItem["Category"];
+            string name = (string)menuItem["Name"];
+            double price = (double)menuItem["Price"];
+            string category = (string)menuItem["Category"];
+            string symbol = (string)menuItem["Symbol"];
 
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error parsing JSON: {ex.Message}");
-                continue;
-            }
+            Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category} {symbol}");
         }
-        System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error parsing JSON: {ex.Message}");
+            continue;
+        }
     }
+    System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+}
 
     public static void Options()
     {
@@ -281,9 +278,8 @@ public static class Menu
         Console.WriteLine("[4]: Add item");
         Console.WriteLine("[5]: Remove item");
         }
-
+        while (true){
         string userChoice = Console.ReadLine().ToUpper();
-
         switch (userChoice)
         {
             case "2":
@@ -300,7 +296,9 @@ public static class Menu
                     AddItem();
                 }
                 else{
-                    Console.WriteLine("Invalid input. Please try again."); 
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                    System.Threading.Thread.Sleep(1500);
+                    Console.Clear();
                 }
                 Options();
                 break;
@@ -309,14 +307,19 @@ public static class Menu
                     RemoveItem();
                 }
                 else{
-                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                    System.Threading.Thread.Sleep(1500);
+                    Console.Clear();
                 }
                 Options();
                 break;
             default:
-                Console.WriteLine("Invalid input. Please try again.");
-                Options(); // Restart the options loop
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                System.Threading.Thread.Sleep(1500);
+                // Console.Clear();
+                // Options(); // Restart the options loop
                 break;
+        }
         }
     }
 
@@ -326,7 +329,7 @@ public static class Menu
         Console.WriteLine("[2]: Sort by name");
         Console.WriteLine("[3]: Sort by category");
         Console.WriteLine("[4]: Go back");
-
+        while (true){
         string userChoiceSort = Console.ReadLine().ToUpper();
 
         switch (userChoiceSort)
@@ -350,13 +353,13 @@ public static class Menu
                 Options(); // Go back to main options menu
                 break;
             default:
-                Console.WriteLine("Invalid input. Please try again.");
-                SortMenuOptions(); 
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                 break;
+        }
         }
     }
 
-    public static void DisplayCategories()
+        public static void DisplayCategories()
     {
         string jsonString = File.ReadAllText(filePath);
         JArray menuArray = JArray.Parse(jsonString);
@@ -396,12 +399,13 @@ public static class Menu
             {
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}");
+                string symbol = (string)menuItem["Symbol"];
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}{symbol}");
             }
         }
         else
         {
-            Console.WriteLine("Invalid category. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
         }
         Console.WriteLine("[1]: View another category");
         Console.WriteLine("[2]: Go back");
@@ -417,10 +421,11 @@ public static class Menu
                 Options(); // Go back to main options menu
                 break;
             default:
-                Console.WriteLine("Invalid input. Please try again.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                 SortMenuOptions(); 
                 break;
+        }
     }
 
 }
-}
+
