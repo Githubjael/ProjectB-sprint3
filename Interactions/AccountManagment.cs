@@ -23,6 +23,7 @@ using System.Threading;static class AccountManagment
                 Console.WriteLine();
                 Console.WriteLine();
                 Home.Options(); 
+                return;
             }
             else if (user == null && manager.EmailAddress == email && manager.Password == password)
             {
