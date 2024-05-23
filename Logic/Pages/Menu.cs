@@ -168,7 +168,9 @@ public static class Menu
         // Write the updated JSON data back to the file
         File.WriteAllText(filePath, updatedJsonData);
 
-        Console.WriteLine("Item successfully added");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added succesfully"); Console.ResetColor();
+        System.Threading.Thread.Sleep(1500);
+
         }
 
     public static void RemoveItem()
@@ -208,12 +210,13 @@ public static class Menu
 
             // Write the updated JSON data back to the file
             File.WriteAllText(filePath, updatedJsonData);
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' removed succesfully"); Console.ResetColor();
+            System.Threading.Thread.Sleep(1500);
 
-            Console.WriteLine($"Item '{itemName}' removed successfully.");
         }
-        else
-        {
-            Console.WriteLine($"Item '{itemName}' not found!");
+        else{
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Item '{itemName}' not found!"); Console.ResetColor();
+            System.Threading.Thread.Sleep(1500);
         }
     }
 
