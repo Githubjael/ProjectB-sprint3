@@ -159,7 +159,7 @@ public class ReservationLogic
                 // ik controleer hoelang er nog voor de reservatie is/ dus of er nog minder dan 2 uur is / want dan is het annuleren niet meer mogelijk !
                 if ((reservationDateTime - now).TotalHours < 2)
                 {
-                    Console.WriteLine("Sorry, you can't cancel the reservation as it's less than 2 hours before/Past the reservation time. ");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Sorry, you can't cancel the reservation as it's less than 2 hours before/Past the reservation time. "); Console.ResetColor();
                     return;
                 }
             }
@@ -167,16 +167,16 @@ public class ReservationLogic
                 // de rrservatie wordt geanulleerd 
                 _reservation.Remove(reservationToRemove);
                 ReservationDataAccess.WriteToJson(_reservation);
-                Console.WriteLine("Your Reservation is cancelled.");
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Your Reservation is cancelled."); Console.ResetColor();
             }
             else
             {
-                Console.WriteLine("Error converting reservation time.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Error converting reservation time."); Console.ResetColor();
             }
         }
         else
         {
-            Console.WriteLine("Reservation is not found.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Reservation is not found."); Console.ResetColor();
         }
     }
 
