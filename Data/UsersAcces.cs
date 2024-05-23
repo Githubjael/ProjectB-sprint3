@@ -2,42 +2,11 @@ using Newtonsoft.Json;
 
 class UsersAccess
 {
-    private static string fileName = @"..\..\..\DataSources\Users.Json"; //vergeet niet je eigen path te copy
+    private static string fileName = @"C:\Users\User\Desktop\Project B\DataSources\Users.Json"; //vergeet niet je eigen path te copy
 
-    public static List<Guest> ReadFromJson()
-    {
-        try
-        {
-            using (StreamReader reader = new StreamReader(fileName))
-            {
-                string json = reader.ReadToEnd();
-                List<Guest> allusers = JsonConvert.DeserializeObject<List<Guest>>(json);
-                return allusers;
-            }
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("no json file found");
-            return new List<Guest>();
-        }
-    }
+    public static List<Guest> ReadFromJson() => JsonStuff.ReadFromJson<Guest>(fileName);
 
-    public static void WriteToJson(List<Guest> users)
-    {
-        try
-        {
-            using (StreamWriter writer = new StreamWriter(fileName))
-            {
-                string json = JsonConvert.SerializeObject(users, Formatting.Indented);
-                writer.Write(json);
-            }
-        }
-        catch (IOException ex)
-        {
-            Console.WriteLine($"Error writing users file: {ex.Message}");
-            throw;
-        }
-    }
+    public static void WriteToJson(List<Guest> users) => JsonStuff.WriteToJson(users, fileName);
 
     public static void SaveUser(Guest user)
     {
