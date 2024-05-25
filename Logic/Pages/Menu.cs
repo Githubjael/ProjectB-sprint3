@@ -1,5 +1,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 public static class Menu 
 {
@@ -107,8 +111,36 @@ public static class Menu
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long. Please try again:"); Console.ResetColor();
             itemCategory = Console.ReadLine();
         }
-        
-        //check if vegan
+
+        Console.WriteLine("What ingredients are in the items? (Please enter at least two ingredients, separated by commas)");
+        string input = Console.ReadLine();
+
+        if (input.ToLower() == "q")
+        {
+            return;
+        }
+        List<string> ingredients = input.Split(',')
+                                        .Select(ingredient => ingredient.Trim())
+                                        .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                                        .ToList();
+
+        while (ingredients.Count < 2)
+        {
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
+            input = Console.ReadLine();
+
+            if (input.ToLower() == "q")
+            {
+                return;
+            }
+
+            ingredients = input.Split(',')
+                            .Select(ingredient => ingredient.Trim())
+                            .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                            .ToList();
+        }
+
+        // Check if vegan
         Console.WriteLine("Is it vegan? (Y/N)");
         string IsVegan = Console.ReadLine();
         if (IsVegan.ToLower() == "q"){
@@ -121,8 +153,7 @@ public static class Menu
         }
         bool IsVeganBool = (IsVegan.ToLower() == "y") ? true : false;
 
-        
-        //check if spicy
+        // Check if spicy
         Console.WriteLine("Is it spicy? (Y/N)");
         string IsSpicy = Console.ReadLine();
         if (IsSpicy.ToLower() == "q"){
@@ -137,26 +168,18 @@ public static class Menu
         
         string itemSymbol = "";
         if (IsVeganBool){
-            //add a vegan symbol to itemname?
+            // Add a vegan symbol to item name
             itemSymbol += "♣";
         }
 
         if (IsSpicyBool){
-            //add a spicy symbol to itemname?
+            // Add a spicy symbol to item name
             itemSymbol += "🌶";
         }
-        //make the input into an object
-        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, itemSymbol);
 
-        // Read existing JSON data from the file
-        string jsonData = File.ReadAllText(filePath);
+        // Create the new MenuItem object
+        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, ingredients, itemSymbol);
 
-        // Check if menuItems is null after deserialization
-        if (menuItems == null)
-        {
-            // If it's null, initialize it with an empty list
-            menuItems = new List<MenuItem>();
-        }
         // Add the new item to the list
         menuItems.Add(newItem);
 
@@ -224,49 +247,50 @@ public static class Menu
     }
 
     public static void DisplayMenu(string HowToSort)
-{
-    // Read all lines from the file
-    string jsonString = File.ReadAllText(filePath);
+    {
+        // Read all lines from the file
+        string jsonString = File.ReadAllText(filePath);
 
-    // Parse the JSON string to a JArray
-    JArray menuArray = JArray.Parse(jsonString);
+        // Parse the JSON string to a JArray
+        JArray menuArray = JArray.Parse(jsonString);
 
-    // Sort alphabetically by category
-    if (HowToSort == "Category")
-    {
-        menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
-    }
-    else if (HowToSort == "Price")
-    {
-        menuArray = new JArray(menuArray.OrderBy(obj => (double)obj["Price"]));
-    }
-    else if (HowToSort == "Name")
-    {
-        menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
-    }
-
-    // Display the menu
-    Console.WriteLine("Name          | Price   | Category");
-    Console.WriteLine("---------------------------------");
-    foreach (JObject menuItem in menuArray)
-    {
-        try
+        // Sort alphabetically by category
+        if (HowToSort == "Category")
         {
-            string name = (string)menuItem["Name"];
-            double price = (double)menuItem["Price"];
-            string category = (string)menuItem["Category"];
-            string symbol = (string)menuItem["Symbol"];
-
-            Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category} {symbol}");
+            menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
         }
-        catch (Exception ex)
+        else if (HowToSort == "Price")
         {
-            Console.WriteLine($"Error parsing JSON: {ex.Message}");
-            continue;
+            menuArray = new JArray(menuArray.OrderBy(obj => (double)obj["Price"]));
         }
+        else if (HowToSort == "Name")
+        {
+            menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
+        }
+
+        // Display the menu
+        Console.WriteLine("Name          | Price   | Category   | Ingredients");
+        Console.WriteLine("-------------------------------------------------------------------------------------");
+        foreach (JObject menuItem in menuArray)
+        {
+            try
+            {
+                string name = (string)menuItem["Name"];
+                double price = (double)menuItem["Price"];
+                string category = (string)menuItem["Category"];
+                string symbol = (string)menuItem["Symbol"];
+                string ingredients = string.Join(", ", menuItem["Ingredients"].ToObject<List<string>>());
+
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category,-10} | {ingredients,-30}  {symbol}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error parsing JSON: {ex.Message}");
+                continue;
+            }
+        }
+        System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
     }
-    System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
-}
 
     public static void Options()
     {
@@ -359,7 +383,7 @@ public static class Menu
         }
     }
 
-        public static void DisplayCategories()
+    public static void DisplayCategories()
     {
         string jsonString = File.ReadAllText(filePath);
         JArray menuArray = JArray.Parse(jsonString);
@@ -393,14 +417,15 @@ public static class Menu
         {
             // Display items belonging to the selected category
             Console.WriteLine($"Items in category '{selectedCategory}':");
-            Console.WriteLine("Name          | Price   | Category");
-            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Name          | Price   | Category   | Ingredients");
+            Console.WriteLine("-------------------------------------------------------------------------------------");
             foreach (JObject menuItem in categories[selectedCategory])
             {
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
                 string symbol = (string)menuItem["Symbol"];
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory}{symbol}");
+                string ingredients = string.Join(", ", menuItem["Ingredients"].ToObject<List<string>>());
+                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory,-10} | {ingredients,-30}  {symbol}");
             }
         }
         else
@@ -426,6 +451,5 @@ public static class Menu
                 break;
         }
     }
-
 }
 
