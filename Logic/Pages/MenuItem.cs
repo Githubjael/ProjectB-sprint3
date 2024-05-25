@@ -5,18 +5,12 @@ public class MenuItem{
     public string Symbol { get; set; }
     public List<string> Ingredients { get; }
 
-    public MenuItem(string name, double price, string category, List<string> ingredients){
+    public MenuItem(string name, double price, string category, List<string> ingredients, string symbol){
         Name = name;
         Price = price;
         Category = category;
         Ingredients = ingredients;
+        Symbol = symbol;
 
     }
-        public MenuItem(string name, double price, string category, string symbol){
-        Name = name;
-        Price = price;
-        Category = category;
-        Symbol = symbol;
-    }
-//MAYBE DOESNT NEED TO bE OVERLOADED
 }
