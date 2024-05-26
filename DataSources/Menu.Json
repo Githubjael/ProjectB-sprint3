@@ -1,25 +1,5 @@
 [
   {
-    "Name": "Steak",
-    "Price": 10.0,
-    "Category": "Meat"
-  },
-  {
-    "Name": "Fanta",
-    "Price": 3.5,
-    "Category": "Drink"
-  },
-  {
-    "Name": "Salmon",
-    "Price": 15.99,
-    "Category": "Fish"
-  },
-  {
-    "Name": "Cola",
-    "Price": 2.999,
-    "Category": "Drink"
-  },
-  {
     "Name": "Mojito",
     "Price": 8.99,
     "Category": "Drink",
