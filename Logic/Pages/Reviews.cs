@@ -30,7 +30,7 @@ public class Reviews
 
     public static string AverageRating()
     {
-        if (_reviews == null || _reviews.Count == 0)
+        if (_reviews.Count == 0 || _reviews == null)
             return "☆☆☆☆☆ 0";
         string AverageReview = new string("");
         double AverageRating = 0;
@@ -90,9 +90,9 @@ public class Reviews
 
     public static void Options()
     {
-        Console.WriteLine("[H]: Home");
-        Console.WriteLine("[L]: Leave a review");
-        Console.WriteLine("[S]: See all reviews");
+        Console.WriteLine("[1]: Home");
+        Console.WriteLine("[2]: Leave a review");
+        Console.WriteLine("[3]: See all reviews");
 
         while (true)
         {
@@ -100,16 +100,18 @@ public class Reviews
 
             switch (userChoice)
             {
-                case "H":
+                case "1":
                     Home.Options();
                     return;
-                case "L":
-                    string guestName = "";
-                    while (guestName == "")
+                case "2":
+                    if (!Home.IsLoggedIn) 
                     {
-                        Console.WriteLine("Enter your name:");
-                        guestName = Console.ReadLine();
-                    } 
+                        Console.WriteLine("Please log in to leave a review.");
+                        continue;
+                    }
+
+                    string guestName = Home.guestName;
+                    
 
                     Console.WriteLine("Rate our restaurant (from 1 to 5):");
                     int rating;
@@ -144,7 +146,7 @@ public class Reviews
                     Reviews.Options();
                     break;
 
-                case "S":
+                case "3":
                     // View reviews
                     if (_reviews == null || _reviews.Count == 0)
                     {
@@ -164,5 +166,3 @@ public class Reviews
         }
     }
 }
-
-
