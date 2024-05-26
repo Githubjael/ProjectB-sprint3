@@ -1,0 +1,32 @@
+[
+  {
+    "ID": 1,
+    "GuestName": "Mees",
+    "Rating": "★★★★★",
+    "Comments": ""
+  },
+  {
+    "ID": 2,
+    "GuestName": "Mees",
+    "Rating": "★★★★★",
+    "Comments": "Best food i have ever eaten!!!!!!"
+  },
+  {
+    "ID": 3,
+    "GuestName": "banaan",
+    "Rating": "★★★★★",
+    "Comments": ""
+  },
+  {
+    "ID": 4,
+    "GuestName": "sjsj",
+    "Rating": "★★★★",
+    "Comments": "greatttt"
+  },
+  {
+    "ID": 5,
+    "GuestName": "hilal",
+    "Rating": "★★",
+    "Comments": "cold food"
+  }
+]
