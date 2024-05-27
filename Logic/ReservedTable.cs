@@ -1,40 +1,32 @@
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-
 static class ReservedTable
 {
     private static int _timeCount = 0;
     public static List<Table> TableTracker = new List<Table>() { }; // nodig om alle tafels op een lijstje te hebben en om staus binnen de tafels te veranderen
-
     public static void Increment()
     {
         _timeCount ++;
     }
-
     public static void Reset()
     {
         _timeCount = 0;
     }
     public static void PopulateTables() // deze moet in Reservations logische laag + info halen over gereserveerde tafels uit json
     {
-        for (int i = 1; i <= 7; i++)
+        for (int i = 1; i <= 8; i++)
         {
-            TableTracker.Add(new BarTable(Convert.ToString(i), 1));
+            TableTracker.Add(new TableForTwo(Convert.ToString(i), 2));
         }
-        for (int j = 8; j <= 16; j++)
+        for (int j = 9; j <= 14 ; j++)
         {
-            TableTracker.Add(new TableForTwo(Convert.ToString(j), 2));
+            TableTracker.Add(new TableForFour(Convert.ToString(j), 4));
         }
-        for (int k = 17; k <= 21; k++)
+        for (int k = 15; k <= 16; k++)
         {
-            TableTracker.Add(new TableForFour(Convert.ToString(k), 4));
-        }
-        for (int l = 22; l <= 23; l++)
-        {
-            TableTracker.Add(new TableForSix(Convert.ToString(l), 6));
+            TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
     }
-
     public static int CheckAvailableTables(string Date, string TimeSlot) // Checks if tables are full, if so another method will remove the timeslot
     {
         MakeTablesAvailable(Date, TimeSlot);
@@ -58,8 +50,6 @@ static class ReservedTable
             }
         }
     }
-
-
    public static List<string> GetTimes(string Date)
 {
     List<string> Times = new List<string> { "10:00", "17:00", "22:00" };
