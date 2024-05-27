@@ -34,7 +34,7 @@
     "Price": 15.99,
     "Category": "Drink",
     "Ingredients": ["Bourbon whiskey, Vers citroensap, Suikersiroop, Maraschinokers voor garnering, Ijsblokjes"]
-  }
+  },
   {
     "Name": "Spicy Apple",
     "Price": 2.05,
@@ -70,5 +70,6 @@
       "cheese",
       "ham",
       "bread"
-  }
+    ]
+    }
 ]
