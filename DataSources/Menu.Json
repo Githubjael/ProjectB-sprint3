@@ -35,5 +35,40 @@
     "Category": "Drink",
     "Ingredients": ["Bourbon whiskey, Vers citroensap, Suikersiroop, Maraschinokers voor garnering, Ijsblokjes"]
   }
-  
+  {
+    "Name": "Spicy Apple",
+    "Price": 2.05,
+    "Category": "Fruit",
+    "Symbol": "♣🌶",
+    "Ingredients": [
+      "Apple",
+      "pepper"
+    ]
+  },
+  {
+    "Name": "Steak",
+    "Price": 10.0,
+    "Category": "Meat",
+    "Symbol": "",
+    "Ingredients": [
+      "beef",
+      "meat",
+      "pepper",
+      "mayonaise",
+      "salt",
+      "fries",
+      "ketchup",
+      "lettuce",
+      "tomato",
+      "cucumber",
+      "onion",
+      "knife",
+      "fork",
+      "plate",
+      "garlic sauce",
+      "peanuts",
+      "cheese",
+      "ham",
+      "bread"
+  }
 ]
