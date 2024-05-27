@@ -1,75 +1,60 @@
 [
   {
+    "Id": 1,
     "Name": "Mojito",
     "Price": 8.99,
     "Category": "Drink",
-    "Ingredients": ["Rum, Mint leaves, Sugar, Lime juice, Soda water"]
+    "Ingredients": ["Rum", "Mint leaves", "Sugar", "Lime juice", "Soda water"]
   },
   {
+    "Id": 2,
     "Name": "Martini",
     "Price": 9.99,
     "Category": "Drink",
-    "Ingredients": ["Gin, Dry vermouth, Olive"]
+    "Ingredients": ["Gin", "Dry vermouth", "Olive"]
   },
   {
+    "Id": 3,
     "Name": "Old Fashioned",
     "Price": 15.99,
     "Category": "Drink",
     "Ingredients": ["Bourbon or Rye whiskey", "Sugar", "Angostura bitters", "Orange twist"]
   },
   {
+    "Id": 4,
     "Name": "Piña Colada",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Witte rum, Ananassap, Kokosmelk, Suikersiroop (optioneel), Ananasplakjes en/of kersen voor garnering, Ijsblokjes"]
+    "Ingredients": ["Witte rum", "Ananassap", "Kokosmelk", "Suikersiroop (optioneel)", "Ananasplakjes en/of kersen voor garnering", "Ijsblokjes"]
   },
   {
+    "Id": 5,
     "Name": "Cosmopolitan",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Wodka, Sinaasappellikeur (bijv. Cointreau), Vers limoensap. Cranberrysap, Limoen- of sinaasappelschil voor garnering, Ijsblokjes"]
+    "Ingredients": ["Wodka", "Sinaasappellikeur (bijv. Cointreau)", "Vers limoensap", "Cranberrysap", "Limoen- of sinaasappelschil voor garnering", "Ijsblokjes"]
   },
   {
+    "Id": 6,
     "Name": "Whiskey Sour",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Bourbon whiskey, Vers citroensap, Suikersiroop, Maraschinokers voor garnering, Ijsblokjes"]
+    "Ingredients": ["Bourbon whiskey", "Vers citroensap", "Suikersiroop", "Maraschinokers voor garnering", "Ijsblokjes"]
   },
   {
+    "Id": 7,
     "Name": "Spicy Apple",
     "Price": 2.05,
     "Category": "Fruit",
     "Symbol": "♣🌶",
-    "Ingredients": [
-      "Apple",
-      "pepper"
-    ]
+    "Ingredients": ["Apple", "Pepper"]
   },
   {
+    "Id": 8,
     "Name": "Steak",
     "Price": 10.0,
     "Category": "Meat",
     "Symbol": "",
-    "Ingredients": [
-      "beef",
-      "meat",
-      "pepper",
-      "mayonaise",
-      "salt",
-      "fries",
-      "ketchup",
-      "lettuce",
-      "tomato",
-      "cucumber",
-      "onion",
-      "knife",
-      "fork",
-      "plate",
-      "garlic sauce",
-      "peanuts",
-      "cheese",
-      "ham",
-      "bread"
-    ]
-    }
+    "Ingredients": ["Beef", "Meat", "Pepper", "Mayonaise", "Salt", "Fries", "Ketchup", "Lettuce", "Tomato", "Cucumber", "Onion", "Knife", "Fork", "Plate", "Garlic sauce", "Peanuts", "Cheese", "Ham", "Bread"]
+  }
 ]
