@@ -14,15 +14,19 @@ static class ReservedTable
     }
     public static void PopulateTables() // deze moet in Reservations logische laag + info halen over gereserveerde tafels uit json
     {
-        for (int i = 1; i <= 8; i++)
+        for (int h = 1; h <= 7; h++)
+        {
+            TableTracker.Add(new BarTable(Convert.ToString(h), 1));
+        }
+        for (int i = 8; i <= 15; i++)
         {
             TableTracker.Add(new TableForTwo(Convert.ToString(i), 2));
         }
-        for (int j = 9; j <= 14 ; j++)
+        for (int j = 16; j <=  21; j++)
         {
             TableTracker.Add(new TableForFour(Convert.ToString(j), 4));
         }
-        for (int k = 15; k <= 16; k++)
+        for (int k = 22; k <= 23; k++)
         {
             TableTracker.Add(new TableForSix(Convert.ToString(k), 6));
         }
