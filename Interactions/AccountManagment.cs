@@ -1,5 +1,58 @@
-using System.Threading;static class AccountManagment
+using System.Threading;
+static class AccountManagment
 {
+    public static void ChangePassword()
+    {
+        Console.WriteLine("Email address:");
+        string email = Console.ReadLine();
+
+        var user = UsersAccess.GetUser(email);
+
+        if (user == null)
+        {
+            Console.WriteLine("User not found. Please try again.");
+            return;
+        }
+
+        Console.WriteLine("Current password:");
+        string currentPassword = Console.ReadLine();
+
+        if (user.Password != currentPassword)
+        {
+            Console.WriteLine("Incorrect current password. Please try again.");
+            return;
+        }
+
+        string newPassword;
+        do
+        {
+            Console.WriteLine("Enter new password:");
+            newPassword = Console.ReadLine();
+        } while (string.IsNullOrEmpty(newPassword));
+
+        Console.WriteLine("Confirm new password:");
+        string confirmNewPassword = Console.ReadLine();
+
+        if (newPassword != confirmNewPassword)
+        {
+            Console.WriteLine("Passwords do not match. Please try again.");
+            return;
+        }
+
+        user.Password = newPassword;
+        UsersAccess.UpdateUser(user);
+
+        var updatedUser = UsersAccess.GetUser(email);
+        if (updatedUser != null && updatedUser.Password == newPassword)
+        {
+            Console.WriteLine("Password changed successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Password change failed. Please try again.");
+        }
+    }
+
     public static void LogIn()
     {
         // Log in as manager or guest
@@ -23,7 +76,6 @@ using System.Threading;static class AccountManagment
                 Console.WriteLine();
                 Console.WriteLine();
                 Home.Options(); 
-                return;
             }
             else if (user == null && manager.EmailAddress == email && manager.Password == password)
             {
@@ -34,7 +86,7 @@ using System.Threading;static class AccountManagment
                     Console.WriteLine($"Welcome back, {manager.FirstName}");
                     Home.ManagerLoggedIn = true;
                     Home.IsLoggedIn = false;
-                    return;
+                    Home.Options();
                 }
             }
             else
