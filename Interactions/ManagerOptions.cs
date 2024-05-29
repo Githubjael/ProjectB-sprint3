@@ -73,18 +73,20 @@ static class ManagerOptions
         string answer = "";
         while(answer != "h"){
         do{
+            //changed most of the Lettered options into numbered options
         System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[S]: See all reviews");
-        System.Console.WriteLine("[SB]: See reviews based on ratings");
-        System.Console.WriteLine("[D] Delete review");
-        System.Console.WriteLine("[DA] Delete all reviews");
+        System.Console.WriteLine("[1]: See all reviews");
+        System.Console.WriteLine("[2]: See reviews based on ratings");
+        System.Console.WriteLine("[3]: Reply to a review");
+        System.Console.WriteLine("[4] Delete review");
+        System.Console.WriteLine("[5] Delete all reviews");
         answer = Console.ReadLine().ToLower();
         if (answer == "h")
         {
             Home.Options();
             break;
         }
-        } while (answer != "s" && answer != "sb" && answer != "d" && answer != "da");
+        } while (answer != "1" && answer != "2" && answer != "4" && answer != "5" && answer != "3");
         ReviewDetails(answer);
         }
     }
@@ -93,18 +95,21 @@ static class ManagerOptions
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "s":
+            case "1":
             ReviewLogic.SeeAllReviews();
             break;
-            case "sb":
+            case "2":
             System.Console.WriteLine("Choose rating from 1 up to 5");
             int rating = Convert.ToInt32(Console.ReadLine());
             ReviewLogic.SeeReviewsBasedOnRating(rating);
             break;
-            case "d":
+            case "3":
+            ReviewLogic.ReplyFromManager();
+            break;
+            case "4":
             ReviewLogic.DeleteReview();
             break;
-            case "da":
+            case "5":
             ReviewLogic.DeleteAllReviews();
             break;
         }  

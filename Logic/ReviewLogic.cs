@@ -4,22 +4,29 @@ using Newtonsoft.Json;
 
 class ReviewLogic : IComparable<Review>
 {
-    public static string reviewstring = @"C:\Users\User\Desktop\Project B\DataSources\Reviews.Json";
+    public static string reviewstring = @"..\..\..\DataSources\Reviews.Json";
     public static void SeeAllReviews()
     {
         string reviewsstring1 = File.ReadAllText(reviewstring);
         JArray reviews = JArray.Parse(reviewsstring1);
-        System.Console.WriteLine(" Id  | Name       | Rating        | Comment   ");
-        System.Console.WriteLine("--------------------------------------------------");
+        System.Console.WriteLine(" Id  | Name       | Rating         | Comment     | Company Response   ");
+        System.Console.WriteLine("---------------------------------------------------------------------");
         foreach (JObject review in reviews)
         {
             // try
             // {
+                //added 'structure' string so i could modify it easily
                 int Id = (int)review["ID"];
                 string name = (string)review["GuestName"];
                 string rating = (string)review["Rating"];
                 string comment = (string)review["Comments"];
-                Console.WriteLine($"{Id, -3} | {name,-10} | {rating, -14} | {comment}");
+                string reply = (string)review["ReplyFromManager"];
+                string structure = $"{Id, -3} | {name,-10} | {rating, -14} | {comment}";
+                if (!string.IsNullOrEmpty(reply))
+                {
+                    structure += $"| {reply}";
+                }
+                Console.WriteLine(structure);
             // }
             // catch (Exception ex)
             // {
@@ -40,12 +47,19 @@ class ReviewLogic : IComparable<Review>
         {
             // try
             // {
+                //added 'structure' string so i could modify it easily
                 int Id = (int)review["ID"];
                 string name = (string)review["GuestName"];
                 string rating = (string)review["Rating"];
                 string comment = (string)review["Comments"];
+                string reply = (string)review["ReplyFromManager"];
                 if (star == rating){
-                Console.WriteLine($"{Id, -3} | {name,-10} | {rating, -14} | {comment}");
+                    string structure = $"{Id, -3} | {name,-10} | {rating, -14} | {comment}";
+                    if (!string.IsNullOrEmpty(reply))
+                    {
+                        structure += $"| {reply}";
+                    }
+                Console.WriteLine(structure);
                 }
             // }
             // catch (Exception ex)
@@ -68,6 +82,15 @@ class ReviewLogic : IComparable<Review>
         Reviews.RemoveAll();
         System.Console.WriteLine();
         System.Console.WriteLine("All reviews succesfully removed.");
+    }
+    // added to reply to reviews
+    public static void ReplyFromManager()
+    {
+        Console.WriteLine("enter the reviewID: ");
+        int reviewID = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Enter your reply: ");
+        string reply = Console.ReadLine();
+        Reviews.ReplyToReview(reviewID, reply);
     }
 
     public static void SortReviews()
