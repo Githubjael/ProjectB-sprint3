@@ -251,13 +251,9 @@ public static class Menu
 
     public static void DisplayMenu(string HowToSort)
     {
-        // Read all lines from the file
         string jsonString = File.ReadAllText(filePath);
-
-        // Parse the JSON string to a JArray
         JArray menuArray = JArray.Parse(jsonString);
 
-        // Sort alphabetically by category
         if (HowToSort == "Category")
         {
             menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
@@ -271,61 +267,10 @@ public static class Menu
             menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
         }
 
-        // Display the menu
-        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
-        Console.WriteLine("-------------------------------------------------------------------------------------");
-        foreach (JObject menuItem in menuArray)
-        {
-            try
-            {
-                int id = (int)menuItem["Id"];
-                string name = (string)menuItem["Name"];
-                double price = (double)menuItem["Price"];
-                string category = (string)menuItem["Category"];
-                string symbol = (string)menuItem["Symbol"];
-                List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
-                List<string> formattedIngredients = new List<string>();
-                string currentLine = string.Empty;
-
-                foreach (string ingredient in ingredients)
-                {
-                    // Check if adding the current ingredient exceeds 50 characters
-                    if ((currentLine + ", " + ingredient).Length > 50)
-                    {
-                        // If adding the ingredient exceeds 50 characters, add the current line to the list
-                        formattedIngredients.Add(currentLine);
-                        // Reset the current line to start adding the next set of ingredients
-                        currentLine = ingredient;
-                    }
-                    else
-                    {
-                        // If adding the ingredient does not exceed 50 characters, append it to the current line
-                        if (!string.IsNullOrEmpty(currentLine))
-                        {
-                            currentLine += ", ";
-                        }
-                        currentLine += ingredient;
-                    }
-                }
-
-                // Add the last line to the list
-                formattedIngredients.Add(currentLine);
-
-                                Console.WriteLine($"{id,-2} {symbol, -2}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}"); //make so it only shows the ingredients up to 50 char
-                                for (int i = 1; i < ingredients.Count; i++)
-                                {
-                                    Console.WriteLine($"{' ',-2} {' ',-2}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}"); //show the ingredients that havent been shown yet up to 50
-                                }
-
-            }
-            catch (Exception ex)
-            {
-                // Console.WriteLine($"Error parsing JSON: {ex.Message}");
-                continue;
-            }
-        }
-        System.Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+        DisplayMenuItems(menuArray.Cast<JObject>());
     }
+
+
 
     public static void Options()
     {
@@ -418,74 +363,112 @@ public static class Menu
         }
     }
 
-    public static void DisplayCategories()
+    public static void DisplayCategories(){
+    string jsonString = File.ReadAllText(filePath);
+    JArray menuArray = JArray.Parse(jsonString);
+
+    Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
+
+    foreach (JObject menuItem in menuArray)
     {
-        string jsonString = File.ReadAllText(filePath);
-        JArray menuArray = JArray.Parse(jsonString);
-
-        Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
-
-        // Group menu items by category (category is key and linked to its value (itemname))
-        foreach (JObject menuItem in menuArray)
+        string category = ((string)menuItem["Category"]).ToLower();
+        if (!categories.ContainsKey(category))
         {
-            string category = ((string)menuItem["Category"]).ToLower(); 
-            if (!categories.ContainsKey(category))
-            {
-                categories.Add(category, new List<JObject>());
-            }
-            categories[category].Add(menuItem);
+            categories.Add(category, new List<JObject>());
         }
+        categories[category].Add(menuItem);
+    }
 
-        // Display categories to the user
-        Console.WriteLine("Available Categories:");
-        foreach (string category in categories.Keys)
+    Console.WriteLine("Available Categories:");
+    foreach (string category in categories.Keys)
+    {
+        Console.WriteLine("- " + category);
+    }
+
+    Console.WriteLine("Enter a category to view its items:");
+    string selectedCategory = Console.ReadLine().ToLower();
+
+    if (categories.ContainsKey(selectedCategory))
+    {
+        Console.WriteLine($"Items in category '{selectedCategory}':");
+        DisplayMenuItems(categories[selectedCategory]);
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+    }
+
+    Console.WriteLine("[1]: View another category");
+    Console.WriteLine("[2]: Go back");
+
+    string userChoiceSort = Console.ReadLine().ToUpper();
+
+    switch (userChoiceSort)
+    {
+        case "1":
+            DisplayCategories();
+            break;
+        case "2":
+            Options(); // Go back to main options menu
+            break;
+        default:
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+            SortMenuOptions();
+            break;
+    }
+    }
+
+
+    public static void DisplayMenuItems(IEnumerable<JObject> menuItems)
+    {
+        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
+        Console.WriteLine("-------------------------------------------------------------------------------------");
+
+        foreach (JObject menuItem in menuItems)
         {
-            Console.WriteLine("- " + category);
-        }
-
-        // Prompt user to input a category
-        Console.WriteLine("Enter a category to view its items:");
-        string selectedCategory = Console.ReadLine().ToLower();
-
-        // Check if the selected category exists
-        if (categories.ContainsKey(selectedCategory))
-        {
-            // Display items belonging to the selected category
-            Console.WriteLine($"Items in category '{selectedCategory}':");
-            Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-            foreach (JObject menuItem in categories[selectedCategory])
+            try
             {
                 int id = (int)menuItem["Id"];
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
+                string category = (string)menuItem["Category"];
                 string symbol = (string)menuItem["Symbol"];
-                string ingredients = string.Join(", ", menuItem["Ingredients"].ToObject<List<string>>());
-                Console.WriteLine($"{id,-2} | {name,-14} | €{price,-7:0.00} | {selectedCategory,-10} | {ingredients,-30}  {symbol}");
+                List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
+                List<string> formattedIngredients = new List<string>();
+                string currentLine = string.Empty;
+
+                foreach (string ingredient in ingredients)
+                {
+                    if ((currentLine + ", " + ingredient).Length > 50)
+                    {
+                        formattedIngredients.Add(currentLine);
+                        currentLine = ingredient;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(currentLine))
+                        {
+                            currentLine += ", ";
+                        }
+                        currentLine += ingredient;
+                    }
+                }
+
+                formattedIngredients.Add(currentLine);
+
+                Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                for (int i = 1; i < formattedIngredients.Count; i++)
+                {
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                continue;
             }
         }
-        else
-        {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-        }
-        Console.WriteLine("[1]: View another category");
-        Console.WriteLine("[2]: Go back");
-
-        string userChoiceSort = Console.ReadLine().ToUpper();
-
-        switch (userChoiceSort)
-        {
-            case "1":
-                DisplayCategories();
-                break;
-            case "2":
-                Options(); // Go back to main options menu
-                break;
-            default:
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-                SortMenuOptions(); 
-                break;
-        }
+        Console.WriteLine("♣ = vegan. 🌶 = spicy.");
     }
 }
 
