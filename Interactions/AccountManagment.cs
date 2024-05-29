@@ -5,9 +5,12 @@ static class AccountManagment
 {
     public static void ChangePassword()
     {
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
         Console.WriteLine("Email address:");
         string email = Console.ReadLine();
-
+        if (email.ToLower() == "q"){
+         return;
+        }
         var user = UsersAccess.GetUser(email);
 
         if (user == null)
@@ -18,7 +21,9 @@ static class AccountManagment
 
         Console.WriteLine("Current password:");
         string currentPassword = Console.ReadLine();
-
+        if (currentPassword.ToLower() == "q"){
+            return;
+        }
         if (user.Password != currentPassword)
         {
             Console.WriteLine("Incorrect current password. Please try again.");
@@ -30,11 +35,16 @@ static class AccountManagment
         {
             Console.WriteLine("Enter new password:");
             newPassword = Console.ReadLine();
+        if (newPassword.ToLower() == "q"){
+            return;
+        }
         } while (string.IsNullOrEmpty(newPassword));
 
         Console.WriteLine("Confirm new password:");
         string confirmNewPassword = Console.ReadLine();
-
+        if (confirmNewPassword.ToLower() == "q"){
+            return;
+        }
         if (newPassword != confirmNewPassword)
         {
             Console.WriteLine("Passwords do not match. Please try again.");
@@ -54,18 +64,24 @@ static class AccountManagment
             Console.WriteLine("Password change failed. Please try again.");
         }
     }
+    
 
     public static void LogIn()
     {
         // Log in as manager or guest
         while (!Home.IsLoggedIn && !Home.ManagerLoggedIn)
-        {
+        {            
+            System.Console.WriteLine("(At any time type 'Q' to go back)");
             Console.WriteLine("Email address:");
             string email = Console.ReadLine();
-
+            if (email.ToLower() == "q"){
+            return;
+            }
             Console.WriteLine("Password:");
             string password = Console.ReadLine();
-
+            if (password.ToLower() == "q"){
+            return;
+            }
             var user = UsersAccess.GetUser(email);
             Manager manager = ManagerAccess.ReadFromJson()[0];
             if (user != null && user.Password == password)
@@ -83,6 +99,9 @@ static class AccountManagment
             {
                 Console.WriteLine("Manager code:");
                 string ManagerCode = Console.ReadLine();
+                if (ManagerCode.ToLower() == "q"){
+                return;
+                }
                 if (ManagerCode == manager.EmployeeCode)
                 {
                     Console.WriteLine($"Welcome back, {manager.FirstName}");
@@ -128,8 +147,12 @@ static class AccountManagment
     {
         string firstName;
         do{
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
         System.Console.WriteLine("Enter a valid first name:");
         firstName = Console.ReadLine();
+        if (firstName.ToLower() == "q"){
+        return;
+        }
         } while (!CheckUserInfo.IsValidName(firstName));
 
 
@@ -137,6 +160,9 @@ static class AccountManagment
         do{
         System.Console.WriteLine("Enter a valid last name:");
         lastName = Console.ReadLine();
+        if (lastName.ToLower() == "q"){
+        return;
+        }
         } while (!CheckUserInfo.IsValidName(lastName));
 
 
@@ -144,12 +170,18 @@ static class AccountManagment
         do{
         System.Console.WriteLine("Enter a valid email:");
         email = Console.ReadLine();
+        if (email.ToLower() == "q"){
+        return;
+        }
         } while (!CheckUserInfo.IsValidEmail(email));
 
         string phoneNumber;
         do{
             Console.WriteLine("Enter a valid phone number:");
             phoneNumber = Console.ReadLine();
+        if (phoneNumber.ToLower() == "q"){
+        return;
+        }
         } while (!CheckUserInfo.IsValidPhoneNumber(phoneNumber));
 
 
@@ -157,10 +189,16 @@ static class AccountManagment
         do{
             Console.WriteLine("Enter a valid password:");
             password = Console.ReadLine();
+            if (password.ToLower() == "q"){
+            return;
+        }
         } while (password == "");
 
         Console.WriteLine("Confirm your password:");
         string confirmPassword = Console.ReadLine();
+        if (confirmPassword.ToLower() == "q"){
+        return;
+        }
 
         if (password != confirmPassword)
         {
