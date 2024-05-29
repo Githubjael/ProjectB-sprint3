@@ -1,475 +1,487 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
-public static class Menu 
-{
-    private static string _name = "Menu";
-    public static List<MenuItem> Items { get; set; }
-
-    public static string Name => _name;
-
-    private static string WayToSort = "Category";
-
-    private static string filePath = @"..\..\..\DataSources\Menu.json";
-
-    public static string MaxPrice()
+    public static class Menu
     {
-        using StreamReader reader = new(filePath);
-        var json = reader.ReadToEnd();
-        List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(json);
-        double MaxPrice = 0;
-        foreach(MenuItem item in Menu)
+        private static string _name = "Menu";
+        public static List<MenuItem> Items { get; set; }
+
+        public static string Name => _name;
+
+        private static string WayToSort = "Category";
+
+        private static string filePath = @"..\..\..\DataSources\Menu.json";
+
+        public static string MaxPrice()
         {
-            if(item.Price > MaxPrice)
+            using StreamReader reader = new(filePath);
+            var json = reader.ReadToEnd();
+            List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(json);
+            double MaxPrice = 0;
+            foreach (MenuItem item in Menu)
             {
-                MaxPrice = item.Price;
+                if (item.Price > MaxPrice)
+                {
+                    MaxPrice = item.Price;
+                }
             }
+            return $"{MaxPrice}";
         }
-        return $"{MaxPrice}";
-    }
 
-    public static void AddItem()
-    {
-        // Catch bad input, make item name at least 2 characters
-        System.Console.WriteLine("(At any time type 'Q' to go back)");
-        Console.WriteLine("What's the name of the item?");
-        string itemName = Console.ReadLine().Trim();
-        if (itemName.ToLower() == "q"){
-            return;
-        }
-        bool ifInJsonFile = false;
-        // Deserialize existing JSON data to a list of MenuItem objects
-        List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
-
-        // Check if menuItems is null after deserialization
-        if (menuItems == null)
+        public static void AddItem()
         {
-            // If it's null, initialize it with an empty list
-            menuItems = new List<MenuItem>();
-        }
-
-        // Check if the item name already exists
-        if (menuItems.Any(item => item.Name.ToLower() == itemName.ToLower()))
-        {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Item with the same name already exists. Please choose a different name."); Console.ResetColor();
-            AddItem(); // Restart the method to prompt for a new item
-            return;
-        }
-        while (itemName.Length < 2)
-        {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 characters long. Please try again:"); Console.ResetColor();
-            itemName = Console.ReadLine();
-        }
-
-
-        // Catch bad input, make sure price is a (positive) number
-        double itemPrice = 0.0;
-        bool isValidPrice = false;
-        do
-        {
-            try
+            // Catch bad input, make item name at least 2 characters
+            System.Console.WriteLine("(At any time type 'Q' to go back)");
+            Console.WriteLine("What's the name of the item?");
+            string itemName = Console.ReadLine().Trim();
+            if (itemName.ToLower() == "q")
             {
-                Console.WriteLine("What's the price of the item? (For example: 5,00)");
-                string itemPrice2 = Console.ReadLine();
-                if (itemPrice2.ToLower() == "q"){
-                    return;
-                }
-                if (itemPrice2.Contains("."))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Use a comma."); Console.ResetColor();
-                }
-                else
-                {
-                    itemPrice = Convert.ToDouble(itemPrice2);
+                return;
+            }
+            bool ifInJsonFile = false;
+            // Deserialize existing JSON data to a list of MenuItem objects
+            List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
 
-                    if (double.IsNegative(itemPrice))
+            // Check if menuItems is null after deserialization
+            if (menuItems == null)
+            {
+                // If it's null, initialize it with an empty list
+                menuItems = new List<MenuItem>();
+            }
+
+            // Check if the item name already exists
+            if (menuItems.Any(item => item.Name.ToLower() == itemName.ToLower()))
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Item with the same name already exists. Please choose a different name."); Console.ResetColor();
+                AddItem(); // Restart the method to prompt for a new item
+                return;
+            }
+            while (itemName.Length < 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 characters long. Please try again:"); Console.ResetColor();
+                itemName = Console.ReadLine();
+            }
+
+            // Catch bad input, make sure price is a (positive) number
+            double itemPrice = 0.0;
+            bool isValidPrice = false;
+            do
+            {
+                try
+                {
+                    Console.WriteLine("What's the price of the item? (For example: 5,00)");
+                    string itemPrice2 = Console.ReadLine();
+                    if (itemPrice2.ToLower() == "q")
                     {
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a positive number for the price."); Console.ResetColor();
+                        return;
+                    }
+                    if (itemPrice2.Contains("."))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Use a comma."); Console.ResetColor();
                     }
                     else
                     {
-                        isValidPrice = true;
+                        itemPrice = Convert.ToDouble(itemPrice2);
+
+                        if (double.IsNegative(itemPrice))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a positive number for the price."); Console.ResetColor();
+                        }
+                        else
+                        {
+                            isValidPrice = true;
+                        }
                     }
                 }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a number for the price."); Console.ResetColor();
+                }
+            } while (!isValidPrice);
+
+            // Catch bad input, make sure item category is at least 2 characters
+            Console.WriteLine("What's the category of the item?");
+            string itemCategory = Console.ReadLine();
+            if (itemCategory.ToLower() == "q")
+            {
+                return;
             }
-            catch (FormatException){
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a number for the price."); Console.ResetColor();
+            while (itemCategory.Length < 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long. Please try again:"); Console.ResetColor();
+                itemCategory = Console.ReadLine();
             }
-        } while (!isValidPrice);
 
-        // Catch bad input, make sure item category is at least 2 characters
-        Console.WriteLine("What's the category of the item?");
-        string itemCategory = Console.ReadLine();
-        if (itemCategory.ToLower() == "q"){
-        return;
-        }
-        while (itemCategory.Length < 2){
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long. Please try again:"); Console.ResetColor();
-            itemCategory = Console.ReadLine();
-        }
-
-        Console.WriteLine("What ingredients are in the items? (Please enter at least two ingredients, separated by commas)");
-        string input = Console.ReadLine();
-
-        if (input.ToLower() == "q")
-        {
-            return;
-        }
-        List<string> ingredients = input.Split(',')
-                                        .Select(ingredient => ingredient.Trim())
-                                        .Where(ingredient => !string.IsNullOrEmpty(ingredient))
-                                        .ToList();
-
-        while (ingredients.Count < 2)
-        {
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
-            input = Console.ReadLine();
+            Console.WriteLine("What ingredients are in the items? (Please enter at least two ingredients, separated by commas)");
+            string input = Console.ReadLine();
 
             if (input.ToLower() == "q")
             {
                 return;
             }
+            List<string> ingredients = input.Split(',')
+                                            .Select(ingredient => ingredient.Trim())
+                                            .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                                            .ToList();
 
-            ingredients = input.Split(',')
-                            .Select(ingredient => ingredient.Trim())
-                            .Where(ingredient => !string.IsNullOrEmpty(ingredient))
-                            .ToList();
-        }
-
-        // Check if vegan
-        Console.WriteLine("Is it vegan? (Y/N)");
-        string IsVegan = Console.ReadLine();
-        if (IsVegan.ToLower() == "q"){
-        return;
-        }
-        while (IsVegan.ToLower() != "y" && IsVegan.ToLower() != "n")
-        {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
-            IsVegan = Console.ReadLine();
-        }
-        bool IsVeganBool = (IsVegan.ToLower() == "y") ? true : false;
-
-        // Check if spicy
-        Console.WriteLine("Is it spicy? (Y/N)");
-        string IsSpicy = Console.ReadLine();
-        if (IsSpicy.ToLower() == "q"){
-        return;
-        }
-        while (IsSpicy.ToLower() != "y" && IsSpicy.ToLower() != "n")
-        {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
-            IsSpicy = Console.ReadLine();
-        }
-        bool IsSpicyBool = (IsSpicy.ToLower() == "y") ? true : false;
-        
-        string itemSymbol = "";
-        if (IsVeganBool){
-            // Add a vegan symbol to item name
-            itemSymbol += "♣";
-        }
-
-        if (IsSpicyBool){
-            // Add a spicy symbol to item name
-            itemSymbol += "🌶";
-        }
-
-        // Generate a new unique ID
-        int newId = menuItems.Count > 0 ? menuItems.Max(item => item.Id) + 1 : 1;
-
-        // Create the new MenuItem object
-        MenuItem newItem = new MenuItem(newId, itemName, itemPrice, itemCategory, ingredients, itemSymbol);
-
-        // Add the new item to the list
-        menuItems.Add(newItem);
-
-        // Serialize the updated list of items back to JSON
-        string updatedJsonData = JsonConvert.SerializeObject(menuItems, Formatting.Indented);
-
-        // Write the updated JSON data back to the file
-        File.WriteAllText(filePath, updatedJsonData);
-
-        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added successfully"); Console.ResetColor();
-        System.Threading.Thread.Sleep(1500);
-    }
-
-    public static void RemoveItem()
-    {
-        System.Console.WriteLine("(At any time type 'Q' to go back)");
-        Console.WriteLine("What's the name of the item you want to remove?");
-        string itemName = Console.ReadLine();
-        if (itemName.ToLower() == "q"){
-        return;
-        }
-
-        // Read existing JSON data from the file
-        string jsonData = File.ReadAllText(filePath);
-
-        // Deserialize JSON data to a JArray
-        JArray menuArray = JArray.Parse(jsonData);
-
-        bool itemRemoved = false;
-
-        // Iterate through the menu items
-        for (int i = 0; i < menuArray.Count; i++)
-        {
-            JObject menuItem = (JObject)menuArray[i];
-            if ((string)menuItem["Name"] == itemName)
+            while (ingredients.Count < 2)
             {
-                // Remove the item from the menu array
-                menuArray.RemoveAt(i);
-                itemRemoved = true;
-                break;
-            }
-        }
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
+                input = Console.ReadLine();
 
-        if (itemRemoved)
-        {
-            // Serialize the updated menu array back to JSON
-            string updatedJsonData = menuArray.ToString(Formatting.Indented);
+                if (input.ToLower() == "q")
+                {
+                    return;
+                }
+
+                ingredients = input.Split(',')
+                                .Select(ingredient => ingredient.Trim())
+                                .Where(ingredient => !string.IsNullOrEmpty(ingredient))
+                                .ToList();
+            }
+
+            // Check if vegan
+            Console.WriteLine("Is it vegan? (Y/N)");
+            string IsVegan = Console.ReadLine();
+            if (IsVegan.ToLower() == "q")
+            {
+                return;
+            }
+            while (IsVegan.ToLower() != "y" && IsVegan.ToLower() != "n")
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
+                IsVegan = Console.ReadLine();
+            }
+            bool IsVeganBool = (IsVegan.ToLower() == "y") ? true : false;
+
+            // Check if spicy
+            Console.WriteLine("Is it spicy? (Y/N)");
+            string IsSpicy = Console.ReadLine();
+            if (IsSpicy.ToLower() == "q")
+            {
+                return;
+            }
+            while (IsSpicy.ToLower() != "y" && IsSpicy.ToLower() != "n")
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter Y (for yes) or N (for no). Please try again:"); Console.ResetColor();
+                IsSpicy = Console.ReadLine();
+            }
+            bool IsSpicyBool = (IsSpicy.ToLower() == "y") ? true : false;
+
+            string itemSymbol = "";
+            if (IsVeganBool)
+            {
+                // Add a vegan symbol to item name
+                itemSymbol += "♣";
+            }
+
+            if (IsSpicyBool)
+            {
+                // Add a spicy symbol to item name
+                itemSymbol += "🌶";
+            }
+
+            // Generate a new unique ID
+            string newId = menuItems.Count > 0 ? (int.Parse(menuItems.Max(item => item.Id)) + 1).ToString() : "1";
+
+            // Create the new MenuItem object
+            MenuItem newItem = new MenuItem(newId, itemName, itemPrice, itemCategory, ingredients, itemSymbol);
+
+            // Add the new item to the list
+            menuItems.Add(newItem);
+
+            // Serialize the updated list of items back to JSON
+            string updatedJsonData = JsonConvert.SerializeObject(menuItems, Formatting.Indented);
 
             // Write the updated JSON data back to the file
             File.WriteAllText(filePath, updatedJsonData);
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' removed successfully"); Console.ResetColor();
-            System.Threading.Thread.Sleep(1500);
 
-        }
-        else{
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Item '{itemName}' not found!"); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added successfully"); Console.ResetColor();
             System.Threading.Thread.Sleep(1500);
         }
-    }
 
-    // public static void SearchItem(){ maybe add later
-
-    // }
-    // public static void ChangeItem(){ maybe add later
-    // }
-
-    public static void DisplayMenu(string HowToSort)
-    {
-        string jsonString = File.ReadAllText(filePath);
-        JArray menuArray = JArray.Parse(jsonString);
-
-        if (HowToSort == "Category")
+        public static void RemoveItem()
         {
-            menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
-        }
-        else if (HowToSort == "Price")
-        {
-            menuArray = new JArray(menuArray.OrderBy(obj => (double)obj["Price"]));
-        }
-        else if (HowToSort == "Name")
-        {
-            menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
-        }
+            System.Console.WriteLine("(At any time type 'Q' to go back)");
+            Console.WriteLine("What's the name or ID of the item you want to remove?");
+            string itemNameOrId = Console.ReadLine();
+            if (itemNameOrId.ToLower() == "q")
+            {
+                return;
+            }
 
-        DisplayMenuItems(menuArray.Cast<JObject>());
-    }
+            // Read existing JSON data from the file
+            string jsonData = File.ReadAllText(filePath);
 
+            // Deserialize JSON data to a JArray
+            JArray menuArray = JArray.Parse(jsonData);
 
+            bool itemRemoved = false;
 
-    public static void Options()
-    {
-        DisplayMenu(WayToSort);
-        Console.WriteLine("[1]: Home");
-        Console.WriteLine("[2]: Sort the menu");
-        Console.WriteLine("[3]: View a specific category");
-        if (Home.ManagerLoggedIn){
-        Console.WriteLine("[4]: Add item");
-        Console.WriteLine("[5]: Remove item");
-        }
-        while (true){
-        string userChoice = Console.ReadLine().ToUpper();
-        switch (userChoice)
-        {
-            case "2":
-                SortMenuOptions();
-                break;
-            case "3":
-                DisplayCategories();
-                break;
-            case "1":
-                Home.Options();
-                break;
-            case "4":
-                if(Home.ManagerLoggedIn){
-                    AddItem();
+            // Iterate through the menu items
+            for (int i = 0; i < menuArray.Count; i++)
+            {
+                JObject menuItem = (JObject)menuArray[i];
+                if ((string)menuItem["Name"] == itemNameOrId || (string)menuItem["Id"] == itemNameOrId)
+                {
+                    // Remove the item from the menu array
+                    menuArray.RemoveAt(i);
+                    itemRemoved = true;
+                    break;
                 }
-                else{
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-                    System.Threading.Thread.Sleep(1500);
-                    Console.Clear();
-                }
-                Options();
-                break;
-            case "5":
-                if(Home.ManagerLoggedIn){
-                    RemoveItem();
-                }
-                else{
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-                    System.Threading.Thread.Sleep(1500);
-                    Console.Clear();
-                }
-                Options();
-                break;
-            default:
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+            }
+
+            if (itemRemoved)
+            {
+                // Serialize the updated menu array back to JSON
+                string updatedJsonData = menuArray.ToString(Formatting.Indented);
+
+                // Write the updated JSON data back to the file
+                File.WriteAllText(filePath, updatedJsonData);
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemNameOrId}' removed successfully"); Console.ResetColor();
                 System.Threading.Thread.Sleep(1500);
-                // Console.Clear();
-                // Options(); // Restart the options loop
-                break;
-        }
-        }
-    }
 
-    public static void SortMenuOptions()
-    {
-        Console.WriteLine("[1]: Sort by price");
-        Console.WriteLine("[2]: Sort by name");
-        Console.WriteLine("[3]: Sort by category");
-        Console.WriteLine("[4]: Go back");
-        while (true){
-        string userChoiceSort = Console.ReadLine().ToUpper();
-
-        switch (userChoiceSort)
-        {
-            case "1":
-                // Implement sorting by price
-                WayToSort = "Price";
-                Options(); // After sorting, return to options
-                break;
-            case "2":
-                // Implement sorting by name
-                WayToSort = "Name";
-                Options(); // After sorting, return to options
-                break;
-            case "3":
-                // Implement sorting by category
-                WayToSort = "Category";
-                Options(); // After sorting, return to options
-                break;
-            case "4":
-                Options(); // Go back to main options menu
-                break;
-            default:
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-                break;
-        }
-        }
-    }
-
-    public static void DisplayCategories(){
-    string jsonString = File.ReadAllText(filePath);
-    JArray menuArray = JArray.Parse(jsonString);
-
-    Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
-
-    foreach (JObject menuItem in menuArray)
-    {
-        string category = ((string)menuItem["Category"]).ToLower();
-        if (!categories.ContainsKey(category))
-        {
-            categories.Add(category, new List<JObject>());
-        }
-        categories[category].Add(menuItem);
-    }
-
-    Console.WriteLine("Available Categories:");
-    foreach (string category in categories.Keys)
-    {
-        Console.WriteLine("- " + category);
-    }
-
-    Console.WriteLine("Enter a category to view its items:");
-    string selectedCategory = Console.ReadLine().ToLower();
-
-    if (categories.ContainsKey(selectedCategory))
-    {
-        Console.WriteLine($"Items in category '{selectedCategory}':");
-        DisplayMenuItems(categories[selectedCategory]);
-    }
-    else
-    {
-        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-    }
-
-    Console.WriteLine("[1]: View another category");
-    Console.WriteLine("[2]: Go back");
-
-    string userChoiceSort = Console.ReadLine().ToUpper();
-
-    switch (userChoiceSort)
-    {
-        case "1":
-            DisplayCategories();
-            break;
-        case "2":
-            Options(); // Go back to main options menu
-            break;
-        default:
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-            SortMenuOptions();
-            break;
-    }
-    }
-
-
-    public static void DisplayMenuItems(IEnumerable<JObject> menuItems)
-    {
-        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
-        Console.WriteLine("-------------------------------------------------------------------------------------");
-
-        foreach (JObject menuItem in menuItems)
-        {
-            try
+            }
+            else
             {
-                int id = (int)menuItem["Id"];
-                string name = (string)menuItem["Name"];
-                double price = (double)menuItem["Price"];
-                string category = (string)menuItem["Category"];
-                string symbol = (string)menuItem["Symbol"];
-                List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
-                List<string> formattedIngredients = new List<string>();
-                string currentLine = string.Empty;
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Item '{itemNameOrId}' not found!"); Console.ResetColor();
+                System.Threading.Thread.Sleep(1500);
+            }
+        }
 
-                foreach (string ingredient in ingredients)
+        // public static void SearchItem(){ maybe add later
+
+        // }
+        // public static void ChangeItem(){ maybe add later
+        // }
+
+        public static void DisplayMenu(string HowToSort)
+        {
+            string jsonString = File.ReadAllText(filePath);
+            JArray menuArray = JArray.Parse(jsonString);
+
+            if (HowToSort == "Category")
+            {
+                menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Category"], StringComparer.OrdinalIgnoreCase));
+            }
+            else if (HowToSort == "Price")
+            {
+                menuArray = new JArray(menuArray.OrderBy(obj => (double)obj["Price"]));
+            }
+            else if (HowToSort == "Name")
+            {
+                menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
+            }
+
+            DisplayMenuItems(menuArray.Cast<JObject>());
+        }
+
+        public static void Options()
+        {
+            DisplayMenu(WayToSort);
+            Console.WriteLine("[1]: Home");
+            Console.WriteLine("[2]: Sort the menu");
+            Console.WriteLine("[3]: View a specific category");
+            if (Home.ManagerLoggedIn)
+            {
+                Console.WriteLine("[4]: Add item");
+                Console.WriteLine("[5]: Remove item");
+            }
+            while (true)
+            {
+                string userChoice = Console.ReadLine().ToUpper();
+                switch (userChoice)
                 {
-                    if ((currentLine + ", " + ingredient).Length > 50)
-                    {
-                        formattedIngredients.Add(currentLine);
-                        currentLine = ingredient;
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(currentLine))
+                    case "2":
+                        SortMenuOptions();
+                        break;
+                    case "3":
+                        DisplayCategories();
+                        break;
+                    case "1":
+                        Home.Options();
+                        break;
+                    case "4":
+                        if (Home.ManagerLoggedIn)
                         {
-                            currentLine += ", ";
+                            AddItem();
                         }
-                        currentLine += ingredient;
-                    }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                            System.Threading.Thread.Sleep(1500);
+                            Console.Clear();
+                        }
+                        Options();
+                        break;
+                    case "5":
+                        if (Home.ManagerLoggedIn)
+                        {
+                            RemoveItem();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                            System.Threading.Thread.Sleep(1500);
+                            Console.Clear();
+                        }
+                        Options();
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                        System.Threading.Thread.Sleep(1500);
+                        break;
                 }
-
-                formattedIngredients.Add(currentLine);
-
-                Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
-                for (int i = 1; i < formattedIngredients.Count; i++)
-                {
-                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                continue;
             }
         }
-        Console.WriteLine("♣ = vegan. 🌶 = spicy.");
-    }
-}
 
+        public static void SortMenuOptions()
+        {
+            Console.WriteLine("[1]: Sort by price");
+            Console.WriteLine("[2]: Sort by name");
+            Console.WriteLine("[3]: Sort by category");
+            Console.WriteLine("[4]: Go back");
+            while (true)
+            {
+                string userChoiceSort = Console.ReadLine().ToUpper();
+
+                switch (userChoiceSort)
+                {
+                    case "1":
+                        // Implement sorting by price
+                        WayToSort = "Price";
+                        Options(); // After sorting, return to options
+                        break;
+                    case "2":
+                        // Implement sorting by name
+                        WayToSort = "Name";
+                        Options(); // After sorting, return to options
+                        break;
+                    case "3":
+                        // Implement sorting by category
+                        WayToSort = "Category";
+                        Options(); // After sorting, return to options
+                        break;
+                    case "4":
+                        Options(); // Go back to main options menu
+                        break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                        break;
+                }
+            }
+        }
+
+        public static void DisplayCategories()
+        {
+            string jsonString = File.ReadAllText(filePath);
+            JArray menuArray = JArray.Parse(jsonString);
+
+            Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
+
+            foreach (JObject menuItem in menuArray)
+            {
+                string category = ((string)menuItem["Category"]).ToLower();
+                if (!categories.ContainsKey(category))
+                {
+                    categories.Add(category, new List<JObject>());
+                }
+                categories[category].Add(menuItem);
+            }
+
+            Console.WriteLine("Available Categories:");
+            foreach (string category in categories.Keys)
+            {
+                Console.WriteLine("- " + category);
+            }
+
+            Console.WriteLine("Enter a category to view its items:");
+            string selectedCategory = Console.ReadLine().ToLower();
+
+            if (categories.ContainsKey(selectedCategory))
+            {
+                Console.WriteLine($"Items in category '{selectedCategory}':");
+                DisplayMenuItems(categories[selectedCategory]);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+            }
+
+            Console.WriteLine("[1]: View another category");
+            Console.WriteLine("[2]: Go back");
+
+            string userChoiceSort = Console.ReadLine().ToUpper();
+
+            switch (userChoiceSort)
+            {
+                case "1":
+                    DisplayCategories();
+                    break;
+                case "2":
+                    Options(); // Go back to main options menu
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                    SortMenuOptions();
+                    break;
+            }
+        }
+
+        public static void DisplayMenuItems(IEnumerable<JObject> menuItems)
+        {
+            Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
+            Console.WriteLine("-------------------------------------------------------------------------------------");
+
+            foreach (JObject menuItem in menuItems)
+            {
+                try
+                {
+                    string id = (string)menuItem["Id"];
+                    string name = (string)menuItem["Name"];
+                    double price = (double)menuItem["Price"];
+                    string category = (string)menuItem["Category"];
+                    string symbol = (string)menuItem["Symbol"];
+                    List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
+                    List<string> formattedIngredients = new List<string>();
+                    string currentLine = string.Empty;
+
+                    foreach (string ingredient in ingredients)
+                    {
+                        if ((currentLine + ", " + ingredient).Length > 50)
+                        {
+                            formattedIngredients.Add(currentLine);
+                            currentLine = ingredient;
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(currentLine))
+                            {
+                                currentLine += ", ";
+                            }
+                            currentLine += ingredient;
+                        }
+                    }
+
+                    formattedIngredients.Add(currentLine);
+
+                    Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                    for (int i = 1; i < formattedIngredients.Count; i++)
+                    {
+                        Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    continue;
+                }
+            }
+            Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+        }
+    }
 
