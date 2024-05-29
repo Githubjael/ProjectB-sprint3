@@ -26,6 +26,7 @@ static class HomeOptions
         Console.WriteLine("[4]: Contact");
         if (Home.IsLoggedIn || Home.ManagerLoggedIn){
             Console.WriteLine("[5]: Log Out");
+            Console.WriteLine("[6]: Change Password");
         }
 
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
@@ -56,16 +57,19 @@ static class HomeOptions
                     }
                     break;
                 case "6":
-                    if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
-                    // Console.Clear();
+                    if (Home.IsLoggedIn || Home.ManagerLoggedIn)
+                    {
+                        AccountManagment.ChangePassword();
+                    }
+                    else if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                         Home.SignUp();
                         Home.Options(); 
-
                     }
                     else{
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     }
-                    break;
+                    Options();
+                    return;
                 case "1":
                     // Console.Clear();
                     Menu.Options();
@@ -103,4 +107,5 @@ static class HomeOptions
             }
         }
     }
+
 }

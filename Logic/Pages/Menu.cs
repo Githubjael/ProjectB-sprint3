@@ -177,8 +177,11 @@ public static class Menu
             itemSymbol += "🌶";
         }
 
+        // Generate a new unique ID
+        int newId = menuItems.Count > 0 ? menuItems.Max(item => item.Id) + 1 : 1;
+
         // Create the new MenuItem object
-        MenuItem newItem = new MenuItem(itemName, itemPrice, itemCategory, ingredients, itemSymbol);
+        MenuItem newItem = new MenuItem(newId, itemName, itemPrice, itemCategory, ingredients, itemSymbol);
 
         // Add the new item to the list
         menuItems.Add(newItem);
@@ -240,11 +243,11 @@ public static class Menu
         }
     }
 
-    public static void SearchItem(){ //maybe add later
+    // public static void SearchItem(){ maybe add later
 
-    }
-    public static void ChangeItem(){ //maybe add later
-    }
+    // }
+    // public static void ChangeItem(){ maybe add later
+    // }
 
     public static void DisplayMenu(string HowToSort)
     {
@@ -269,23 +272,55 @@ public static class Menu
         }
 
         // Display the menu
-        Console.WriteLine("Name          | Price   | Category   | Ingredients");
+        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
         Console.WriteLine("-------------------------------------------------------------------------------------");
         foreach (JObject menuItem in menuArray)
         {
             try
             {
+                int id = (int)menuItem["Id"];
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
                 string category = (string)menuItem["Category"];
                 string symbol = (string)menuItem["Symbol"];
-                string ingredients = string.Join(", ", menuItem["Ingredients"].ToObject<List<string>>());
+                List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
+                List<string> formattedIngredients = new List<string>();
+                string currentLine = string.Empty;
 
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {category,-10} | {ingredients,-30}  {symbol}");
+                foreach (string ingredient in ingredients)
+                {
+                    // Check if adding the current ingredient exceeds 50 characters
+                    if ((currentLine + ", " + ingredient).Length > 50)
+                    {
+                        // If adding the ingredient exceeds 50 characters, add the current line to the list
+                        formattedIngredients.Add(currentLine);
+                        // Reset the current line to start adding the next set of ingredients
+                        currentLine = ingredient;
+                    }
+                    else
+                    {
+                        // If adding the ingredient does not exceed 50 characters, append it to the current line
+                        if (!string.IsNullOrEmpty(currentLine))
+                        {
+                            currentLine += ", ";
+                        }
+                        currentLine += ingredient;
+                    }
+                }
+
+                // Add the last line to the list
+                formattedIngredients.Add(currentLine);
+
+                                Console.WriteLine($"{id,-2} {symbol, -2}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}"); //make so it only shows the ingredients up to 50 char
+                                for (int i = 1; i < ingredients.Count; i++)
+                                {
+                                    Console.WriteLine($"{' ',-2} {' ',-2}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}"); //show the ingredients that havent been shown yet up to 50
+                                }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error parsing JSON: {ex.Message}");
+                // Console.WriteLine($"Error parsing JSON: {ex.Message}");
                 continue;
             }
         }
@@ -417,15 +452,16 @@ public static class Menu
         {
             // Display items belonging to the selected category
             Console.WriteLine($"Items in category '{selectedCategory}':");
-            Console.WriteLine("Name          | Price   | Category   | Ingredients");
+            Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
             Console.WriteLine("-------------------------------------------------------------------------------------");
             foreach (JObject menuItem in categories[selectedCategory])
             {
+                int id = (int)menuItem["Id"];
                 string name = (string)menuItem["Name"];
                 double price = (double)menuItem["Price"];
                 string symbol = (string)menuItem["Symbol"];
                 string ingredients = string.Join(", ", menuItem["Ingredients"].ToObject<List<string>>());
-                Console.WriteLine($"{name,-14} | €{price,-7:0.00} | {selectedCategory,-10} | {ingredients,-30}  {symbol}");
+                Console.WriteLine($"{id,-2} | {name,-14} | €{price,-7:0.00} | {selectedCategory,-10} | {ingredients,-30}  {symbol}");
             }
         }
         else
@@ -452,4 +488,5 @@ public static class Menu
         }
     }
 }
+
 
