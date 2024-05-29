@@ -15,7 +15,7 @@ static class AccountManagment
 
         if (user == null)
         {
-            Console.WriteLine("User not found. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("User not found. Please try again."); Console.ResetColor();
             return;
         }
 
@@ -26,7 +26,7 @@ static class AccountManagment
         }
         if (user.Password != currentPassword)
         {
-            Console.WriteLine("Incorrect current password. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Incorrect current password. Please try again."); Console.ResetColor();
             return;
         }
 
@@ -47,7 +47,7 @@ static class AccountManagment
         }
         if (newPassword != confirmNewPassword)
         {
-            Console.WriteLine("Passwords do not match. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Passwords do not match. Please try again."); Console.ResetColor();
             return;
         }
 
@@ -57,11 +57,12 @@ static class AccountManagment
         var updatedUser = UsersAccess.GetUser(email);
         if (updatedUser != null && updatedUser.Password == newPassword)
         {
-            Console.WriteLine("Password changed successfully.");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Password changed successfully."); Console.ResetColor();
         }
         else
         {
-            Console.WriteLine("Password change failed. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Password change failed. Please try again."); Console.ResetColor();
+
         }
     }
     
@@ -86,7 +87,7 @@ static class AccountManagment
             Manager manager = ManagerAccess.ReadFromJson()[0];
             if (user != null && user.Password == password)
             {
-                Console.WriteLine("Logged in successfully!");
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged in successfully!"); Console.ResetColor();
                 Home.IsLoggedIn = true;
                 Home.guestEmail = user.EmailAddress;
                 Home.guestName = user.FirstName;
@@ -112,7 +113,7 @@ static class AccountManagment
             }
             else
             {
-                Console.WriteLine("Invalid email or password. Please try again.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid email or password. Please try again."); Console.ResetColor();
             }
         }
     }
@@ -126,17 +127,17 @@ static class AccountManagment
             Home.IsLoggedIn = false;
             Home.guestName = null;
             Home.guestEmail = null;
-            Console.WriteLine("Logged out successfully.");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
         else if (Home.ManagerLoggedIn)
         {
             Console.WriteLine("Logging out manager...");
             Home.ManagerLoggedIn = false;
-            Console.WriteLine("Logged out successfully.");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
         else
         {
-            Console.WriteLine("No user logged in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No user logged in."); Console.ResetColor();
         }
 
         Home.Options();
@@ -204,15 +205,15 @@ static class AccountManagment
         {
             do
             {
-                Console.WriteLine("Passwords do not match. Please try again.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Passwords do not match. Please try again."); Console.ResetColor();
                 confirmPassword = Console.ReadLine();
             } while  (password != confirmPassword);
         }
 
         Guest guest = new Guest(firstName, lastName, email, phoneNumber, password);
         Home.ChangeGuest(guest);
-        Console.WriteLine($"Account created successfully. Thank you for signing up {guest.FirstName}!");
-        System.Console.WriteLine("Make sure you log in");
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Account created successfully. Thank you for signing up {guest.FirstName}!"); Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Make sure you log in"); Console.ResetColor();
         Home.Options();   
     }
 }
