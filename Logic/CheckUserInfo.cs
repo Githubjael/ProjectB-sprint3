@@ -10,7 +10,7 @@ class CheckUserInfo
         try
         {
             var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
+            return addr.Address == email && char.IsLetter(email[0]);
         }
         catch
         {
