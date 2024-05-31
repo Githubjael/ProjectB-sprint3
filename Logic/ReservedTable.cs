@@ -80,13 +80,24 @@ static class ReservedTable
         MakeTablesAvailable(Date, TimeSlot);
         int TableType = AmountOfGuests switch
         {
-            1 => 2,
+            1 => 1,
             2 => 2,
             3 => 4,
             4 => 4,
             5 => 6,
             6 => 6,
         };
+        if(TableType == 1)
+        {
+            try
+            {
+                var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
+            table.IsReserved();
+            ChosenTable.Add(table);    
+            }
+            catch
+            {}
+        }
         if (TableType == 2)
         {
             try{
