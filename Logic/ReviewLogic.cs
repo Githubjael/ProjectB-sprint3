@@ -86,11 +86,20 @@ class ReviewLogic : IComparable<Review>
     // added to reply to reviews
     public static void ReplyFromManager()
     {
-        Console.WriteLine("enter the reviewID: ");
+        Console.WriteLine("enter the reviewID: (enter q to quit)");
         string enter = Console.ReadLine();
         if(enter == "q")
         {
             return;
+        }
+        foreach (var test in enter)
+        {
+            if (!char.IsDigit(test))
+            {
+                Console.WriteLine("Invalid input");
+                Console.WriteLine("");
+                ManagerOptions.ReviewOptions();
+            }
         }
         int reviewID = Convert.ToInt32(enter);
         Console.WriteLine("Enter your reply: ");
