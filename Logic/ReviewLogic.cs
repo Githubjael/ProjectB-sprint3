@@ -87,7 +87,12 @@ class ReviewLogic : IComparable<Review>
     public static void ReplyFromManager()
     {
         Console.WriteLine("enter the reviewID: ");
-        int reviewID = Convert.ToInt32(Console.ReadLine());
+        string enter = Console.ReadLine();
+        if(enter == "q")
+        {
+            return;
+        }
+        int reviewID = Convert.ToInt32(enter);
         Console.WriteLine("Enter your reply: ");
         string reply = Console.ReadLine();
         Reviews.ReplyToReview(reviewID, reply);
