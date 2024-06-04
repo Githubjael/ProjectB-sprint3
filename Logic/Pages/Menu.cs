@@ -8,7 +8,6 @@
     public static class Menu
     {
         private static string _name = "Menu";
-
         public static string Name => _name;
 
         private static string WayToSort = "Category";
@@ -33,6 +32,17 @@
 
         public static void AddItem()
         {
+            
+            //turn the Json into a list of menuitems
+            List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
+
+            // Check if menuItems null
+            if (menuItems == null)
+            {
+                // make an empty list to give back an empty menu
+                menuItems = new List<MenuItem>();
+            }
+
             // Catch bad input, make item name at least 2 characters
             System.Console.WriteLine("(At any time type 'Q' to go back)");
             Console.WriteLine("What's the name of the item?");
@@ -40,16 +50,6 @@
             if (itemName.ToLower() == "q")
             {
                 return;
-            }
-            bool ifInJsonFile = false;
-            // Deserialize existing JSON data to a list of MenuItem objects
-            List<MenuItem> menuItems = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
-
-            // Check if menuItems is null after deserialization
-            if (menuItems == null)
-            {
-                // If it's null, initialize it with an empty list
-                menuItems = new List<MenuItem>();
             }
 
             // Check if the item name already exists
@@ -193,10 +193,8 @@
             // Add the new item to the list
             menuItems.Add(newItem);
 
-            // Serialize the updated list of items back to JSON
+            // write the new menu back to json
             string updatedJsonData = JsonConvert.SerializeObject(menuItems, Formatting.Indented);
-
-            // Write the updated JSON data back to the file
             File.WriteAllText(filePath, updatedJsonData);
 
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemName}' added successfully"); Console.ResetColor();
@@ -236,11 +234,10 @@
 
             if (itemRemoved)
             {
-                // Serialize the updated menu array back to JSON
+                // Write the updated menu back to json
                 string updatedJsonData = menuArray.ToString(Formatting.Indented);
-
-                // Write the updated JSON data back to the file
                 File.WriteAllText(filePath, updatedJsonData);
+
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Item '{itemNameOrId}' removed successfully"); Console.ResetColor();
                 System.Threading.Thread.Sleep(1500);
 
@@ -276,7 +273,7 @@
                 menuArray = new JArray(menuArray.OrderBy(obj => (string)obj["Name"], StringComparer.OrdinalIgnoreCase));
             }
 
-            DisplayMenuItems(menuArray.Cast<JObject>());
+            DisplayMenuItems(menuArray);
         }
 
         public static void Options()
@@ -375,19 +372,18 @@
             }
         }
 
-        public static void DisplayCategories()
-        {
+        public static void DisplayCategories(){
             string jsonString = File.ReadAllText(filePath);
             JArray menuArray = JArray.Parse(jsonString);
-
-            Dictionary<string, List<JObject>> categories = new Dictionary<string, List<JObject>>();
+            //make a dictionary that has category aa key and all menuitems as its value
+            Dictionary<string, JArray> categories = new Dictionary<string, JArray>();
 
             foreach (JObject menuItem in menuArray)
             {
                 string category = ((string)menuItem["Category"]).ToLower();
                 if (!categories.ContainsKey(category))
                 {
-                    categories.Add(category, new List<JObject>());
+                    categories.Add(category, new JArray());
                 }
                 categories[category].Add(menuItem);
             }
@@ -395,7 +391,9 @@
             Console.WriteLine("Available Categories:");
             foreach (string category in categories.Keys)
             {
-                Console.WriteLine("- " + category);
+                //make each category first letter a capital
+                string CapitalizedCategory = char.ToUpper(category[0]) + category.Substring(1);
+                Console.WriteLine("- " + CapitalizedCategory);
             }
 
             Console.WriteLine("Enter a category to view its items:");
@@ -408,7 +406,9 @@
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Category '{selectedCategory}' was not found. Please try again.");
+                Console.ResetColor();
             }
 
             Console.WriteLine("[1]: View another category");
@@ -425,62 +425,66 @@
                     Options(); // Go back to main options menu
                     break;
                 default:
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ResetColor();
                     SortMenuOptions();
                     break;
             }
         }
 
-        public static void DisplayMenuItems(IEnumerable<JObject> menuItems)
+
+            public static void DisplayMenuItems(JArray menuItems){
+        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
+        Console.WriteLine("-------------------------------------------------------------------------------------");
+
+        foreach (JObject menuItem in menuItems)
         {
-            Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-
-            foreach (JObject menuItem in menuItems)
+            try
             {
-                try
+                string id = (string)menuItem["Id"];
+                string name = (string)menuItem["Name"];
+                double price = (double)menuItem["Price"];
+                string category = (string)menuItem["Category"];
+                string symbol = (string)menuItem["Symbol"];
+                List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
+                List<string> formattedIngredients = new List<string>();
+                string currentLine = string.Empty;
+                
+                //format the ingredients, so it gets 50 char per line
+                foreach (string ingredient in ingredients)
                 {
-                    string id = (string)menuItem["Id"];
-                    string name = (string)menuItem["Name"];
-                    double price = (double)menuItem["Price"];
-                    string category = (string)menuItem["Category"];
-                    string symbol = (string)menuItem["Symbol"];
-                    List<string> ingredients = menuItem["Ingredients"].ToObject<List<string>>();
-                    List<string> formattedIngredients = new List<string>();
-                    string currentLine = string.Empty;
-
-                    foreach (string ingredient in ingredients)
+                    if ((currentLine + ", " + ingredient).Length > 50)
                     {
-                        if ((currentLine + ", " + ingredient).Length > 50)
-                        {
-                            formattedIngredients.Add(currentLine);
-                            currentLine = ingredient;
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(currentLine))
-                            {
-                                currentLine += ", ";
-                            }
-                            currentLine += ingredient;
-                        }
+                        formattedIngredients.Add(currentLine);
+                        currentLine = ingredient;
                     }
-
-                    formattedIngredients.Add(currentLine);
-
-                    Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
-                    for (int i = 1; i < formattedIngredients.Count; i++)
+                    else
                     {
-                        Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
+                        if (!string.IsNullOrEmpty(currentLine))
+                        {
+                            currentLine += ", ";
+                        }
+                        currentLine += ingredient;
                     }
-
                 }
-                catch (Exception ex)
+
+                formattedIngredients.Add(currentLine);
+
+                Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                for (int i = 1; i < formattedIngredients.Count; i++)
                 {
-                    continue;
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
                 }
+
             }
-            Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+            catch (Exception ex)
+            {
+                continue;
+            }
         }
+        Console.WriteLine("♣ = vegan. 🌶 = spicy.");
+    }
+
     }
 
