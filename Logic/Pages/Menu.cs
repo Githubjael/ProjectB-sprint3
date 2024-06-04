@@ -8,7 +8,6 @@
     public static class Menu
     {
         private static string _name = "Menu";
-        public static List<MenuItem> Items { get; set; }
 
         public static string Name => _name;
 
