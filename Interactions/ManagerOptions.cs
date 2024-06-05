@@ -119,7 +119,6 @@ static class ManagerOptions
         System.Console.WriteLine("[1]: Change address");
         System.Console.WriteLine("[2]: Change Email");
         System.Console.WriteLine("[3]: Change phone number");
-        System.Console.WriteLine("[4]: Change all of the above");
         string answer = Console.ReadLine();
         ContactDataModel restaurantInfo = ContactAccess.ReadFromJson()[0];
         switch (answer)
@@ -141,20 +140,6 @@ static class ManagerOptions
             string ChangedPhoneNumber = Console.ReadLine();
             restaurantInfo.PhoneNumber = ChangedPhoneNumber;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, ChangedPhoneNumber, restaurantInfo.Email)});
-            break;
-            case "4":
-            System.Console.WriteLine("New address:");
-            ChangedAddress = Console.ReadLine();
-            restaurantInfo.Adress = ChangedAddress;
-
-            System.Console.WriteLine("New email:");
-            ChangedEmail = Console.ReadLine();
-            restaurantInfo.Email = ChangedEmail;
-
-            System.Console.WriteLine("New phone number:");
-            ChangedPhoneNumber = Console.ReadLine();
-            restaurantInfo.PhoneNumber = ChangedPhoneNumber;
-            ContactAccess.WriteToJson(new(){new(ChangedAddress, ChangedPhoneNumber, ChangedEmail)});
             break;
         }
     }
