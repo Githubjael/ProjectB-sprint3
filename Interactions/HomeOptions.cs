@@ -16,17 +16,18 @@ static class HomeOptions
         System.Console.WriteLine(streep);
         System.Console.WriteLine(shortIntro);
         System.Console.WriteLine(streep);
-        if (Home.IsLoggedIn || Home.ManagerLoggedIn)
+        if (Home.IsLoggedIn)
         {
             System.Console.WriteLine($"Welkom back, {Home.guestName}!");
         }
+        if (Home.ManagerLoggedIn)
+            System.Console.WriteLine($"Welcome back, {manager.FirstName}!");
         Console.WriteLine("[1]: Menu");
         Console.WriteLine("[2]: Reservation");
         Console.WriteLine("[3]: Review");
         Console.WriteLine("[4]: Contact");
         if (Home.IsLoggedIn || Home.ManagerLoggedIn){
             Console.WriteLine("[5]: Log Out");
-            Console.WriteLine("[6]: Change Password");
         }
 
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
@@ -57,19 +58,16 @@ static class HomeOptions
                     }
                     break;
                 case "6":
-                    if (Home.IsLoggedIn || Home.ManagerLoggedIn)
-                    {
-                        AccountManagment.ChangePassword();
-                    }
-                    else if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
+                    if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
+                    // Console.Clear();
                         Home.SignUp();
                         Home.Options(); 
+
                     }
                     else{
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     }
-                    Options();
-                    return;
+                    break;
                 case "1":
                     // Console.Clear();
                     Menu.Options();
@@ -107,5 +105,4 @@ static class HomeOptions
             }
         }
     }
-
 }
