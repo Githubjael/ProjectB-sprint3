@@ -38,7 +38,7 @@ public class ReservationLogic
             Datum = reservation.Date;
             if (ReservedTable.GetTimes(Datum).Count == 0)
             {
-                if(!VolGeboekteDatums.Contains(Datum) && DateTime.Parse(Datum) > DateTime.Now)
+                if(!VolGeboekteDatums.Contains(Datum) && DateTime.Parse(Datum) >= DateTime.Now)
                 {
                 VolGeboekteDatums.Add(Datum);
                 }
@@ -57,7 +57,7 @@ public class ReservationLogic
         List<string> Booked = new(){};
         foreach(ReservationDataModel reservation in _reservation)
         {
-            if (!Datums.Contains(reservation.Date) && DateTime.Parse(reservation.Date) > DateTime.Now)
+            if (!Datums.Contains(reservation.Date) && DateTime.Parse(reservation.Date) >= DateTime.Now)
             {
                 Datums.Add(reservation.Date);
             }
@@ -138,9 +138,9 @@ public class ReservationLogic
         System.Console.WriteLine($"Guest id: {reservation.GuestID}");
         System.Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
         System.Console.WriteLine($"Email address: {reservation.EmailAddress}");
-        foreach(Table table in reservation.Tables)
+        foreach(string table in reservation.Tables)
         {
-            System.Console.WriteLine($"Table id: {table.ID}");
+            System.Console.WriteLine($"Table id: {table}");
         }
     }
 
@@ -166,6 +166,17 @@ public class ReservationLogic
 
                 // de rrservatie wordt geanulleerd 
                 _reservation.Remove(reservationToRemove);
+                var preOrder = PreOrderAccess.ReadFromJson();
+                PreOrder order;
+                if (preOrder != null || preOrder.Count != 0){
+                    order = preOrder.Find(x => x.GuestID == guestID.ToString());
+                    if (order != null){
+                    preOrder.Remove(order);
+                    PreOrderAccess.WriteToJson(preOrder);
+                    System.Console.WriteLine();
+                    System.Console.WriteLine("order removed");
+                }
+                }
                 ReservationDataAccess.WriteToJson(_reservation);
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Your Reservation is cancelled."); Console.ResetColor();
             }
@@ -206,6 +217,17 @@ public class ReservationLogic
                 _reservation.Remove(reservationToRemove);
                 ReservationDataAccess.WriteToJson(_reservation);
                 Console.WriteLine("Your reservation is cancelled.");
+                var preOrder = PreOrderAccess.ReadFromJson();
+                PreOrder order;
+                if (preOrder != null || preOrder.Count != 0){
+                    order = preOrder.Find(x => x.Time == TimeOnly.Parse(time) && x.Date == DateOnly.Parse(date));
+                    if (order != null){
+                    preOrder.Remove(order);
+                    PreOrderAccess.WriteToJson(preOrder);
+                    System.Console.WriteLine();
+                    System.Console.WriteLine("order removed");
+                }
+                }
             }
             else
             {
@@ -252,7 +274,7 @@ public static bool CheckReservedTable(string ID, string Date, string Time)
     {
         foreach (var table in reservation.Tables)
         {
-            if (table.ID == ID && reservation.Date == Date && reservation.Time == Time)
+            if (table == ID && reservation.Date == Date && reservation.Time == Time)
             {
                 return true;
             }
