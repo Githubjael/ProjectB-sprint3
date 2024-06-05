@@ -2,14 +2,10 @@ static class PersonalDetails
 {
     public static string AskFirstName()
     {
-        System.Console.WriteLine("(At any time type 'Q' to go back)");
         string FirstName;
         do{
         System.Console.WriteLine("What is your first name?");
         FirstName = Console.ReadLine();
-        if (FirstName.ToLower() == "q"){
-        return null;
-        }
         } while (!CheckReservationInfo.CheckFirstName(FirstName));
         return FirstName;
     }
@@ -20,9 +16,6 @@ static class PersonalDetails
         do{
         System.Console.WriteLine("What is your last name?");
         LastName = Console.ReadLine();
-        if (LastName.ToLower() == "q"){
-        return null;
-        }
         } while (!CheckReservationInfo.CheckLastName(LastName));
         return LastName;
     }
@@ -33,9 +26,6 @@ static class PersonalDetails
         do{
         System.Console.WriteLine("What is your phone number?");
         PhoneNumber = Console.ReadLine();
-        if (PhoneNumber.ToLower() == "q"){
-        return null;
-        }
         } while (!CheckReservationInfo.CheckPhoneNumber(PhoneNumber));
         return  PhoneNumber;
     }
@@ -46,9 +36,6 @@ static class PersonalDetails
         do{
         System.Console.WriteLine("What is your email address?");
         EmailAddress = Console.ReadLine();
-        if (EmailAddress.ToLower() == "q"){
-        return null;
-        }
         } while (!CheckReservationInfo.CheckEmail(EmailAddress));
         return EmailAddress;
     }
@@ -59,7 +46,7 @@ static class PersonalDetails
         string date;
         List<string> BookedDatesNotFull = ReservationLogic.GeboekteDatums();
         System.Console.WriteLine();
-        if (!(BookedDatesNotFull.Count == 0 && BookedDates.Count == 0)){
+        if (!(BookedDatesNotFull.Count == 0 || BookedDates.Count == 0)){
         System.Console.WriteLine("Please note that availability is limited on the following dates; apologies for any inconvenience.");
         }
         foreach(string BookedDate in BookedDates)
@@ -75,9 +62,6 @@ static class PersonalDetails
             System.Console.WriteLine();
             Console.WriteLine("When do you want to book? Provide the date in the following format:\nday-month-year.");
             date = Console.ReadLine();
-            if (date.ToLower() == "q"){
-            return new DateTime();
-            }
 
             // Ensure day and month have leading zeros if needed
             string[] dateParts = date.Split("-");
@@ -111,9 +95,6 @@ static class PersonalDetails
             Number++;
         }
         answer = Console.ReadLine();
-        if (answer.ToLower() == "q"){
-        return null;
-        }
         } while (!CheckReservationInfo.CheckTimeSlot(answer, TimeSlots));
         return TimeSlots[Convert.ToInt32(answer) - 1];
     }
@@ -121,37 +102,14 @@ static class PersonalDetails
     public static int AskAmountOfGuests()
     {
         string Guests;
-        int GuestsInt;
         do
         {
-            System.Console.WriteLine("Our restaurant serves a maximum of 52 guests at a timeslot");
-                // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
-                // Dat ga ik wat later doen btw
-                // Vraag user of hij datum of tijd wilt veranderen...
+            // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
+            // Dat ga ik wat later doen btw
+            // Vraag user of hij datum of tijd wilt veranderen...
             System.Console.WriteLine("How many guests are coming including yourself?");
             Guests = Console.ReadLine();
-            if (Guests.ToLower() == "q"){
-            return 0;
-            }
-            if (Guests.ToLower() == "0"){
-                System.Console.WriteLine("Cannot make a reservation for 0 people. Please try again.");
-            }
-
-            if (!int.TryParse(Guests, out GuestsInt))
-            {
-                System.Console.WriteLine("Please enter a valid number.");
-                continue; // Prompt user again
-            }
-
-            if (GuestsInt > 52)
-            {
-                System.Console.WriteLine("Sorry, our restaurant can accommodate a maximum of 52 guests at a timeslot.");
-                continue; // Prompt user again
-            }
-
-        } while (!CheckReservationInfo.CheckGuests(Guests)); // Loop until the input is valid
-
-        return GuestsInt;
+        } while(Convert.ToInt32(Guests) > 6 || Convert.ToInt32(Guests) < 0 && !CheckReservationInfo.CheckGuests(Guests));
+        return Convert.ToInt32(Guests);
     }
-
 }
