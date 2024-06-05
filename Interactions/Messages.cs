@@ -22,6 +22,14 @@ static class Messages
 
     public static void Thanking4Reservation(int GuestID)
     {
-        System.Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you dont have an account yet and need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!");
+        System.Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!");
+    }
+
+    public static bool AskForPreOrder()
+    {
+        System.Console.WriteLine("Do you want to place an order? Y/N");
+        if (Console.ReadLine().ToLower() == "y")
+            return true;
+        return false;
     }
 }
