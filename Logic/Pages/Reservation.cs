@@ -31,36 +31,15 @@ class Reservation : Page
         if(!Home.IsLoggedIn)
         {
             string FirstName = PersonalDetails.AskFirstName();
-            if (FirstName == null){
-                return;
-            }
             string LastName = PersonalDetails.AskLastName();
-            if (LastName == null){
-                return;
-            }
             string Email = PersonalDetails.AskEmailAddress();
-            if (Email == null){
-                return;
-            }
             string PhoneNumber = PersonalDetails.AskPhoneNumber();
-            if (PhoneNumber == null){
-                return;
-            }
 
             List<string> BookedDates = ReservationLogic.VolGeboekteDatums();
             DateTime Date = PersonalDetails.AskDate(BookedDates);
-            if (Date == DateTime.MinValue){
-                return;
-            }
             string TimeSlot = PersonalDetails.AskTimeSlot(Date);
-            if (TimeSlot == null){
-                return;
-            }
             int Guests = PersonalDetails.AskAmountOfGuests();
-            if (Guests == 0){
-                return;
-            }
-            List<Table> Tables;
+            List<string> Tables;
             if (Guests > 6)
             {
                 Tables =  ReservedTable.AssignTables(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
@@ -81,7 +60,7 @@ class Reservation : Page
             DateTime Date = PersonalDetails.AskDate(BookedDates);
             int Guests = PersonalDetails.AskAmountOfGuests();
             string TimeSlot = PersonalDetails.AskTimeSlot(Date);
-            List<Table> Tables;
+            List<string> Tables;
             if (Guests > 6)
             {
                 Tables =  ReservedTable.AssignTables(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
@@ -90,6 +69,10 @@ class Reservation : Page
                 Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             }
             int GuestID = GenerateRandomGuestID();
+            if (Messages.AskForPreOrder())
+            {
+                PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
+            }
             ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables);
             ReservationLogic.AddReservationToList(Reservation);
             Messages.Thanking4Reservation(Reservation.GuestID);
@@ -100,4 +83,3 @@ class Reservation : Page
         ReservationLogic.CancelReservation(guestID); 
     }
 }
-
