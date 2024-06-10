@@ -137,8 +137,6 @@ static class AccountManagment
     {
         if (Home.IsLoggedIn)
         {
-            Console.WriteLine($"Logging out {Home.guestName}...");
-            Thread.Sleep(1500);
             Home.IsLoggedIn = false;
             Home.guestName = null;
             Home.guestEmail = null;
@@ -146,7 +144,6 @@ static class AccountManagment
         }
         else if (Home.ManagerLoggedIn)
         {
-            Console.WriteLine("Logging out manager...");
             Home.ManagerLoggedIn = false;
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
