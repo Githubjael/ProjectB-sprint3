@@ -1,8 +1,6 @@
 public class Reviews
 {
-    private static string _name = "Reviews";
     public static List<Review> _reviews = PutInList();	
-    public static string Name => _name;
 
     static Reviews()
     {
