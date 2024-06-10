@@ -78,7 +78,7 @@
                     {
                         return;
                     }
-                    if (itemPrice2.Contains("."))
+                    else if (itemPrice2.Contains("."))
                     {
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Use a comma."); Console.ResetColor();
                     }
