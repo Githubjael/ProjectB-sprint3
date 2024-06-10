@@ -126,7 +126,7 @@
 
             while (ingredients.Count < 2)
             {
-                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
                 input = Console.ReadLine();
 
                 if (input.ToLower() == "q")
