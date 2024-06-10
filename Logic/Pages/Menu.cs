@@ -7,9 +7,6 @@
 
     public static class Menu
     {
-        private static string _name = "Menu";
-        public static string Name => _name;
-
         private static string WayToSort = "Category";
 
         private static string filePath = @"..\..\..\DataSources\Menu.json";
