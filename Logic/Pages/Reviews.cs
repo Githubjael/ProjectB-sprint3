@@ -80,22 +80,6 @@ public class Reviews
         SaveReviews();
         LoadReviews();
     }
-    // with this the manager can now enter a string into the ReplyFromManager string in Review objects
-    public static void ReplyToReview(int reviewID, string reply)
-    {
-        for(int i = 0; i < _reviews.Count; i++)
-        {
-            if(_reviews[i].ID == reviewID)
-            {
-                if(!string.IsNullOrEmpty(reply))
-                {
-                    _reviews[i].ReplyFromManager = reply;
-                }
-            }
-        }
-        SaveReviews();
-        LoadReviews();
-    }
 
     public static void RemoveAll()
     {
@@ -120,48 +104,8 @@ public class Reviews
                     Home.Options();
                     return;
                 case "2":
-                    if (!Home.IsLoggedIn) 
-                    {
-                        Console.WriteLine("Please log in to leave a review.");
-                        continue;
-                    }
-
-                    string guestName = Home.guestName;
-                    
-
-                    Console.WriteLine("Rate our restaurant (from 1 to 5):");
-                    int rating;
-                    while (!int.TryParse(Console.ReadLine(), out rating) || rating < 1 || rating > 5)
-                    {
-                        Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
-                    }
-
-                    Console.WriteLine("Leave your comments (Optional):");
-                    string comments = Console.ReadLine();
-                    string stars = new string('★', rating); 
-                    int ID = 0;
-                    if (_reviews == null || _reviews.Count == 0)
-                    {
-                        _reviews = new List<Review>();
-                        ID = 1;
-                    }
-                    else
-                    {
-                        ID = _reviews[_reviews.Count - 1].ID + 1;
-                    }
-
-                    Review newReview = new Review(ID, guestName, stars, comments);
-
-                    if (newReview != null)
-                    {
-                        _reviews.Add(newReview);
-                        SaveReviews();
-                        LoadReviews();
-                        Console.WriteLine("\nThank you for your review!"); 
-                    }
-                    Reviews.Options();
+                    LeaveReview();
                     break;
-
                 case "3":
                     // View reviews
                     if (_reviews == null || _reviews.Count == 0)
@@ -171,14 +115,71 @@ public class Reviews
                     else
                     {
                         ReviewLogic.SeeAllReviews();
-                        Reviews.Options();
+                        Console.WriteLine("[1]: Home");
+                        Console.WriteLine("[2]: Leave a review");
+                        Console.WriteLine("[3]: See all reviews");
                     }
                     break;
-
                 default:
                     Console.WriteLine("Invalid input. Please try again.");
                     break;
             }
         }
     }
+
+    private static void LeaveReview()
+    {
+        if (!Home.IsLoggedIn)
+        {
+            Console.WriteLine("Please log in to leave a review.");
+            Console.WriteLine("[1]: Home");
+            Console.WriteLine("[2]: Leave a review");
+            Console.WriteLine("[3]: See all reviews");
+            return;
+        }
+
+        string guestName = Home.guestName;
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
+        Console.WriteLine("Rate our restaurant (from 1 to 5):");
+        string input = Console.ReadLine();
+        int rating;
+        while (input == "q" || !int.TryParse(input, out rating) || rating < 1 || rating > 5)
+        {
+            if (input.ToLower() == "q"){
+                    Console.WriteLine("Please log in to leave a review.");
+                    Console.WriteLine("[1]: Home");
+                    Console.WriteLine("[2]: Leave a review");
+                    Console.WriteLine("[3]: See all reviews");
+                return;
+            }
+            Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+        }
+
+        Console.WriteLine("Leave your comments (Optional):");
+        string comments = Console.ReadLine();
+        string stars = new string('★', rating);
+        int ID = 0;
+        if (_reviews == null || _reviews.Count == 0)
+        {
+            _reviews = new List<Review>();
+            ID = 1;
+        }
+        else
+        {
+            ID = _reviews[_reviews.Count - 1].ID + 1;
+        }
+
+        Review newReview = new Review(ID, guestName, stars, comments);
+
+        if (newReview != null)
+        {
+            _reviews.Add(newReview);
+            SaveReviews();
+            LoadReviews();
+            Console.WriteLine("\nThank you for your review!");
+        }
+
+        Reviews.Options();
+    }
+
 }
