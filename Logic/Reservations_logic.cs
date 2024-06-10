@@ -64,7 +64,7 @@ public class ReservationLogic
         {
             foreach(string Time in Times)
             {
-                int TableCount = 16;
+                int TableCount = ReservedTable.TableTracker.Count;
             foreach(ReservationDataModel reservation in _reservation)
             {
                 if (reservation.Date == Datum && reservation.Time == Time)
@@ -72,7 +72,7 @@ public class ReservationLogic
                     TableCount -= reservation.Tables.Count;
                 }
             }
-            if (TableCount > 1 && TableCount != 0 && TableCount != 16)
+            if (TableCount > 1 && TableCount != 0 && TableCount != ReservedTable.TableTracker.Count)
             {
             Booked.Add($"{Datum}, {Time} ({TableCount} tables left)");
             }
