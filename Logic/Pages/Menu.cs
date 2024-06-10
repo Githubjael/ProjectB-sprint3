@@ -13,9 +13,7 @@
 
         public static string MaxPrice()
         {
-            using StreamReader reader = new(filePath);
-            var json = reader.ReadToEnd();
-            List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(json);
+            List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
             double MaxPrice = 0;
             foreach (MenuItem item in Menu)
             {
