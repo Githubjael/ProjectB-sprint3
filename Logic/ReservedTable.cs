@@ -87,141 +87,16 @@ static class ReservedTable
             5 => 6,
             6 => 6,
         };
-        if(TableType == 1)
-        {
-            try
-            {
-                var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
-            table.IsReserved();
-            ChosenTable.Add(table.ID);    
-            }
-            catch
-            {}
+        try{
+        var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
+        table.IsReserved();
+        ChosenTable.Add(table.ID);
         }
-        if (TableType == 2)
+        catch (Exception)
         {
-            try{
-            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
-            table.IsReserved();
-            ChosenTable.Add(table.ID);
-            }
-            catch (Exception)
-            {
-                ReservationLogic.SwitchIfNull(TableType);
-            }
-        }
-        else if (TableType == 4)
-        {
-            try{
-            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
-            table.IsReserved();
-            ChosenTable.Add(table.ID);
-            }
-            catch (Exception)
-            {
-                ReservationLogic.SwitchIfNull(TableType);
-            }
-        }
-        else if (TableType == 6)
-        {
-            try{
-            var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
-            table.IsReserved();
-            ChosenTable.Add(table.ID);
-            }
-            catch (Exception)
-            {
-                ReservationLogic.SwitchIfNull(TableType);
-            } 
-        }
+            ReservationLogic.SwitchIfNull(TableType);
+        } 
         return ChosenTable;
     }
- public static List<string> AssignTables(int AmountOfGuests, string Date, string TimeSlot)
-    {
-        MakeTablesAvailable(Date, TimeSlot);
-            // tableAssignments.Add(guestID, tableID);
-            // Maak hier een functie van in ReservedTable.cs!!!!!!
-            List<string> ChosenTables = new List<string>();
-                int ToBeSeated = AmountOfGuests;
-                List<int> TableTypes = new List<int>()
-                {
-                    Capacity = 2
-                };
-                // bool Loop = true;
-                int ToReserve;
-                do
-                {
-                    if (ToBeSeated >= 6)
-                    {
-                        Console.WriteLine($"Choose a Table to reserve(1-3):");
-                        Console.WriteLine($"1) 2 persons table");
-                        Console.WriteLine($"2) 4 persons table");
-                        Console.WriteLine($"3) 6 persons table");
-                    }
-                    else if (ToBeSeated >= 3)
-                    {
-                        Console.WriteLine($"Choose a Table to reserve(1-3):");
-                        Console.WriteLine($"1) 2 persons table");
-                        Console.WriteLine($"2) 4 persons table");
-                    }
-                    else if (ToBeSeated >= 1)
-                    {
-                        Console.WriteLine($"Choose a Table to reserve(1-3):");
-                        Console.WriteLine($"1) 2 persons table");
-                    }
-                    string answer = Console.ReadLine();
-                    if (string.IsNullOrEmpty(answer))
-                    {
-                        Console.WriteLine("Invalid input. You must enter '1', '2', '3' .");
-                    }
-                    else if(answer != "1" && answer != "2" && answer != "3")
-                    {
-                        Console.WriteLine("Invalid input. You must enter '1', '2', '3' .");
-                    }
-                    if (answer == "3")
-                    {
-                        ToBeSeated -= 6;
-                        Console.WriteLine("Thank you!");
-                        ToReserve = Convert.ToInt16(answer);
-                        TableTypes.Add(ToReserve);
-                    }
-                    else if (answer == "2")
-                    {
-                        ToBeSeated -= 4;
-                        Console.WriteLine("Thank you!");
-                        ToReserve = Convert.ToInt16(answer);
-                        TableTypes.Add(ToReserve);
-                    }
-                    else if(answer == "1")
-                    {
-                        ToBeSeated -= 2;
-                        Console.WriteLine("Thank you!");
-                        ToReserve = Convert.ToInt16(answer);
-                        TableTypes.Add(ToReserve);
-                    }
-                } while(ToBeSeated > 0);
-                foreach(int type in TableTypes)
-                {
-                    var tabletype = type switch
-                    {
-                        1 => 2,
-                        2 => 4,
-                        3 => 6,
-                    };
-                    var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
-                    try{
-                        found.IsReserved();
-                        ChosenTables.Add(found.ID);
-                    }
-                    catch(Exception)
-                    {
-                        var tables = ReservationLogic.SwitchIfNull(tabletype);
-                        foreach(Table table in tables)
-                        {
-                            ChosenTables.Add(table.ID);
-                        }
-                    }
-                }
-                return ChosenTables;
-    }
+ 
 }
