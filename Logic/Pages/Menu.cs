@@ -7,6 +7,7 @@
 
     public static class Menu
     {
+
         private static string WayToSort = "Category";
 
         private static string filePath = @"..\..\..\DataSources\Menu.json";
@@ -54,9 +55,9 @@
                 AddItem(); // Restart the method to prompt for a new item
                 return;
             }
-            while (itemName.Length < 2)
+            while (itemName.Length < 2 || itemName.Length > 18)
             {
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 characters long. Please try again:"); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 and under 18 characters long. Please try again:"); Console.ResetColor();
                 itemName = Console.ReadLine();
             }
 
@@ -430,7 +431,8 @@
 
 
             public static void DisplayMenuItems(JArray menuItems){
-        Console.WriteLine("ID | Name          | Price   | Category   | Ingredients");
+        Console.WriteLine($"{"ID", -5}| {"Name", -18}| {"Price", -7}| {"Category", -10}| {"Ingredients"}");
+
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
@@ -463,14 +465,16 @@
                         currentLine += ingredient;
                     }
                 }
-
+                
+                //add the remaining ingredients 
                 formattedIngredients.Add(currentLine);
 
-                Console.WriteLine($"{id,-2} {symbol, -3}| {name,-14} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-18} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
                 for (int i = 1; i < formattedIngredients.Count; i++)
                 {
-                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-14} | {' ',-7}  | {' ',-10} | {formattedIngredients[i],-75}");
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-18} |  {' ',-7:0.00} | {' ',-10} | {formattedIngredients[i],-75}");
                 }
+
 
             }
             catch (Exception ex)
