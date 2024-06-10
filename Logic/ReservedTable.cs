@@ -56,7 +56,7 @@ static class ReservedTable
     }
    public static List<string> GetTimes(string Date)
 {
-    List<string> Times = new List<string> { "10:00", "17:00", "22:00" };
+    List<string> Times = TimeSlots.ReadFromJson();
     // Als timelist verandered kunnen we het gewoon sturen als parameter
 
     for (int i = Times.Count - 1; i >= 0; i--)
@@ -74,9 +74,9 @@ static class ReservedTable
 
     return Times;
 }
-    public static List<Table> AssignTable(int AmountOfGuests, string Date, string TimeSlot) // the user already chose a Date and TimeSlot
+    public static List<string> AssignTable(int AmountOfGuests, string Date, string TimeSlot) // the user already chose a Date and TimeSlot
     {
-        List<Table> ChosenTable = new (){};
+        List<string> ChosenTable = new (){};
         MakeTablesAvailable(Date, TimeSlot);
         int TableType = AmountOfGuests switch
         {
@@ -93,7 +93,7 @@ static class ReservedTable
             {
                 var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
             table.IsReserved();
-            ChosenTable.Add(table);    
+            ChosenTable.Add(table.ID);    
             }
             catch
             {}
@@ -103,7 +103,7 @@ static class ReservedTable
             try{
             var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
             table.IsReserved();
-            ChosenTable.Add(table);
+            ChosenTable.Add(table.ID);
             }
             catch (Exception)
             {
@@ -115,7 +115,7 @@ static class ReservedTable
             try{
             var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
             table.IsReserved();
-            ChosenTable.Add(table);
+            ChosenTable.Add(table.ID);
             }
             catch (Exception)
             {
@@ -127,7 +127,7 @@ static class ReservedTable
             try{
             var table = TableTracker.Find(x => x.Type == TableType && !x.Reserved);
             table.IsReserved();
-            ChosenTable.Add(table);
+            ChosenTable.Add(table.ID);
             }
             catch (Exception)
             {
@@ -136,12 +136,12 @@ static class ReservedTable
         }
         return ChosenTable;
     }
- public static List<Table> AssignTables(int AmountOfGuests, string Date, string TimeSlot)
+ public static List<string> AssignTables(int AmountOfGuests, string Date, string TimeSlot)
     {
         MakeTablesAvailable(Date, TimeSlot);
             // tableAssignments.Add(guestID, tableID);
             // Maak hier een functie van in ReservedTable.cs!!!!!!
-            List<Table> ChosenTables = new List<Table>();
+            List<string> ChosenTables = new List<string>();
                 int ToBeSeated = AmountOfGuests;
                 List<int> TableTypes = new List<int>()
                 {
@@ -211,14 +211,14 @@ static class ReservedTable
                     var found = TableTracker.Find(x => x.Type == tabletype && !x.Reserved);
                     try{
                         found.IsReserved();
-                        ChosenTables.Add(found);
+                        ChosenTables.Add(found.ID);
                     }
                     catch(Exception)
                     {
                         var tables = ReservationLogic.SwitchIfNull(tabletype);
                         foreach(Table table in tables)
                         {
-                            ChosenTables.Add(table);
+                            ChosenTables.Add(table.ID);
                         }
                     }
                 }
