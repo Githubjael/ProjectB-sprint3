@@ -1,60 +1,244 @@
 [
   {
-    "Id": 1,
+    "Id": "1",
     "Name": "Mojito",
     "Price": 8.99,
     "Category": "Drink",
-    "Ingredients": ["Rum", "Mint leaves", "Sugar", "Lime juice", "Soda water"]
+    "Symbol": null,
+    "Ingredients": [
+      "Rum",
+      "Mint leaves",
+      "Sugar",
+      "Lime juice",
+      "Soda water"
+    ]
   },
   {
-    "Id": 2,
+    "Id": "2",
     "Name": "Martini",
     "Price": 9.99,
     "Category": "Drink",
-    "Ingredients": ["Gin", "Dry vermouth", "Olive"]
+    "Symbol": null,
+    "Ingredients": [
+      "Gin",
+      "Dry vermouth",
+      "Olive"
+    ]
   },
   {
-    "Id": 3,
+    "Id": "3",
     "Name": "Old Fashioned",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Bourbon or Rye whiskey", "Sugar", "Angostura bitters", "Orange twist"]
+    "Symbol": null,
+    "Ingredients": [
+      "Bourbon or Rye whiskey",
+      "Sugar",
+      "Angostura bitters",
+      "Orange twist"
+    ]
   },
   {
-    "Id": 4,
+    "Id": "4",
     "Name": "Piña Colada",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Witte rum", "Ananassap", "Kokosmelk", "Suikersiroop (optioneel)", "Ananasplakjes en/of kersen voor garnering", "Ijsblokjes"]
+    "Symbol": null,
+    "Ingredients": [
+      "White rum",
+      "Pineapple juice",
+      "Coconut milk",
+      "Simple syrup (optional)",
+      "Pineapple slices and/or cherries for garnish",
+      "Ice cubes"
+    ]
   },
   {
-    "Id": 5,
+    "Id": "5",
     "Name": "Cosmopolitan",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Wodka", "Sinaasappellikeur (bijv. Cointreau)", "Vers limoensap", "Cranberrysap", "Limoen- of sinaasappelschil voor garnering", "Ijsblokjes"]
+    "Symbol": null,
+    "Ingredients": [
+      "Vodka",
+      "Orange liqueur",
+      "Fresh lime juice",
+      "Cranberry juice",
+      "Lime or orange peel for garnish",
+      "Ice cubes"
+    ]
   },
   {
-    "Id": 6,
+    "Id": "6",
     "Name": "Whiskey Sour",
     "Price": 15.99,
     "Category": "Drink",
-    "Ingredients": ["Bourbon whiskey", "Vers citroensap", "Suikersiroop", "Maraschinokers voor garnering", "Ijsblokjes"]
+    "Symbol": null,
+    "Ingredients": [
+      "Bourbon whiskey",
+      "Fresh lemon juice",
+      "Simple syrup",
+      "Maraschino cherry",
+      "Ice cubes"
+    ]
   },
   {
-    "Id": 7,
-    "Name": "Spicy Apple",
-    "Price": 2.05,
-    "Category": "Fruit",
-    "Symbol": "♣🌶",
-    "Ingredients": ["Apple", "Pepper"]
+    "Id": "7",
+    "Name": "Caprese Salad♣",
+    "Price": 12.99,
+    "Category": "Salad",
+    "Symbol": null,
+    "Ingredients": [
+      "Mozzarella cheese",
+      "Ripe tomatoes",
+      "Fresh basil",
+      "Olive oil",
+      "Balsamic glaze"
+    ]
   },
   {
-    "Id": 8,
-    "Name": "Steak",
-    "Price": 10.0,
-    "Category": "Meat",
-    "Symbol": "",
-    "Ingredients": ["Beef", "Meat", "Pepper", "Mayonaise", "Salt", "Fries", "Ketchup", "Lettuce", "Tomato", "Cucumber", "Onion", "Knife", "Fork", "Plate", "Garlic sauce", "Peanuts", "Cheese", "Ham", "Bread"]
+    "Id": "8",
+    "Name": "Bruschetta",
+    "Price": 10.99,
+    "Category": "Appetizer",
+    "Symbol": null,
+    "Ingredients": [
+      "Italian bread",
+      "Tomatoes",
+      "Garlic",
+      "Basil",
+      "Olive oil",
+      "Balsamic vinegar"
+    ]
+  },
+  {
+    "Id": "9",
+    "Name": "Grilled Shrimp🌶",
+    "Price": 18.99,
+    "Category": "Seafood",
+    "Symbol": null,
+    "Ingredients": [
+      "Large shrimp",
+      "Garlic",
+      "Lemon",
+      "Olive oil",
+      "Salt and pepper"
+    ]
+  },
+  {
+    "Id": "11",
+    "Name": "Chicken Caesar♣",
+    "Price": 14.99,
+    "Category": "Salad",
+    "Symbol": null,
+    "Ingredients": [
+      "Grilled chicken",
+      "Romaine lettuce",
+      "Caesar dressing",
+      "Croutons",
+      "Parmesan cheese"
+    ]
+  },
+  {
+    "Id": "12",
+    "Name": "French Onion",
+    "Price": 9.99,
+    "Category": "Soup",
+    "Symbol": null,
+    "Ingredients": [
+      "Onions",
+      "Beef broth",
+      "French bread",
+      "Gruyère cheese"
+    ]
+  },
+  {
+    "Id": "13",
+    "Name": "Shrimp Scampi🌶",
+    "Price": 22.99,
+    "Category": "Seafood",
+    "Symbol": null,
+    "Ingredients": [
+      "Large shrimp",
+      "Garlic",
+      "Lemon",
+      "White wine",
+      "Butter"
+    ]
+  },
+  {
+    "Id": "14",
+    "Name": "Veg Stir-Fry♣",
+    "Price": 16.99,
+    "Category": "Vegetarian",
+    "Symbol": null,
+    "Ingredients": [
+      "Assorted veggies",
+      "Soy sauce",
+      "Garlic",
+      "Ginger",
+      "Sesame oil",
+      "Rice"
+    ]
+  },
+  {
+    "Id": "15",
+    "Name": "NY Cheesecake",
+    "Price": 7.99,
+    "Category": "Dessert",
+    "Symbol": null,
+    "Ingredients": [
+      "Cream cheese",
+      "Sugar",
+      "Eggs",
+      "Sour cream",
+      "Vanilla extract",
+      "Graham cracker crumbs"
+    ]
+  },
+  {
+    "Id": "16",
+    "Name": "Tiramisu",
+    "Price": 8.99,
+    "Category": "Dessert",
+    "Symbol": null,
+    "Ingredients": [
+      "Ladyfingers",
+      "Mascarpone cheese",
+      "Eggs",
+      "Sugar",
+      "Espresso",
+      "Cocoa powder"
+    ]
+  },
+  {
+    "Id": "17",
+    "Name": "Margherita Pizza",
+    "Price": 13.99,
+    "Category": "Pizza",
+    "Symbol": null,
+    "Ingredients": [
+      "Pizza dough",
+      "Tomato sauce",
+      "Mozzarella cheese",
+      "Fresh basil leaves"
+    ]
+  },
+  {
+    "Id": "18",
+    "Name": "BBQ Bacon🌶",
+    "Price": 15.99,
+    "Category": "Burger",
+    "Symbol": null,
+    "Ingredients": [
+      "Beef patty",
+      "Bacon",
+      "BBQ sauce",
+      "Cheddar cheese",
+      "Lettuce",
+      "Tomato",
+      "Onion",
+      "Burger bun"
+    ]
   }
 ]
