@@ -1,22 +1,78 @@
+using System.Formats.Asn1;
+using System.Globalization;
+using System.Net.Http.Headers;
+
 static class ManagerOptions
 {
+    public static void EditTimeslots()
+    {
+        List<string> Timeslots = TimeSlots.ReadFromJson();
+        DateTime OldTimeSlot = DateTime.ParseExact(Timeslots[0],"HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
+        DateTime SecondTimeSlot = DateTime.ParseExact(Timeslots[1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
+    // Know Timeslot gap
+        TimeSpan verschil = SecondTimeSlot - OldTimeSlot;
+        List<string> NewTimes = new();
+        System.Console.WriteLine("[H]: Home");
+        System.Console.WriteLine("[1]: Edit first time slot");
+        System.Console.WriteLine("[2]: Edit last time slot");
+        string answer;
+        do
+        {
+            answer = Console.ReadLine().ToLower();
+            switch (answer)
+            {
+                case "h":
+                Home.Options();
+                break;
+                case "1":
+                Console.WriteLine("New first time slot:");
+                string newTime = Console.ReadLine();
+                while(DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) <= DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
+                {
+                    NewTimes.Add(newTime);
+                    newTime = DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")).Add(verschil).ToString("HH:mm");
+                }
+                // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind!
+                TimeSlots.WriteToJson(NewTimes);
+                break;
+                case "2":
+                Console.WriteLine("New last time slot:");
+                string lastTime = Console.ReadLine();
+                for (int i = Timeslots.Count - 1; i >= 0; i--)
+                {
+                    if (DateTime.ParseExact(Timeslots[i], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) > DateTime.ParseExact(lastTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
+                    {
+                        Timeslots.RemoveAt(i);
+                    }
+                }
+                while (DateTime.ParseExact(lastTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) != DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
+                {
+                    Timeslots.Add(DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")).Add(verschil).ToString("HH:mm"));
+                }
+                TimeSlots.WriteToJson(Timeslots);
+                break;
+
+            }    
+            EditTimeslots();
+        }while(answer != "H" && answer != "1" && answer != "2" && answer != "3"); // replace met checking method
+
+    }
     public static void ReservationOptions()
     {
         string answer = "";
-        while(answer != "h"){
+        while(answer != "1"){
         do{
-        System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[S]: See all reservations");
-        System.Console.WriteLine("[D]: See reservations on a certain date");
-        System.Console.WriteLine("[T]: See reservations on a certain time and date");
-        System.Console.WriteLine("[C]: Cancel reservation"); // Komt nog
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: See reservations on a certain date");
+        System.Console.WriteLine("[3]: See reservations on a certain time and date");
+        System.Console.WriteLine("[4]: Cancel reservation"); // Komt nog
         answer = Console.ReadLine().ToLower();
-        if (answer == "h")
+        if (answer == "1")
         {
             Home.Options();
             break;
         }
-        } while (answer != "s" && answer != "d" && answer != "t" && answer != "c");
+        } while (answer != "2" && answer != "3" && answer != "4");
         SeeReservations(answer);
         }
     }
@@ -26,9 +82,6 @@ static class ManagerOptions
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "s":
-            ReservationLogic.PrintAllReservations();
-            break;
             case "d":
             string date;
             do{
@@ -37,9 +90,9 @@ static class ManagerOptions
             string[] dateParts = date.Split("-");
             if (dateParts.Length == 3)
             {
-                dateParts[0] = dateParts[0].PadLeft(2, '0'); // Add leading zero to day
-                dateParts[1] = dateParts[1].PadLeft(2, '0'); // Add leading zero to month
-                date = string.Join("-", dateParts); // Reconstruct the date string
+                dateParts[0] = dateParts[0].PadLeft(2, '0');
+                dateParts[1] = dateParts[1].PadLeft(2, '0'); 
+                date = string.Join("-", dateParts);
             }
             } while (!CheckReservationInfo.CheckOtherDates(date));
             ReservationLogic.PrintReservationsBasedOnDate(date);
@@ -52,9 +105,9 @@ static class ManagerOptions
             string[] datumParts = datum.Split("-");
             if (datumParts.Length == 3)
             {
-                datumParts[0] = datumParts[0].PadLeft(2, '0'); // Add leading zero to day
-                datumParts[1] = datumParts[1].PadLeft(2, '0'); // Add leading zero to month
-                datum = string.Join("-", datumParts); // Reconstruct the date string
+                datumParts[0] = datumParts[0].PadLeft(2, '0');
+                datumParts[1] = datumParts[1].PadLeft(2, '0');
+                datum = string.Join("-", datumParts);
             }
             } while (!CheckReservationInfo.CheckOtherDates(datum));
             System.Console.WriteLine("What time? (hours:minutes)");
@@ -71,22 +124,22 @@ static class ManagerOptions
     public static void ReviewOptions()
     {
         string answer = "";
-        while(answer != "h"){
+        while(answer != "1"){
         do{
             //changed most of the Lettered options into numbered options
-        System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[1]: See all reviews");
-        System.Console.WriteLine("[2]: See reviews based on ratings");
-        System.Console.WriteLine("[3]: Reply to a review");
-        System.Console.WriteLine("[4] Delete review");
-        System.Console.WriteLine("[5] Delete all reviews");
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: See all reviews");
+        System.Console.WriteLine("[3]: See reviews based on ratings");
+        System.Console.WriteLine("[4]: Reply to a review");
+        System.Console.WriteLine("[5]: Delete review");
+        System.Console.WriteLine("[6]: Delete all reviews");
         answer = Console.ReadLine().ToLower();
-        if (answer == "h")
+        if (answer == "1")
         {
             Home.Options();
             break;
         }
-        } while (answer != "1" && answer != "2" && answer != "4" && answer != "5" && answer != "3");
+        } while (answer != "2" && answer != "3" && answer != "4" && answer != "5" && answer != "6");
         ReviewDetails(answer);
         }
     }
