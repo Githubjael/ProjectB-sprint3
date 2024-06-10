@@ -51,9 +51,7 @@ public class ReservationLogic
     {
         List<string> FullyBookedDates = VolGeboekteDatums();
         List<string> Datums = new(){};
-        List<string> Times = new(){
-            "10:00", "17:00", "22:00"
-        };
+        List<string> Times = TimeSlots.ReadFromJson();
         List<string> Booked = new(){};
         foreach(ReservationDataModel reservation in _reservation)
         {
