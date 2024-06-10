@@ -4,23 +4,6 @@ public class Reviews
     public static List<Review> _reviews = PutInList();	
     public static string Name => _name;
 
-    // with this the manager can now enter a string into the ReplyFromManager string in Review objects
-    public static void ReplyToReview(int reviewID, string reply)
-    {
-        for(int i = 0; i < _reviews.Count; i++)
-        {
-            if(_reviews[i].ID == reviewID)
-            {
-                if(!string.IsNullOrEmpty(reply))
-                {
-                    _reviews[i].ReplyFromManager = reply;
-                }
-            }
-        }
-        SaveReviews();
-        LoadReviews();
-    }
-
     static Reviews()
     {
         LoadReviews();
@@ -96,7 +79,24 @@ public class Reviews
         SaveReviews();
         LoadReviews();
     }
-
+    
+    // with this the manager can now enter a string into the ReplyFromManager string in Review objects
+    public static void ReplyToReview(int reviewID, string reply)
+    {
+        for(int i = 0; i < _reviews.Count; i++)
+        {
+            if(_reviews[i].ID == reviewID)
+            {
+                if(!string.IsNullOrEmpty(reply))
+                {
+                    _reviews[i].ReplyFromManager = reply;
+                }
+            }
+        }
+        SaveReviews();
+        LoadReviews();
+    }
+    
     public static void RemoveAll()
     {
         _reviews.Clear();
