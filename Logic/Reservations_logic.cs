@@ -272,7 +272,7 @@ public static bool CheckReservedTable(string ID, string Date, string Time)
     {
         foreach (var table in reservation.Tables)
         {
-            if (table.ID == ID && reservation.Date == Date && reservation.Time == Time)
+            if (table == ID && reservation.Date == Date && reservation.Time == Time)
             {
                 return true;
             }
