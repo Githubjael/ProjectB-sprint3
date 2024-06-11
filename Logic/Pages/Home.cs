@@ -14,6 +14,7 @@ public static class Home
 
     // Methodes revereren naar methodes in de interactie laag
     public static List<string> ShowTimeSlots() => TimeSlots.ReadFromJson();
+    public static void ChangeTimeSlots(List<string> Timeslots) => TimeSlots.WriteToJson(Timeslots);
     public static void Options() => HomeOptions.Options();
     public static void SignUp() => AccountManagment.SignUp();
 
