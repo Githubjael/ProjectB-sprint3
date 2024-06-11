@@ -251,7 +251,7 @@
         // public static void ChangeItem(){ maybe add later
         // }
 
-        private static void DisplayMenu(string HowToSort)
+        public static void DisplayMenu(string HowToSort)
         {
             string jsonString = File.ReadAllText(filePath);
             JArray menuArray = JArray.Parse(jsonString);
