@@ -63,7 +63,7 @@ class Reservation : Page
             List<string> Tables;
             if (Guests > 6)
             {
-                Tables =  ReservedTable.AssignTables(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
+                Tables =  ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             }
             else{
                 Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
