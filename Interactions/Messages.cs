@@ -16,6 +16,11 @@ static class Messages
         }
         else{
             System.Console.WriteLine("We are honored by your interest in booking at our restaurant!");
+            System.Console.WriteLine("The amount of guests determines the type of your reservation.");
+            System.Console.WriteLine("A reservation of 1, reserves a seat at the bar.");
+            System.Console.WriteLine("A reservation of 2, reserves a 2 person table.");
+            System.Console.WriteLine("A reservation of 3-4, reserves a 4 person table.");
+            System.Console.WriteLine("A reservation of 5-6, reserves a 6 person table.");
             System.Console.WriteLine("Please answer the following questions:");
         }  
     }
