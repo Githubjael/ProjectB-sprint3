@@ -26,7 +26,7 @@
             return $"{MaxPrice}";
         }
 
-        public static void AddItem()
+        private static void AddItem()
         {
             
             //turn the Json into a list of menuitems
@@ -197,7 +197,7 @@
             System.Threading.Thread.Sleep(1500);
         }
 
-        public static void RemoveItem()
+        private static void RemoveItem()
         {
             System.Console.WriteLine("(At any time type 'Q' to go back)");
             Console.WriteLine("What's the name or ID of the item you want to remove?");
@@ -251,7 +251,7 @@
         // public static void ChangeItem(){ maybe add later
         // }
 
-        public static void DisplayMenu(string HowToSort)
+        private static void DisplayMenu(string HowToSort)
         {
             string jsonString = File.ReadAllText(filePath);
             JArray menuArray = JArray.Parse(jsonString);
@@ -331,7 +331,7 @@
             }
         }
 
-        public static void SortMenuOptions()
+        private static void SortMenuOptions()
         {
             Console.WriteLine("[1]: Sort by price");
             Console.WriteLine("[2]: Sort by name");
@@ -368,7 +368,7 @@
             }
         }
 
-        public static void DisplayCategories(){
+        private static void DisplayCategories(){
             string jsonString = File.ReadAllText(filePath);
             JArray menuArray = JArray.Parse(jsonString);
             //make a dictionary that has category aa key and all menuitems as its value
@@ -430,9 +430,8 @@
         }
 
 
-            public static void DisplayMenuItems(JArray menuItems){
+        private static void DisplayMenuItems(JArray menuItems){
         Console.WriteLine($"{"ID", -5}| {"Name", -18}| {"Price", -7}| {"Category", -10}| {"Ingredients"}");
-
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
