@@ -14,19 +14,4 @@ public class Guest : Person
     public Guest(string firstName, string lastName, string emailAddress, string phoneNumber, string password) : base(firstName, lastName, emailAddress, phoneNumber, password)
     {
     }
-
-    public void MakePassWord(string passWord){
-        PassWord = passWord;
-        PassWordIsSet = true;
-    }
-    public bool LogIn(string passWord){
-        if (PassWord == passWord){
-            return true;
-        }
-        return false;
-    }
-
-    public void ChangePassWord(){
-        PassWordIsSet = false;
-    }
 }
