@@ -40,14 +40,7 @@ class Reservation : Page
             string TimeSlot = PersonalDetails.AskTimeSlot(Date);
             int Guests = PersonalDetails.AskAmountOfGuests();
             List<string> Tables;
-            if (Guests > 6)
-            {
-                Tables =  ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
-                Console.Clear();
-            }
-            else{
-                Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
-            }
+            Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             int GuestID = GenerateRandomGuestID();
             ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables);
             ReservationLogic.AddReservationToList(Reservation);
@@ -61,13 +54,7 @@ class Reservation : Page
             int Guests = PersonalDetails.AskAmountOfGuests();
             string TimeSlot = PersonalDetails.AskTimeSlot(Date);
             List<string> Tables;
-            if (Guests > 6)
-            {
-                Tables =  ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
-            }
-            else{
-                Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
-            }
+            Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             int GuestID = GenerateRandomGuestID();
             if (Messages.AskForPreOrder())
             {
