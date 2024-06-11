@@ -4,7 +4,7 @@ using System.IO;
 
 class UsersAccess
 {
-    private static string fileName = @"C:\Users\Hilal\OneDrive\Bureaublad\eindelijk\ProjectB-sprint3-main\DataSources\users.json"; // copy je eige path.
+    private static string fileName = @"..\..\..\DataSources\users.Json"; // copy je eige path.
 
     public static List<Guest> ReadFromJson() => JsonStuff.ReadFromJson<Guest>(fileName);
 
