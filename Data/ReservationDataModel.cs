@@ -28,11 +28,11 @@ public class ReservationDataModel : IComparable<ReservationDataModel>
     public string Time {get; set;}
 
     [JsonPropertyName("Table")]
-    public List<Table> Tables = new List<Table>();
+    public List<string> Tables = new();
 
 
     [JsonConstructor]
-    public ReservationDataModel(int gastID, string firstName,string lastName, string phoneNumber,string emailAddress, string date, string time, List<Table> tables)
+    public ReservationDataModel(int gastID, string firstName,string lastName, string phoneNumber,string emailAddress, string date, string time, List<string> tables)
     {
         GuestID = gastID;
         FirstName = firstName;
