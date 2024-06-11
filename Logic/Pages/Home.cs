@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 public static class Home
 {
     public static bool IsLoggedIn { get; set; }
-    public static bool ManagerLoggedIn {get; set;}
+    public static bool ManagerLoggedIn { get; set; }
     public static string guestName { get; set; }
-    public static string guestEmail { get; set;}
+    public static string guestEmail { get; set; }
     public static string Name => "Home";
 
     // Methodes revereren naar methodes in de interactie laag
@@ -21,5 +21,10 @@ public static class Home
     public static void LogOut() => AccountManagment.LogOut();
 
     public static void LogIn() => AccountManagment.LogIn();
-    public static void ChangeGuest(Guest guest) => UsersAccess.SaveUser(guest);
+    public static void ChangeGuest(Guest guest)
+    {
+        UsersAccess.SaveUser(guest);
+        guestName = guest.FirstName;
+        guestEmail = guest.EmailAddress;
+    }
 }
