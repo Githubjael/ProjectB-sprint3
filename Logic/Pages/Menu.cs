@@ -12,6 +12,8 @@
 
         private static string filePath = @"..\..\..\DataSources\Menu.json";
 
+        public static List<MenuItem> menuItems = JsonStuff.ReadFromJson<MenuItem>(filePath);
+
         public static string MaxPrice()
         {
             List<MenuItem> Menu = JsonConvert.DeserializeObject<List<MenuItem>>(File.ReadAllText(filePath));
