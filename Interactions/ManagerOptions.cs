@@ -6,7 +6,7 @@ static class ManagerOptions
 {
     public static void EditTimeslots()
     {
-        List<string> Timeslots = TimeSlots.ReadFromJson();
+        List<string> Timeslots = Home.ShowTimeSlots();
         DateTime OldTimeSlot = DateTime.ParseExact(Timeslots[0],"HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
         DateTime SecondTimeSlot = DateTime.ParseExact(Timeslots[1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL"));
     // Know Timeslot gap
@@ -32,8 +32,8 @@ static class ManagerOptions
                     NewTimes.Add(newTime);
                     newTime = DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")).Add(verschil).ToString("HH:mm");
                 }
-                // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind!
-                TimeSlots.WriteToJson(NewTimes);
+                // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind! Done
+                Home.ChangeTimeSlots(NewTimes);
                 break;
                 case "2":
                 Console.WriteLine("New last time slot:");
@@ -49,10 +49,15 @@ static class ManagerOptions
                 {
                     Timeslots.Add(DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")).Add(verschil).ToString("HH:mm"));
                 }
-                TimeSlots.WriteToJson(Timeslots);
+                Home.ChangeTimeSlots(Timeslots);
                 break;
 
-            }    
+            }   
+            System.Console.WriteLine("New time slots:");
+            foreach(var Time in Timeslots)
+            {
+                System.Console.WriteLine(Time);
+            }
             EditTimeslots();
         }while(answer != "H" && answer != "1" && answer != "2" && answer != "3"); // replace met checking method
 
