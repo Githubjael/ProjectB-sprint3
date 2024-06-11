@@ -140,11 +140,15 @@ static class AccountManagment
             Home.IsLoggedIn = false;
             Home.guestName = null;
             Home.guestEmail = null;
+            System.Console.WriteLine(". . . .");
+            System.Threading.Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
         else if (Home.ManagerLoggedIn)
         {
             Home.ManagerLoggedIn = false;
+            System.Console.WriteLine(". . . .");
+            System.Threading.Thread.Sleep(1500);
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
         else
