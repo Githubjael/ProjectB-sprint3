@@ -136,7 +136,7 @@ public class ReservationLogic
         System.Console.WriteLine($"Guest id: {reservation.GuestID}");
         System.Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
         System.Console.WriteLine($"Email address: {reservation.EmailAddress}");
-        foreach(string table in reservation.Tables)
+        foreach(var table in reservation.Tables)
         {
             System.Console.WriteLine($"Table id: {table}");
         }
@@ -272,7 +272,7 @@ public static bool CheckReservedTable(string ID, string Date, string Time)
     {
         foreach (var table in reservation.Tables)
         {
-            if (table == ID && reservation.Date == Date && reservation.Time == Time)
+            if (table.ID == ID && reservation.Date == Date && reservation.Time == Time)
             {
                 return true;
             }
