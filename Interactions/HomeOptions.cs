@@ -8,7 +8,8 @@ static class HomeOptions
         System.Console.WriteLine();
         System.Console.WriteLine(new string("𓌉◯ 𓇋 Jake's Restaurant 𓌉◯ 𓇋"));
         string streep = "";
-        string shortIntro = $"{Reviews.AverageRating()} - €{Menu.MaxPrice()} and lower - 10:00-22:00";
+        var TimeSlots = Home.ShowTimeSlots();
+        string shortIntro = $"{Reviews.AverageRating()} - €{Menu.MaxPrice()} and lower - {TimeSlots[0]}-{TimeSlots[TimeSlots.Count - 1]}";
         foreach(char x in shortIntro)
         {
             streep += "-";
@@ -33,7 +34,10 @@ static class HomeOptions
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
         Console.WriteLine("[5]: Log in");
         Console.WriteLine("[6]: Sign up");
-
+        }
+        if(Home.ManagerLoggedIn)
+        {
+            System.Console.WriteLine("[6]: Manage time slots");
         }
 
         while (true)
@@ -58,6 +62,10 @@ static class HomeOptions
                     }
                     break;
                 case "6":
+                    if(Home.ManagerLoggedIn)
+                    {
+                        ManagerOptions.EditTimeslots();
+                    }
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
                     // Console.Clear();
                         Home.SignUp();
