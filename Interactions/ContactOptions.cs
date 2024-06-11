@@ -3,7 +3,7 @@ static class ContactOptions
         public static void Options()
     {
         SeeContactInfo();
-        Console.WriteLine("[H]: Home");
+        Console.WriteLine("[1]: Home");
         Console.WriteLine(""); 
 
         while (true)
@@ -12,7 +12,7 @@ static class ContactOptions
 
             switch (userChoice)
             {
-                case "H":
+                case "1":
                     Home.Options();
                     return;
 

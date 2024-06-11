@@ -7,21 +7,21 @@ public static class ReservationMenu
     {
         while (true)
         {
-            Console.WriteLine("[H]: Home");
-            Console.WriteLine("[M]: Make reservation");
-            Console.WriteLine("[CR]: Cancel reservation");
-            Console.WriteLine("[V]: View reservation history");
+            Console.WriteLine("[1]: Home");
+            Console.WriteLine("[2]: Make reservation");
+            Console.WriteLine("[3]: Cancel reservation");
+            Console.WriteLine("[4]: View reservation history");
 
             string userChoice = Console.ReadLine().ToUpper();
 
             switch (userChoice)
             {
-                case "M":
+                case "2":
                     // Make reservation
                     Reservation.MakeReservation();
                     Options();
                     return;
-                case "CR":
+                case "3":
                     
 
                     // Cancel reservation
@@ -75,7 +75,7 @@ public static class ReservationMenu
                     return;
 
 
-                case "V":
+                case "4":
                     // View reservation history
                     if (Home.IsLoggedIn && !Home.ManagerLoggedIn)
                     {
@@ -102,7 +102,7 @@ public static class ReservationMenu
                     }
                     Options();
                     return;
-                case "H":
+                case "1":
                     Home.Options();
                     return;
                 default:
