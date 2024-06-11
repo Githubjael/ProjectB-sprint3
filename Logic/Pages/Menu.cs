@@ -431,7 +431,7 @@
 
 
         private static void DisplayMenuItems(JArray menuItems){
-        Console.WriteLine($"{"ID", -5}| {"Name", -18}| {"Price", -7}| {"Category", -10}| {"Ingredients"}");
+        Console.WriteLine($"{"ID", -5}| {"Name", -19}| {"Price", -7}| {"Category", -10}| {"Ingredients"}");
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
@@ -467,11 +467,17 @@
                 
                 //add the remaining ingredients 
                 formattedIngredients.Add(currentLine);
+                
+                if(symbol == "🌶"){
+                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
 
-                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-18} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                }
+                else{
+                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                }
                 for (int i = 1; i < formattedIngredients.Count; i++)
                 {
-                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-18} |  {' ',-7:0.00} | {' ',-10} | {formattedIngredients[i],-75}");
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-19} |  {' ',-7:0.00} | {' ',-10} | {formattedIngredients[i],-75}");
                 }
 
 
