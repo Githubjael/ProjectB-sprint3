@@ -8,12 +8,12 @@ public static class Home
 {
     public static bool IsLoggedIn { get; set; }
     public static bool ManagerLoggedIn {get; set;}
-    public static string Name => "Home";
-    private static List<Guest> Users = new List<Guest>();
     public static string guestName { get; set; }
     public static string guestEmail { get; set;}
+    public static string Name => "Home";
 
     // Methodes revereren naar methodes in de interactie laag
+    public static List<string> ShowTimeSlots() => TimeSlots.ReadFromJson();
     public static void Options() => HomeOptions.Options();
     public static void SignUp() => AccountManagment.SignUp();
 
