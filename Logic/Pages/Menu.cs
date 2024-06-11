@@ -10,7 +10,7 @@
 
         private static string WayToSort = "Category";
 
-        private static string filePath = @"..\..\..\DataSources\Menu.json";
+        private static string filePath = @"..\..\..\DataSources\Menu.Json";
 
         public static List<MenuItem> MenuItems = JsonStuff.ReadFromJson<MenuItem>(filePath);
 
