@@ -11,11 +11,12 @@ class ReviewLogic : IComparable<Review>
         foreach(var review in Reviews)
         {
             System.Console.WriteLine("=====================");
-            System.Console.WriteLine($"Id: {review.ID}");
             System.Console.WriteLine($"Name: {review.GuestName}");
             System.Console.WriteLine($"Rating: {review.Rating}");
             System.Console.WriteLine($"Comment: {review.Comments}");
+            if (review.ReplyFromManager != null){
             System.Console.WriteLine($"Restaurant's response: {review.ReplyFromManager}");
+            }
         }
     }
 
@@ -27,11 +28,12 @@ class ReviewLogic : IComparable<Review>
         {
             if (star == review.Rating){
             System.Console.WriteLine("=====================");
-            System.Console.WriteLine($"Id: {review.ID}");
             System.Console.WriteLine($"Name: {review.GuestName}");
             System.Console.WriteLine($"Rating: {review.Rating}");
             System.Console.WriteLine($"Comment: {review.Comments}");
+            if (review.ReplyFromManager != null){
             System.Console.WriteLine($"Restaurant's response: {review.ReplyFromManager}");
+            }
             }
         }
     }
