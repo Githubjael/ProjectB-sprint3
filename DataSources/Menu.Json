@@ -113,10 +113,10 @@
   },
   {
     "Id": "9",
-    "Name": "Grilled Shrimp🌶",
+    "Name": "Grilled Shrimp",
     "Price": 18.99,
     "Category": "Seafood",
-    "Symbol": null,
+    "Symbol": "🌶",
     "Ingredients": [
       "Large shrimp",
       "Garlic",
@@ -127,10 +127,10 @@
   },
   {
     "Id": "11",
-    "Name": "Chicken Caesar♣",
+    "Name": "Chicken Caesar",
     "Price": 14.99,
     "Category": "Salad",
-    "Symbol": null,
+    "Symbol": "♣",
     "Ingredients": [
       "Grilled chicken",
       "Romaine lettuce",
@@ -154,10 +154,10 @@
   },
   {
     "Id": "13",
-    "Name": "Shrimp Scampi🌶",
+    "Name": "Shrimp Scampi",
     "Price": 22.99,
     "Category": "Seafood",
-    "Symbol": null,
+    "Symbol": "🌶",
     "Ingredients": [
       "Large shrimp",
       "Garlic",
@@ -168,10 +168,10 @@
   },
   {
     "Id": "14",
-    "Name": "Veg Stir-Fry♣",
+    "Name": "Veg Stir-Fry",
     "Price": 16.99,
     "Category": "Vegetarian",
-    "Symbol": null,
+    "Symbol": "♣",
     "Ingredients": [
       "Assorted veggies",
       "Soy sauce",
@@ -226,10 +226,10 @@
   },
   {
     "Id": "18",
-    "Name": "BBQ Bacon🌶",
+    "Name": "BBQ Bacon",
     "Price": 15.99,
     "Category": "Burger",
-    "Symbol": null,
+    "Symbol": "🌶",
     "Ingredients": [
       "Beef patty",
       "Bacon",
