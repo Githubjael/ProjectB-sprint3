@@ -4,70 +4,36 @@ using Newtonsoft.Json;
 
 class ReviewLogic : IComparable<Review>
 {
-    public static string reviewstring = @"..\..\..\DataSources\Reviews.Json";
+
     public static void SeeAllReviews()
     {
-        string reviewsstring1 = File.ReadAllText(reviewstring);
-        JArray reviews = JArray.Parse(reviewsstring1);
-        System.Console.WriteLine(" Id  | Name       | Rating         | Comment     | Company Response   ");
-        System.Console.WriteLine("---------------------------------------------------------------------");
-        foreach (JObject review in reviews)
+        List<Review> Reviews = ReviewAccess.ReadFromJson();
+        foreach(var review in Reviews)
         {
-            // try
-            // {
-                //added 'structure' string so i could modify it easily
-                int Id = (int)review["ID"];
-                string name = (string)review["GuestName"];
-                string rating = (string)review["Rating"];
-                string comment = (string)review["Comments"];
-                string reply = (string)review["ReplyFromManager"];
-                string structure = $"{Id, -3} | {name,-10} | {rating, -14} | {comment}";
-                if (!string.IsNullOrEmpty(reply))
-                {
-                    structure += $"| {reply}";
-                }
-                Console.WriteLine(structure);
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine($"Error parsing JSON: {ex.Message}");
-            //     continue;
-            // }
-        } 
+            System.Console.WriteLine("=====================");
+            System.Console.WriteLine($"Id: {review.ID}");
+            System.Console.WriteLine($"Name: {review.GuestName}");
+            System.Console.WriteLine($"Rating: {review.Rating}");
+            System.Console.WriteLine($"Comment: {review.Comments}");
+            System.Console.WriteLine($"Restaurant's response: {review.ReplyFromManager}");
+        }
     }
 
     public static void SeeReviewsBasedOnRating(int Rating) // Alleen manager
     {
-        string reviewsstring1 = File.ReadAllText(reviewstring);
-        JArray reviews = JArray.Parse(reviewsstring1);
         string star = new string ('★', Rating);
-        System.Console.WriteLine(" Id  | Name       | Rating        | Comment   ");
-        System.Console.WriteLine("--------------------------------------------------");
-        foreach (JObject review in reviews)
+        List<Review> Reviews = ReviewAccess.ReadFromJson();
+        foreach(var review in Reviews)
         {
-            // try
-            // {
-                //added 'structure' string so i could modify it easily
-                int Id = (int)review["ID"];
-                string name = (string)review["GuestName"];
-                string rating = (string)review["Rating"];
-                string comment = (string)review["Comments"];
-                string reply = (string)review["ReplyFromManager"];
-                if (star == rating){
-                    string structure = $"{Id, -3} | {name,-10} | {rating, -14} | {comment}";
-                    if (!string.IsNullOrEmpty(reply))
-                    {
-                        structure += $"| {reply}";
-                    }
-                Console.WriteLine(structure);
-                }
-            // }
-            // catch (Exception ex)
-            // {
-            //     Console.WriteLine($"Error parsing JSON: {ex.Message}");
-            //     continue;
-            // }
-        }  
+            if (star == review.Rating){
+            System.Console.WriteLine("=====================");
+            System.Console.WriteLine($"Id: {review.ID}");
+            System.Console.WriteLine($"Name: {review.GuestName}");
+            System.Console.WriteLine($"Rating: {review.Rating}");
+            System.Console.WriteLine($"Comment: {review.Comments}");
+            System.Console.WriteLine($"Restaurant's response: {review.ReplyFromManager}");
+            }
+        }
     }
 
     public static void DeleteReview() // Alleen manager
