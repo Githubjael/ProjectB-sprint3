@@ -12,7 +12,7 @@
 
         private static string filePath = @"..\..\..\DataSources\Menu.json";
 
-        public static List<MenuItem> menuItems = JsonStuff.ReadFromJson<MenuItem>(filePath);
+        public static List<MenuItem> MenuItems = JsonStuff.ReadFromJson<MenuItem>(filePath);
 
         public static string MaxPrice()
         {
