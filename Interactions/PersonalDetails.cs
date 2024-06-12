@@ -4,9 +4,19 @@ static class PersonalDetails
     {
         string FirstName;
         do{
-        System.Console.WriteLine("What is your first name?");
+        System.Console.WriteLine("What is your first name? (Name has to be between 2-20 characters)");
         FirstName = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckFirstName(FirstName));
+        if (FirstName == "q" || FirstName == "Q")
+        {
+            Console.WriteLine("Reservation stopped");
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine(". . . . .");
+            System.Threading.Thread.Sleep(1000);
+            Home.Options(); 
+            return "";
+        }
+        } while (FirstName.Length < 2 || FirstName.Length > 20 ||!CheckReservationInfo.CheckFirstName(FirstName));
+
         return FirstName;
     }
 
@@ -14,10 +24,20 @@ static class PersonalDetails
     {
         string LastName;
         do{
-        System.Console.WriteLine("What is your last name?");
+        System.Console.WriteLine("What is your last name?  (Name has to be between 2-20 characters)");
         LastName = Console.ReadLine();
-        } while (!CheckReservationInfo.CheckLastName(LastName));
+        if (LastName == "q" || LastName == "Q")
+        {
+            Console.WriteLine("Reservation stopped");
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine(". . . . .");
+            System.Threading.Thread.Sleep(1000);
+            Home.Options(); 
+            return "";
+        }
+        } while (LastName.Length < 2 || LastName.Length > 20 || !CheckReservationInfo.CheckLastName(LastName));
         return LastName;
+
     }
 
     public static string AskPhoneNumber()
@@ -26,8 +46,18 @@ static class PersonalDetails
         do{
         System.Console.WriteLine("What is your phone number?");
         PhoneNumber = Console.ReadLine();
+        if (PhoneNumber == "q" || PhoneNumber == "Q")
+        {
+            Console.WriteLine("Reservation stopped");
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine(". . . . .");
+            System.Threading.Thread.Sleep(1000);
+            Home.Options(); 
+            return "";
+        }
         } while (!CheckReservationInfo.CheckPhoneNumber(PhoneNumber));
-        return  PhoneNumber;
+        return PhoneNumber;
+
     }
 
     public static string AskEmailAddress()
@@ -36,6 +66,15 @@ static class PersonalDetails
         do{
         System.Console.WriteLine("What is your email address?");
         EmailAddress = Console.ReadLine();
+        if (EmailAddress == "q" || EmailAddress == "Q")
+        {
+            Console.WriteLine("Reservation stopped");
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine(". . . . .");
+            System.Threading.Thread.Sleep(1000);
+            Home.Options(); 
+            return "";
+        }
         } while (!CheckReservationInfo.CheckEmail(EmailAddress));
         return EmailAddress;
     }
@@ -62,7 +101,15 @@ static class PersonalDetails
             System.Console.WriteLine();
             Console.WriteLine("When do you want to book? Provide the date in the following format:\nday-month-year.");
             date = Console.ReadLine();
-
+            if (date == "q" || date == "Q")
+            {
+                Console.WriteLine("Reservation stopped");
+                System.Threading.Thread.Sleep(1000);
+                Console.WriteLine(". . . . .");
+                System.Threading.Thread.Sleep(1000);
+                Home.Options(); 
+                return default;
+            }
             // Ensure day and month have leading zeros if needed
             string[] dateParts = date.Split("-");
             if (dateParts.Length == 3)
@@ -95,23 +142,39 @@ static class PersonalDetails
             Number++;
         }
         answer = Console.ReadLine();
+        if (answer == "q" || answer == "Q")
+        {
+            Console.WriteLine("Reservation stopped");
+            System.Threading.Thread.Sleep(1000);
+            Console.WriteLine(". . . . .");
+            System.Threading.Thread.Sleep(1000);
+            Home.Options(); 
+            return "";
+        }
         } while (!CheckReservationInfo.CheckTimeSlot(answer, TimeSlots));
         return TimeSlots[Convert.ToInt32(answer) - 1];
     }
 
-    public static int AskAmountOfGuests()
-    {
-        string guestsInput;
-        int guests;
-
-        do
+        public static int AskAmountOfGuests()
         {
+            string guestsInput;
+            int guests;
+
+            do
+            {
             Console.WriteLine("How many guests are coming including yourself?");
-            guestsInput = Console.ReadLine();
-        } while (!int.TryParse(guestsInput, out guests) || guests <= 0 || guests > 6 ||
-                !CheckReservationInfo.CheckGuests(guestsInput));
+            guestsInput = Console.ReadLine();   
+            if (guestsInput == "q" || guestsInput == "Q")
+            {
+                Console.WriteLine("Reservation stopped");
+                System.Threading.Thread.Sleep(1000);
+                Console.WriteLine(". . . . .");
+                System.Threading.Thread.Sleep(1000);
+                Home.Options();
+                return 0;
+            }
+            } while (!int.TryParse(guestsInput, out guests) || guests <= 0 || guests > 6 || !CheckReservationInfo.CheckGuests(guestsInput));
 
-        return guests;
-    }
-
+            return guests;
+        }
 }
