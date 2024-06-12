@@ -28,6 +28,7 @@ static class PreOrderOptions
         PreOrder preOrder = new(GuestID, Dishes, Date, Time);
         Ordered.Add(preOrder);
         PreOrderAccess.WriteToJson(Ordered);
+        System.Console.WriteLine("Pre order confirmed!");
         return preOrder;
 }
 
