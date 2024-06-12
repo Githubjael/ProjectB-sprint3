@@ -172,7 +172,7 @@ public class ReservationLogic
                     preOrder.Remove(order);
                     PreOrderAccess.WriteToJson(preOrder);
                     System.Console.WriteLine();
-                    System.Console.WriteLine("order removed");
+                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Your order is removed alongside the reservation."); Console.ResetColor();
                 }
                 }
                 ReservationDataAccess.WriteToJson(_reservation);
@@ -223,7 +223,7 @@ public class ReservationLogic
                     preOrder.Remove(order);
                     PreOrderAccess.WriteToJson(preOrder);
                     System.Console.WriteLine();
-                    System.Console.WriteLine("order removed");
+                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Your order is removed alongside the reservation."); Console.ResetColor();
                 }
                 }
             }
