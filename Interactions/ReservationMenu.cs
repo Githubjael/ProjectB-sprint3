@@ -88,6 +88,12 @@ public static class ReservationMenu
                                 Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
                                 Console.WriteLine($"Date: {reservation.Date}");
                                 Console.WriteLine($"Time: {reservation.Time}");
+                                System.Console.WriteLine($"Pre-order:");
+                                foreach(var dish in reservation.Preorder.Dishes)
+                                {
+                                    System.Console.WriteLine(dish);
+                                    System.Console.WriteLine(PreOrdering.menuItems.Find(x => x.Name == dish).Price);
+                                }
                                 Console.WriteLine();
                             }
                         }
