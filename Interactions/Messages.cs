@@ -12,22 +12,37 @@ static class Messages
     {
         if(Home.IsLoggedIn)
         {
-            System.Console.WriteLine($"Hi {Home.guestName}! please provide us with the following details:");
+            System.Console.WriteLine($"Hi {Home.guestName}! please provide us with the following details:\n");
+            System.Threading.Thread.Sleep(1500);
         }
         else{
-            System.Console.WriteLine("We are honored by your interest in booking at our restaurant!");
-            System.Console.WriteLine("The amount of guests determines the type of your reservation.");
+            System.Console.WriteLine("You can Enter 'Q' to go back to Home Page at any time\n");
+            System.Threading.Thread.Sleep(1500);
+            System.Console.WriteLine("We are honored by your interest in booking at our restaurant!\n");
+            System.Threading.Thread.Sleep(1500);
+            System.Console.WriteLine("The amount of guests determines the type of your reservation.\n");
+            System.Threading.Thread.Sleep(2500);
             System.Console.WriteLine("A reservation of 1, reserves a seat at the bar.");
             System.Console.WriteLine("A reservation of 2, reserves a 2 person table.");
             System.Console.WriteLine("A reservation of 3-4, reserves a 4 person table.");
-            System.Console.WriteLine("A reservation of 5-6, reserves a 6 person table.");
-            System.Console.WriteLine("Please answer the following questions:");
+            System.Console.WriteLine("A reservation of 5-6, reserves a 6 person table.\n");
+            System.Threading.Thread.Sleep(2500);
+            System.Console.WriteLine("Please answer the following questions:\n");
+            System.Threading.Thread.Sleep(2500);
         }  
     }
 
     public static void Thanking4Reservation(int GuestID)
     {
-        System.Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!");
+        if(Home.IsLoggedIn)
+        {
+            Console.WriteLine("Thank you for choosing to book with us, We look forward to serving you!");
+        }
+        else
+        {
+            System.Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!");
+        }
+        
     }
 
     public static bool AskForPreOrder()
