@@ -1,7 +1,7 @@
 static class PreOrderOptions
 {
     public static List<PreOrder> PreOrders = PreOrderAccess.ReadFromJson();
-    public static void AskDish(string GuestID, string Date, string Time)
+    public static PreOrder AskDish(string GuestID, string Date, string Time)
     {
         // User typt 'D' als ie klaar is met bestelling
         // Als ie 'D' typt dan eh ja
@@ -27,7 +27,8 @@ static class PreOrderOptions
         {Ordered = new(){};} // null?
         PreOrder preOrder = new(GuestID, Dishes, Date, Time);
         Ordered.Add(preOrder);
-        PreOrderAccess.WriteToJson(Ordered); 
+        PreOrderAccess.WriteToJson(Ordered);
+        return preOrder;
 }
 
     public static void CancelPreOrder()
