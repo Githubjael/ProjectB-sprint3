@@ -1,5 +1,7 @@
 static class HomeOptions
 {
+
+    //please guys merge eerst met dit en dan pas je eigen erop zeten!!!!!
     public static void Options()
     {
         // Console.Clear();
