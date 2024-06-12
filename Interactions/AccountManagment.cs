@@ -255,8 +255,8 @@ static class AccountManagment
 
         Guest guest = new Guest(firstName, lastName, email, phoneNumber, password);
         Home.ChangeGuest(guest);
-        Console.WriteLine($"Account created successfully. Thank you for signing up, {guest.FirstName}!");
-        Console.WriteLine("Make sure you log in");
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Account created successfully. Thank you for signing up, {guest.FirstName}!"); Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Make sure you log in"); Console.ResetColor();
         Home.Options();
     }
 }
