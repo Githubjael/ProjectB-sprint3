@@ -23,11 +23,12 @@ static class PreOrderOptions
         try{
         if (Dish != null && Dish.ToLower() != "d"){
             Dishes.Add(PreOrdering.menuItems.Find(menuItem=> menuItem.Id == Dish).Name);
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"{Dish} is added to your pre-order!"); Console.ResetColor();
         }
         }
         catch(Exception)
         {
-            System.Console.WriteLine("Dish Id not found!");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Dish Id not found!"); Console.ResetColor();
         }
     }
     List<PreOrder> Ordered = PreOrderAccess.ReadFromJson();
@@ -36,7 +37,7 @@ static class PreOrderOptions
         PreOrder preOrder = new(GuestID, Dishes, Date, Time);
         Ordered.Add(preOrder);
         PreOrderAccess.WriteToJson(Ordered);
-        System.Console.WriteLine("Pre order confirmed!");
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Pre-order confirmed!"); Console.ResetColor();
         return preOrder;
 }
 
@@ -46,20 +47,20 @@ static class PreOrderOptions
         string GuestID = Console.ReadLine();
         if (PreOrders == null || PreOrders.Count == 0)
         {
-            System.Console.WriteLine("No pre-orders found");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No pre-orders found"); Console.ResetColor();
         }
         else
         {
             var preOrder = PreOrders.Find(order => order.GuestID == GuestID);
             if (preOrder == null)
             {
-                System.Console.WriteLine("No pre-orders found");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No pre-orders found"); Console.ResetColor();
             }
             else
             {
                 PreOrders.Remove(preOrder);
                 PreOrderAccess.WriteToJson(PreOrders);
-                System.Console.WriteLine("Your order is successfully cancelled!");
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Your order is successfully cancelled!"); Console.ResetColor();
             }
         }
     }
@@ -82,7 +83,7 @@ static class PreOrderOptions
             }
         }
         else{
-            System.Console.WriteLine("pre order not found!");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Pre-order not found!"); Console.ResetColor();
         }
     }
 }
