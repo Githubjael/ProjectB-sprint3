@@ -211,7 +211,7 @@
             }
 
             // Generate a new unique ID
-            string newId = menuItems.Count > 0 ? (int.Parse(menuItems.Max(item => item.Id)) + 1).ToString() : "1";
+            string newId = menuItems.Count > 0 ? (menuItems.Max(item => int.Parse(item.Id)) + 1).ToString() : "1";
 
             // Create the new MenuItem object
             MenuItem newItem = new MenuItem(newId, itemName, itemPrice, itemCategory, ingredients, itemSymbol);
@@ -249,7 +249,7 @@
             for (int i = 0; i < menuArray.Count; i++)
             {
                 JObject menuItem = (JObject)menuArray[i];
-                if (((string)menuItem["Name"]).ToLower() == itemNameOrId || ((string)menuItem["Id"]).ToLower() == itemNameOrId)
+                if (((string)menuItem["Name"]).ToLower() == itemNameOrId.ToLower() || ((string)menuItem["Id"]).ToLower() == itemNameOrId)
                 {
                     // Remove the item from the menu array
                     menuArray.RemoveAt(i);
