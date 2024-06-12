@@ -19,9 +19,13 @@ static class HomeOptions
         System.Console.WriteLine(streep);
         System.Console.WriteLine(shortIntro);
         System.Console.WriteLine(streep);
-        if (Home.IsLoggedIn || Home.ManagerLoggedIn)
+        if (Home.IsLoggedIn)
         {
             System.Console.WriteLine($"Welkom back, {Home.guestName}!");
+        }
+        else if(Home.ManagerLoggedIn)
+        {
+            System.Console.WriteLine($"Welcome back, {manager.FirstName}");
         }
         Console.WriteLine("[1]: Menu");
         Console.WriteLine("[2]: Reservation");
