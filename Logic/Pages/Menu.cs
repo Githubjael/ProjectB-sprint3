@@ -76,6 +76,9 @@
                     {
                         return;
                     }
+                    else if(itemPrice2.Length > 4){
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Keep the price under or equal to 4 characters."); Console.ResetColor();
+                    }
                     else if (itemPrice2.Contains("."))
                     {
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Use a comma."); Console.ResetColor();
@@ -107,9 +110,9 @@
             {
                 return;
             }
-            while (itemCategory.Length < 2)
+            while (itemCategory.Length < 2 || itemCategory.Length > 15 )
             {
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long. Please try again:"); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Category must be at least 2 characters long or under 15 characters. Please try again:"); Console.ResetColor();
                 itemCategory = Console.ReadLine();
             }
 
@@ -124,10 +127,27 @@
                                             .Select(ingredient => ingredient.Trim())
                                             .Where(ingredient => !string.IsNullOrEmpty(ingredient))
                                             .ToList();
+           
+            // check if each item is < 49 characters
+            bool IngredientNameTooLong = false;
+            foreach (string ingredient in ingredients){
+                if (ingredient.Length > 49 ){
+                    System.Console.WriteLine("Keep the length of the ingredient under 50 characters.");
+                    IngredientNameTooLong = true;
+                    break;
+                } 
+            }
 
-            while (ingredients.Count < 2)
+            while (ingredients.Count < 2 || IngredientNameTooLong == true)
             {
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
+                if (ingredients.Count < 2){
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"You must enter at least 2 ingredients. Please try again:"); Console.ResetColor();
+
+                }
+                if (IngredientNameTooLong == true){
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"The name of the ingredients have to be under 50 characters. Please try again:"); Console.ResetColor();
+                }
+
                 input = Console.ReadLine();
 
                 if (input.ToLower() == "q")
@@ -139,6 +159,14 @@
                                 .Select(ingredient => ingredient.Trim())
                                 .Where(ingredient => !string.IsNullOrEmpty(ingredient))
                                 .ToList();
+                
+                IngredientNameTooLong = false;
+                foreach (string ingredient in ingredients){
+                    if (ingredient.Length > 49 ){
+                        IngredientNameTooLong = true;
+                        break;
+                    } 
+                }
             }
 
             // Check if vegan
@@ -221,7 +249,7 @@
             for (int i = 0; i < menuArray.Count; i++)
             {
                 JObject menuItem = (JObject)menuArray[i];
-                if ((string)menuItem["Name"] == itemNameOrId || (string)menuItem["Id"] == itemNameOrId)
+                if (((string)menuItem["Name"]).ToLower() == itemNameOrId || ((string)menuItem["Id"]).ToLower() == itemNameOrId)
                 {
                     // Remove the item from the menu array
                     menuArray.RemoveAt(i);
@@ -433,7 +461,7 @@
 
 
         private static void DisplayMenuItems(JArray menuItems){
-        Console.WriteLine($"{"ID", -5}| {"Name", -19}| {"Price", -7}| {"Category", -10}| {"Ingredients"}");
+        Console.WriteLine($"{"ID", -5}| {"Name", -19}| {"Price", -7}| {"Category", -16}| {"Ingredients"}");
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
@@ -470,16 +498,16 @@
                 //add the remaining ingredients 
                 formattedIngredients.Add(currentLine);
                 
-                if(symbol == "🌶"){
-                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                if(symbol.Contains("🌶")){
+                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
 
                 }
                 else{
-                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-7:0.00} | {category,-10} | {formattedIngredients[0],-75}");
+                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
                 }
                 for (int i = 1; i < formattedIngredients.Count; i++)
                 {
-                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-19} |  {' ',-7:0.00} | {' ',-10} | {formattedIngredients[i],-75}");
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-19} |  {' ',-7:0.00} | {' ',-16} | {formattedIngredients[i],-75}");
                 }
 
 
