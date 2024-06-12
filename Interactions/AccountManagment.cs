@@ -125,6 +125,7 @@ static class AccountManagment
                     Home.IsLoggedIn = false;
                     Home.Options();
                 }
+                 else{ Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid Manager Code."); Console.ResetColor();}
             }
             else
             {
