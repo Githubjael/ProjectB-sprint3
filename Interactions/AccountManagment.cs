@@ -120,6 +120,7 @@ static class AccountManagment
                 }
                 if (ManagerCode == manager.EmployeeCode)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged in successfully!"); Console.ResetColor();
                     Console.WriteLine($"Welcome back, {manager.FirstName}");
                     Home.ManagerLoggedIn = true;
                     Home.IsLoggedIn = false;
