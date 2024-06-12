@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 static class PreOrderOptions
 {
     public static List<PreOrder> PreOrders = PreOrderAccess.ReadFromJson();
@@ -12,14 +14,20 @@ static class PreOrderOptions
         System.Console.WriteLine();
         System.Console.WriteLine("Type the id of the menu item you'd wish to order.\nType 'D' if you're done.");
         System.Console.WriteLine();
-        while (!Dish.Equals("d", StringComparison.CurrentCultureIgnoreCase))
+        while (!Dish.Equals("d", StringComparison.CurrentCultureIgnoreCase) )
         {
         // Vraag docent of ie wilt dat klant meerdere dishes in 1 console.Readline wilt kunnen bestellen of niet
         // Gebruik lambda om dish te vinden in menu
         System.Console.WriteLine("Type the Id of the dish you'd like to order: ");
         Dish = Console.ReadLine();
+        try{
         if (Dish != null && Dish.ToLower() != "d"){
             Dishes.Add(PreOrdering.menuItems.Find(menuItem=> menuItem.Id == Dish).Name);
+        }
+        }
+        catch(Exception)
+        {
+            System.Console.WriteLine("Dish Id not found!");
         }
     }
     List<PreOrder> Ordered = PreOrderAccess.ReadFromJson();
