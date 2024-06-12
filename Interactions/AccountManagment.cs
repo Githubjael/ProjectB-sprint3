@@ -70,7 +70,7 @@ static class AccountManagment
         var updatedUser = UsersAccess.GetUser(email);
         if (updatedUser != null && updatedUser.Password == newPassword)
         {
-            Console.WriteLine(". . . . .");
+            Console.WriteLine(". . . . .\n");
             System.Threading.Thread.Sleep(1500);
             Console.WriteLine("Password changed successfully.");
         }
@@ -103,7 +103,7 @@ static class AccountManagment
             Manager manager = ManagerAccess.ReadFromJson()[0];
             if (user != null && user.Password == password)
             {
-                Console.WriteLine(". . . . .");
+                Console.WriteLine(". . . . .\n");
                 System.Threading.Thread.Sleep(1000);
                 Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged in successfully!"); Console.ResetColor();
                 Home.IsLoggedIn = true;
@@ -124,7 +124,7 @@ static class AccountManagment
                 }
                 if (ManagerCode == manager.EmployeeCode)
                 {
-                    Console.WriteLine(". . . . .");
+                    Console.WriteLine(". . . . .\n");
                     System.Threading.Thread.Sleep(2500);
                     Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged in successfully!"); Console.ResetColor();
                     Console.WriteLine($"Welcome back, {manager.FirstName}");
@@ -148,14 +148,14 @@ static class AccountManagment
             Home.IsLoggedIn = false;
             Home.guestName = null;
             Home.guestEmail = null;
-            System.Console.WriteLine(". . . . .");
+            System.Console.WriteLine(". . . . .\n");
             System.Threading.Thread.Sleep(2500);
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
         else if (Home.ManagerLoggedIn)
         {
             Home.ManagerLoggedIn = false;
-            System.Console.WriteLine(". . . . .");
+            System.Console.WriteLine(". . . . .\n");
             System.Threading.Thread.Sleep(2500);
             Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged out successfully."); Console.ResetColor();
         }
