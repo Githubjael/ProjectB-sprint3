@@ -12,19 +12,19 @@ static class ManagerOptions
     // Know Timeslot gap
         TimeSpan verschil = SecondTimeSlot - OldTimeSlot;
         List<string> NewTimes = new();
-        System.Console.WriteLine("[H]: Home");
-        System.Console.WriteLine("[1]: Edit first time slot");
-        System.Console.WriteLine("[2]: Edit last time slot");
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: Edit first time slot");
+        System.Console.WriteLine("[3]: Edit last time slot");
         string answer;
         do
         {
             answer = Console.ReadLine().ToLower();
             switch (answer)
             {
-                case "h":
+                case "1":
                 Home.Options();
                 break;
-                case "1":
+                case "2":
                 Console.WriteLine("New first time slot:");
                 string newTime = Console.ReadLine();
                 while(DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) <= DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
@@ -35,7 +35,7 @@ static class ManagerOptions
                 // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind! Done
                 Home.ChangeTimeSlots(NewTimes);
                 break;
-                case "2":
+                case "3":
                 Console.WriteLine("New last time slot:");
                 string lastTime = Console.ReadLine();
                 for (int i = Timeslots.Count - 1; i >= 0; i--)
@@ -59,7 +59,7 @@ static class ManagerOptions
                 System.Console.WriteLine(Time);
             }
             EditTimeslots();
-        }while(answer != "H" && answer != "1" && answer != "2" && answer != "3"); // replace met checking method
+        }while(answer != "1" && answer != "2" && answer != "3"); // replace met checking method
 
     }
     public static void ReservationOptions()
