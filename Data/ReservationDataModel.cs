@@ -30,9 +30,12 @@ public class ReservationDataModel : IComparable<ReservationDataModel>
     [JsonPropertyName("Table")]
     public List<string> Tables = new();
 
+    [JsonPropertyName("Preorder")]
+    public PreOrder Preorder {get; set;}
+
 
     [JsonConstructor]
-    public ReservationDataModel(int gastID, string firstName,string lastName, string phoneNumber,string emailAddress, string date, string time, List<string> tables)
+    public ReservationDataModel(int gastID, string firstName,string lastName, string phoneNumber,string emailAddress, string date, string time, List<string> tables, PreOrder preOrder)
     {
         GuestID = gastID;
         FirstName = firstName;
@@ -42,6 +45,7 @@ public class ReservationDataModel : IComparable<ReservationDataModel>
         Date = date;
         Time = time;
         Tables = tables;
+        Preorder = preOrder;
     }
 
     public int CompareTo(ReservationDataModel other)
