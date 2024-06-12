@@ -42,7 +42,12 @@ class Reservation : Page
             List<string> Tables;
             Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             int GuestID = GenerateRandomGuestID();
-            ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables);
+            PreOrder preOrder = null;
+            if (Messages.AskForPreOrder())
+            {
+                preOrder = PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
+            }
+            ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
             ReservationLogic.AddReservationToList(Reservation);
             Messages.Thanking4Reservation(GuestID);
         }
@@ -56,11 +61,12 @@ class Reservation : Page
             List<string> Tables;
             Tables = ReservedTable.AssignTable(Guests, Date.ToString("dd-MM-yyyy"), TimeSlot);
             int GuestID = GenerateRandomGuestID();
+            PreOrder preOrder = null;
             if (Messages.AskForPreOrder())
             {
-                PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
+                preOrder = PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
             }
-            ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables);
+            ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
             ReservationLogic.AddReservationToList(Reservation);
             Messages.Thanking4Reservation(Reservation.GuestID);
         }
