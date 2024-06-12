@@ -12,19 +12,20 @@ static class ManagerOptions
     // Know Timeslot gap
         TimeSpan verschil = SecondTimeSlot - OldTimeSlot;
         List<string> NewTimes = new();
-        System.Console.WriteLine("[1]: Home");
-        System.Console.WriteLine("[2]: Edit first time slot");
-        System.Console.WriteLine("[3]: Edit last time slot");
+        System.Console.WriteLine("[H]: Home");
+        System.Console.WriteLine("[1]: Edit first time slot");
+        System.Console.WriteLine("[2]: Edit last time slot");
         string answer;
         do
         {
             answer = Console.ReadLine().ToLower();
+            try{
             switch (answer)
             {
-                case "1":
+                case "h":
                 Home.Options();
                 break;
-                case "2":
+                case "1":
                 Console.WriteLine("New first time slot:");
                 string newTime = Console.ReadLine();
                 while(DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) <= DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
@@ -35,7 +36,7 @@ static class ManagerOptions
                 // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind! Done
                 Home.ChangeTimeSlots(NewTimes);
                 break;
-                case "3":
+                case "2":
                 Console.WriteLine("New last time slot:");
                 string lastTime = Console.ReadLine();
                 for (int i = Timeslots.Count - 1; i >= 0; i--)
@@ -50,18 +51,24 @@ static class ManagerOptions
                     Timeslots.Add(DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")).Add(verschil).ToString("HH:mm"));
                 }
                 Home.ChangeTimeSlots(Timeslots);
-                break;
-
-            }   
+                break;  
+            }
+            }
+             catch(Exception)
+                {
+                    System.Console.WriteLine("Invalid input, please fill in your answer in the desired format: HH:mm");
+                }
             System.Console.WriteLine("New time slots:");
+            Timeslots = Home.ShowTimeSlots();
             foreach(var Time in Timeslots)
             {
                 System.Console.WriteLine(Time);
             }
             EditTimeslots();
-        }while(answer != "1" && answer != "2" && answer != "3"); // replace met checking method
+        }while(answer != "H" && answer != "1" && answer != "2" && answer != "3"); // replace met checking method
 
     }
+
     public static void ReservationOptions()
     {
         string answer = "";
@@ -153,21 +160,21 @@ static class ManagerOptions
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "1":
+            case "2":
             ReviewLogic.SeeAllReviews();
             break;
-            case "2":
+            case "3":
             System.Console.WriteLine("Choose rating from 1 up to 5");
             int rating = Convert.ToInt32(Console.ReadLine());
             ReviewLogic.SeeReviewsBasedOnRating(rating);
             break;
-            case "3":
+            case "4":
             ReviewLogic.ReplyFromManager();
             break;
-            case "4":
+            case "5":
             ReviewLogic.DeleteReview();
             break;
-            case "5":
+            case "6":
             ReviewLogic.DeleteAllReviews();
             break;
         }  
