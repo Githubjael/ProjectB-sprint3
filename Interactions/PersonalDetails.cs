@@ -101,15 +101,17 @@ static class PersonalDetails
 
     public static int AskAmountOfGuests()
     {
-        string Guests;
+        string guestsInput;
+        int guests;
+
         do
         {
-            // We hebben op het gekozen tijdstip nog bla bla tafels over en dus plek voor bla bla gasten
-            // Dat ga ik wat later doen btw
-            // Vraag user of hij datum of tijd wilt veranderen...
-            System.Console.WriteLine("How many guests are coming including yourself?");
-            Guests = Console.ReadLine();
-        } while(Convert.ToInt32(Guests) > 6 || Convert.ToInt32(Guests) < 0 && !CheckReservationInfo.CheckGuests(Guests));
-        return Convert.ToInt32(Guests);
+            Console.WriteLine("How many guests are coming including yourself?");
+            guestsInput = Console.ReadLine();
+        } while (!int.TryParse(guestsInput, out guests) || guests <= 0 || guests > 6 ||
+                !CheckReservationInfo.CheckGuests(guestsInput));
+
+        return guests;
     }
+
 }
