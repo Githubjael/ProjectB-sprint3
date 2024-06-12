@@ -72,11 +72,11 @@ static class AccountManagment
         {
             Console.WriteLine(". . . . .\n");
             System.Threading.Thread.Sleep(1500);
-            Console.WriteLine("Password changed successfully.");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Password changed successfully."); Console.ResetColor();
         }
         else
         {
-            Console.WriteLine("Password change failed. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Password change failed. Please try again."); Console.ResetColor();
         }
     }
 
