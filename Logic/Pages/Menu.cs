@@ -498,9 +498,11 @@
                 //add the remaining ingredients 
                 formattedIngredients.Add(currentLine);
                 
-                if(symbol.Contains("🌶")){
+                if(symbol == "🌶"){
                     Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
-
+                }
+                else if(symbol == "♣🌶"){
+                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
                 }
                 else{
                 Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
