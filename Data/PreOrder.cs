@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-class PreOrder
+public class PreOrder
 {
     [JsonPropertyName("guest ID")]
     public string GuestID {get; set;}
