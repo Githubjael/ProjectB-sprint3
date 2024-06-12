@@ -166,7 +166,7 @@ static class AccountManagment
         string firstName;
         do
         {
-            System.Console.WriteLine("(At any time type 'q' to go back)");
+            System.Console.WriteLine("(At any time type 'Q' to go back)");
             Console.WriteLine("Enter a valid first name (2-20 letters):");
             firstName = Console.ReadLine();
             if (firstName.ToLower() == "q")
