@@ -4,7 +4,7 @@ static class HomeOptions
     //please guys merge eerst met dit en dan pas je eigen erop zeten!!!!!
     public static void Options()
     {
-        // Console.Clear();
+        Console.Clear();
         //restaurant info print here (make into json)
         Manager manager = ManagerAccess.ReadFromJson()[0];
         System.Console.WriteLine();
@@ -51,12 +51,13 @@ static class HomeOptions
             {
                 case "5":
                     if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
-                    // Console.Clear();
+                    Console.Clear();
                         Home.LogIn();
                         Home.Options(); 
 
                     }
                     else if(Home.IsLoggedIn || Home.ManagerLoggedIn){
+                        Console.Clear();
                         Home.LogOut();
                         Home.Options(); 
                     }
@@ -65,11 +66,13 @@ static class HomeOptions
                     }
                     break;
                 case "6":
+                Console.Clear();
                     if (Home.IsLoggedIn || Home.ManagerLoggedIn)
                     {
                         AccountManagment.ChangePassword();
                     }
                     else if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
+                        Console.Clear();
                         Home.SignUp();
                         Home.Options(); 
                     }
@@ -79,6 +82,7 @@ static class HomeOptions
                     Options();
                     return;
                 case "7":
+                Console.Clear();
                     if(Home.ManagerLoggedIn)
                     {
                         ManagerOptions.EditTimeslots();
@@ -94,34 +98,34 @@ static class HomeOptions
                     }
                     break;
                 case "1":
-                    // Console.Clear();
+                    Console.Clear();
                     Menu.Options();
                     return;
                 case "2":
                     if (Home.ManagerLoggedIn)
                     {
-                    // Console.Clear();
+                    Console.Clear();
                     manager.ReservationOptions();
                     }
                     else{
-                    // Console.Clear();
+                    Console.Clear();
                     Reservation.Options();
                     }
                     return;
                 case "3":
                 if (Home.ManagerLoggedIn)
                     {
-                    // Console.Clear();
+                    Console.Clear();
                     manager.ReviewOptions();
                     }
                     else
                     {
-                        // Console.Clear();
+                        Console.Clear();
                         Reviews.Options();
                     }
                     return;
                 case "4":
-                    // Console.Clear();
+                    Console.Clear();
                     Contact.Options();
                     return;
                 default:
