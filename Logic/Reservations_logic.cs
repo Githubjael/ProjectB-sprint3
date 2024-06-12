@@ -214,7 +214,7 @@ public class ReservationLogic
                 // Remove the reservation
                 _reservation.Remove(reservationToRemove);
                 ReservationDataAccess.WriteToJson(_reservation);
-                Console.WriteLine("Your reservation is cancelled.");
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Your reservation is cancelled."); Console.ResetColor();
                 var preOrder = PreOrderAccess.ReadFromJson();
                 PreOrder order;
                 if (preOrder != null || preOrder.Count != 0){
