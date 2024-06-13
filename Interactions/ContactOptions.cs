@@ -21,7 +21,7 @@ static class ContactOptions
                     return;
 
                 default:
-                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please try again."); Console.ResetColor();
                     break;
             }
         }
