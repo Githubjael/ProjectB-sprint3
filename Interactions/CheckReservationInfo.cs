@@ -83,7 +83,7 @@ class CheckReservationInfo
 
         else
         {
-            System.Console.WriteLine("*Your email address is invalid.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your email address is invalid."); Console.ResetColor();
             return false;
         }
     }
@@ -93,19 +93,19 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
     {
         if (FullyBookedDates.Contains(date))
         {
-            System.Console.WriteLine("The date you're interested in is fully booked.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("The date you're interested in is fully booked."); Console.ResetColor();
             return false;
         }
         if (string.IsNullOrEmpty(date))
         {
-            System.Console.WriteLine("*Please fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         foreach (char c in date)
         {
             if (!char.IsDigit(c) && c != '-')
             {
-                Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
                 return false;
             }
         }
@@ -115,21 +115,21 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         {
         if (string.IsNullOrEmpty(date))
         {
-            System.Console.WriteLine("*Please fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         foreach (char c in date)
         {
             if (!char.IsDigit(c) && c != '-')
             {
-                Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid characters detected. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
                 return false;
             }
         }
             // Check if the parsed date is in the past
             if (parsedDate.Date < DateTime.Today || ReservedTable.GetTimes(date).Count == 0)
             {
-                Console.WriteLine("Please provide a future date.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Please provide a future date."); Console.ResetColor();
                 return false;
             }
             // Date is valid
@@ -137,7 +137,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         }
         else
         {
-            Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
             return false;
         }
     }
@@ -146,14 +146,14 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
     {
         if (string.IsNullOrEmpty(Date))
         {
-            System.Console.WriteLine("*Please fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         foreach (char c in Date)
         {
             if (!char.IsDigit(c) && c != '-')
             {
-                Console.WriteLine("Invalid characters detected. Please provide the Date in the format: dd-MM-yyyy.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
                 return false;
             }
         }
@@ -165,7 +165,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         {
             if (!char.IsDigit(c) && c != '-')
             {
-                Console.WriteLine("Invalid characters detected. Please provide the Date in the format: dd-MM-yyyy.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
                 return false;
             }
         }
@@ -174,7 +174,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         }
         else
         {
-            Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid date format. Please provide the date in the format: dd-MM-yyyy."); Console.ResetColor();
             return false;
         }
     }
@@ -184,7 +184,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
     {
         if (string.IsNullOrEmpty(answer))
         {
-            System.Console.WriteLine("*Please fill a number in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill a number in."); Console.ResetColor();
             return false;
         }
         try
@@ -193,17 +193,17 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         }
         catch (Exception)
         {
-            System.Console.WriteLine($"*'{answer}' is an invalid number. Please fill a valid number in");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"*'{answer}' is an invalid number. Please fill a valid number in"); Console.ResetColor();
             return false;
         }
         if (Convert.ToInt32(answer) > TimeSlots.Count)
         {
-            System.Console.WriteLine($"*Number should be below {TimeSlots.Count}");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"*Number should be below {TimeSlots.Count}"); Console.ResetColor();
             return false;
         }
         else if (Convert.ToInt32(answer) < 0)
         {
-            System.Console.WriteLine("*Only enter positive numbers please.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Only enter positive numbers please."); Console.ResetColor();
             return false;
         }
         return true;
@@ -213,7 +213,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
     {
         if (string.IsNullOrEmpty(Guests))
         {
-            System.Console.WriteLine("You must fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         try
@@ -222,7 +222,7 @@ public static bool CheckDate(string date, List<string> FullyBookedDates)
         }
         catch (Exception)
         {
-            System.Console.WriteLine($"'{Guests}' is an invalid number.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"'{Guests}' is an invalid number."); Console.ResetColor();
             return false;
         }
         return true;
