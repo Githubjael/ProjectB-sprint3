@@ -11,6 +11,7 @@ class ReviewLogic : IComparable<Review>
         foreach(var review in Reviews)
         {
             System.Console.WriteLine("=====================");
+            System.Console.WriteLine($"ID: {review.ID}");
             System.Console.WriteLine($"Name: {review.GuestName}");
             System.Console.WriteLine($"Rating: {review.Rating}");
             System.Console.WriteLine($"Comment: {review.Comments}");
@@ -49,7 +50,7 @@ class ReviewLogic : IComparable<Review>
     {
         Reviews.RemoveAll();
         System.Console.WriteLine();
-        System.Console.WriteLine("All reviews succesfully removed.");
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"All reviews succesfully removed."); Console.ResetColor();
     }
     // added to reply to reviews
     public static void ReplyFromManager()
@@ -64,7 +65,7 @@ class ReviewLogic : IComparable<Review>
         {
             if (!char.IsDigit(test))
             {
-                Console.WriteLine("Invalid input");
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Invalid input"); Console.ResetColor();
                 Console.WriteLine("");
                 ManagerOptions.ReviewOptions();
             }
