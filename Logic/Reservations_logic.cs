@@ -205,8 +205,8 @@ public class ReservationLogic
                 {
                     // Check if the reservation is less than 2 hours away
                     if ((reservationDateTime - now).TotalHours < 2)
-                    {
-                        Console.WriteLine("Sorry, you can't cancel the reservation as it's less than 2 hours before the reservation time.");
+                    {            
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Sorry, you can't cancel the reservation as it's less than 2 hours before the reservation time."); Console.ResetColor();
                         return;
                     }
                 }
@@ -229,12 +229,12 @@ public class ReservationLogic
             }
             else
             {
-                Console.WriteLine("Error converting reservation time.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Error converting reservation time."); Console.ResetColor();
             }
         }
         else
         {
-            Console.WriteLine("Reservation not found.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Reservation not found."); Console.ResetColor();
         }
     }
 
