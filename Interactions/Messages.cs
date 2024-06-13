@@ -16,7 +16,7 @@ static class Messages
             System.Threading.Thread.Sleep(1500);
         }
         else{
-            System.Console.WriteLine("You can Enter 'Q' to go back to Home Page at any time\n");
+            System.Console.WriteLine("You can Enter 'Q' to go back to the Home page at any time\n");
             System.Threading.Thread.Sleep(1500);
             System.Console.WriteLine("We are honored by your interest in booking at our restaurant!\n");
             System.Threading.Thread.Sleep(1500);
@@ -36,11 +36,11 @@ static class Messages
     {
         if(Home.IsLoggedIn)
         {
-            Console.WriteLine("Thank you for choosing to book with us, We look forward to serving you!");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Thank you for choosing to book with us, We look forward to serving you!"); Console.ResetColor();
         }
         else
         {
-            System.Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Thank you for choosing to book with us! Your guest ID is {GuestID}.\nIf you need to cancel your reservation, please provide this guest ID for easy processing. We look forward to serving you!"); Console.ResetColor();
         }
         
     }
