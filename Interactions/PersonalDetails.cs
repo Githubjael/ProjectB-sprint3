@@ -173,6 +173,18 @@ static class PersonalDetails
                 Home.Options();
                 return 0;
             }
+
+                if (int.TryParse(guestsInput, out guests)){
+                    if (guests > 6){
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("If you want to make a reservation for more than 6 people, please call the restaurant."); Console.ResetColor();
+                    }
+                    else if (guests <= 0){
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Please enter a positive number."); Console.ResetColor();
+                    }
+                }
+                else{
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Please enter a valid number."); Console.ResetColor();
+                }
             } while (!int.TryParse(guestsInput, out guests) || guests <= 0 || guests > 6 || !CheckReservationInfo.CheckGuests(guestsInput));
 
             return guests;
