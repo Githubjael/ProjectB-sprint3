@@ -56,7 +56,7 @@ static class ManagerOptions
             }
              catch(Exception)
                 {
-                    System.Console.WriteLine("Invalid input, please fill in your answer in the desired format: HH:mm");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input, please fill in your answer in the desired format: HH:mm"); Console.ResetColor();
                 }
             System.Console.WriteLine("New time slots:");
             Timeslots = Home.ShowTimeSlots();
