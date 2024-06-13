@@ -64,12 +64,12 @@ public static class ReservationMenu
                         }
                         else
                         {
-                            Console.WriteLine("No upcoming reservations found.");
+                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No upcoming reservations found."); Console.ResetColor();
                         }
                     }
                     else
                     {
-                        Console.WriteLine("You need to log in to cancel a reservation.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("You need to log in to cancel a reservation."); Console.ResetColor();
                     }
                     Options();
                     return;
@@ -100,12 +100,12 @@ public static class ReservationMenu
                         }
                         else
                         {
-                            Console.WriteLine("No reservations found.");
+                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No reservations found."); Console.ResetColor();
                         }
                     }
                     else
                     {
-                        Console.WriteLine("You need to log in to view your reservation history.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("You need to log in to view your reservation history."); Console.ResetColor();
                     }
                     Options();
                     return;
@@ -113,7 +113,7 @@ public static class ReservationMenu
                     Home.Options();
                     return;
                 default:
-                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please try again."); Console.ResetColor();
                     break;
             }
         }
