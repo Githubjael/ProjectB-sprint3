@@ -9,7 +9,7 @@ static class PersonalDetails
         if (FirstName == "q" || FirstName == "Q")
         {
             
-            Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
             System.Threading.Thread.Sleep(1000);
@@ -29,7 +29,7 @@ static class PersonalDetails
         LastName = Console.ReadLine();
         if (LastName == "q" || LastName == "Q")
         {
-            Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
             System.Threading.Thread.Sleep(1000);
@@ -38,6 +38,7 @@ static class PersonalDetails
         }
         } while (!CheckReservationInfo.CheckLastName(LastName));
         return LastName;
+
     }
 
     public static string AskPhoneNumber()
@@ -48,7 +49,7 @@ static class PersonalDetails
         PhoneNumber = Console.ReadLine();
         if (PhoneNumber == "q" || PhoneNumber == "Q")
         {
-            Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
             System.Threading.Thread.Sleep(1000);
@@ -68,7 +69,7 @@ static class PersonalDetails
         EmailAddress = Console.ReadLine();
         if (EmailAddress == "q" || EmailAddress == "Q")
         {
-            Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
             System.Threading.Thread.Sleep(1000);
@@ -103,7 +104,7 @@ static class PersonalDetails
             date = Console.ReadLine();
             if (date == "q" || date == "Q")
             {
-                Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
                 System.Threading.Thread.Sleep(1000);
                 Console.WriteLine(". . . . .");
                 System.Threading.Thread.Sleep(1000);
@@ -144,7 +145,7 @@ static class PersonalDetails
         answer = Console.ReadLine();
         if (answer == "q" || answer == "Q")
         {
-            Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
             System.Threading.Thread.Sleep(1000);
@@ -166,15 +167,15 @@ static class PersonalDetails
             guestsInput = Console.ReadLine();   
             if (guestsInput == "q" || guestsInput == "Q")
             {
-                Console.WriteLine("Reservation stopped");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
                 System.Threading.Thread.Sleep(1000);
                 Console.WriteLine(". . . . .");
                 System.Threading.Thread.Sleep(1000);
                 Home.Options();
                 return 0;
             }
-
-                if (int.TryParse(guestsInput, out guests)){
+               
+               if (int.TryParse(guestsInput, out guests)){
                     if (guests > 6){
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("If you want to make a reservation for more than 6 people, please call the restaurant."); Console.ResetColor();
                     }
