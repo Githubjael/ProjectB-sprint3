@@ -32,7 +32,6 @@ static class AccountManagment
 
         if (user.Password != currentPassword)
         {
-            Console.WriteLine("Incorrect current password. Please try again.");
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Incorrect current password. Please try again."); Console.ResetColor();
             return;
         }
@@ -126,7 +125,6 @@ static class AccountManagment
                     Console.WriteLine(". . . . .\n");
                     System.Threading.Thread.Sleep(2500);
                     Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Logged in successfully!"); Console.ResetColor();
-                    Console.WriteLine($"Welcome back, {manager.FirstName}");
                     Home.ManagerLoggedIn = true;
                     Home.IsLoggedIn = false;
                     Home.Options();
@@ -189,7 +187,7 @@ static class AccountManagment
 
             if (password.Length < 8 || password.Length > 20)
             {
-                Console.WriteLine("Password should be at least 8 characters and not more than 20 characters.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Password should be at least 8 characters and not more than 20 characters."); Console.ResetColor();
             }
         } while (password.Length < 8 || password.Length > 20);
 
@@ -204,7 +202,7 @@ static class AccountManagment
         {
             do
             {
-                Console.WriteLine("Passwords do not match. Please try again.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Passwords do not match. Please try again."); Console.ResetColor();
                 confirmPassword = Console.ReadLine();
             } while (password != confirmPassword);
         }
