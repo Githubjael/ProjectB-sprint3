@@ -57,7 +57,7 @@ class UsersAccess
         }
         else
         {
-            Console.WriteLine($"User {updatedUser.EmailAddress} not found.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"User {updatedUser.EmailAddress} not found."); Console.ResetColor();
         }
     }
 }
