@@ -21,7 +21,7 @@ static class HomeOptions
         System.Console.WriteLine(streep);
         if (Home.IsLoggedIn)
         {
-            System.Console.WriteLine($"Welkom back, {Home.guestName}!");
+            System.Console.WriteLine($"Welcome back, {Home.guestName}!");
         }
         else if(Home.ManagerLoggedIn)
         {
