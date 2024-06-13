@@ -6,14 +6,18 @@ class CheckReservationInfo
     {
         if (string.IsNullOrEmpty(FirstName))
         {
-            Console.WriteLine("*You must fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
+            return false;
+        }
+        if (FirstName.Length < 2 || FirstName.Length > 20){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your first name needs to be 2-20 characters."); Console.ResetColor();
             return false;
         }
         foreach(char letter in FirstName)
         {
             if (!Char.IsLetter(letter))
             {
-                Console.WriteLine("*Your first name must only contain letters.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your first name must only contain letters."); Console.ResetColor();
                 return false;
             }
         }
@@ -25,7 +29,11 @@ class CheckReservationInfo
     {
         if (string.IsNullOrEmpty(LastName))
         {
-            Console.WriteLine("*You must fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
+            return false;
+        }
+        if (LastName.Length < 2 || LastName.Length > 20){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your last name needs to be 2-20 characters."); Console.ResetColor();
             return false;
         }
         foreach(char letter in LastName)
@@ -33,7 +41,7 @@ class CheckReservationInfo
             if (!Char.IsLetter(letter))
             {
                 if (!Char.IsWhiteSpace(letter)){
-                Console.WriteLine("*Your last name must only contain letters.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your last name must only contain letters."); Console.ResetColor();
                 return false;
                 }
             }
@@ -47,20 +55,20 @@ class CheckReservationInfo
     {
         if (string.IsNullOrEmpty(PhoneNumber))
         {
-            System.Console.WriteLine("*You must fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         foreach(char number in PhoneNumber)
         {
             if (!Char.IsNumber(number))
             {
-                System.Console.WriteLine("*Your phone number must only contain numbers.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your phone number must only contain numbers."); Console.ResetColor();
                 return false;
             }
         }
         if (PhoneNumber.Length != 10)
         {
-            System.Console.WriteLine("*Your phone number must contain 10 numbers.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your phone number must contain 10 numbers."); Console.ResetColor();
             return false;
         }
         return true;
@@ -72,7 +80,7 @@ class CheckReservationInfo
     {
         if (string.IsNullOrEmpty(EmailAddress))
         {
-            System.Console.WriteLine("*Please fill something in.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
             return false;
         }
         string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|hr|nl|be|en)$";
