@@ -92,7 +92,7 @@ public static class ReservationMenu
                                 System.Console.WriteLine($"Pre-order:");
                                 foreach(var dish in reservation.Preorder.Dishes)
                                 {
-                                    System.Console.WriteLine($"- {dish}, ${PreOrdering.menuItems.Find(x => x.Name == dish).Price}");
+                                    System.Console.WriteLine($"- {dish} {PreOrdering.menuItems.Find(x => x.Name == dish).Symbol}, {PreOrdering.menuItems.Find(x => x.Name == dish).Price}");
                                 }
                                 Console.WriteLine();
                             }
