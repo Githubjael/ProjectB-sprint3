@@ -18,7 +18,6 @@ static class AccountManagment
 
         if (user == null)
         {
-            Console.WriteLine("User not found. Please try again.");
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("User not found. Please try again."); Console.ResetColor();
             Console.ResetColor();
             return;
