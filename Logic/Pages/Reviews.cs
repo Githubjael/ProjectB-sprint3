@@ -135,7 +135,7 @@ public class Reviews
                     }
                     break;
                 default:
-                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     break;
             }
         }
@@ -166,7 +166,7 @@ public class Reviews
                     Console.WriteLine("[3]: See all reviews");
                 return;
             }
-            Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please enter a number between 1 and 5."); Console.ResetColor();
         }
 
         Console.WriteLine("Leave your comments (Optional):");
