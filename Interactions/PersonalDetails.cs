@@ -8,6 +8,7 @@ static class PersonalDetails
         FirstName = Console.ReadLine();
         if (FirstName == "q" || FirstName == "Q")
         {
+            
             Console.WriteLine("Reservation stopped");
             System.Threading.Thread.Sleep(1000);
             Console.WriteLine(". . . . .");
@@ -15,7 +16,7 @@ static class PersonalDetails
             Home.Options(); 
             return "";
         }
-        } while (FirstName.Length < 2 || FirstName.Length > 20 ||!CheckReservationInfo.CheckFirstName(FirstName));
+    } while (!CheckReservationInfo.CheckFirstName(FirstName));
 
         return FirstName;
     }
@@ -35,9 +36,8 @@ static class PersonalDetails
             Home.Options(); 
             return "";
         }
-        } while (LastName.Length < 2 || LastName.Length > 20 || !CheckReservationInfo.CheckLastName(LastName));
+        } while (!CheckReservationInfo.CheckLastName(LastName));
         return LastName;
-
     }
 
     public static string AskPhoneNumber()
