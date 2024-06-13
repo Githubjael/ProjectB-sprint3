@@ -19,7 +19,7 @@ static class AccountManagment
         if (user == null)
         {
             Console.WriteLine("User not found. Please try again.");
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("User not found. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("User not found. Please try again."); Console.ResetColor();
             Console.ResetColor();
             return;
         }
@@ -50,7 +50,7 @@ static class AccountManagment
 
             if (newPassword.Length < 8 || newPassword.Length > 20)
             {
-                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Password should be at least 8 characters and not more than 20 characters.");
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Password should be at least 8 characters and not more than 20 characters."); Console.ResetColor();
             }
         } while (string.IsNullOrEmpty(newPassword) || newPassword.Length < 8 || newPassword.Length > 20);
 
@@ -60,7 +60,7 @@ static class AccountManagment
 
         if (newPassword != confirmNewPassword)
         {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Passwords do not match. Please try again.");
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Passwords do not match. Please try again."); Console.ResetColor();
             return;
         }
 
