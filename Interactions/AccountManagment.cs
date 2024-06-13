@@ -168,65 +168,15 @@ static class AccountManagment
 
     }
 
-    public static void SignUp()
+        public static void SignUp()
     {
-        string firstName;
-        do
-        {
-            System.Console.WriteLine("(At any time type 'Q' to go back)");
-            Console.WriteLine("Enter a valid first name (2-20 letters):");
-            firstName = Console.ReadLine();
-            if (firstName.ToLower() == "q")
-            {
-                return;
-            }
-            if (firstName.Length < 2 || firstName.Length > 20 || !CheckUserInfo.IsValidName(firstName))
-            {
-                Console.WriteLine("First name should be between 2 and 20 characters and consist of only letters.");
-            }
-        } while (firstName.Length < 2 || firstName.Length > 20 || !CheckUserInfo.IsValidName(firstName));
+        string firstName = PersonalDetails.AskFirstName();
 
-        string lastName;
-        do
-        {
-            Console.WriteLine("Enter a valid last name (2-20 letters):");
-            lastName = Console.ReadLine();
-            if (lastName.ToLower() == "q")
-            {
-                return;
-            }
-            if (lastName.Length < 2 || lastName.Length > 20 || !CheckUserInfo.IsValidName(lastName))
-            {
-                Console.WriteLine("Last name should be between 2 and 20 characters and consist of only letters.");
-            }
-        } while (lastName.Length < 2 || lastName.Length > 20 || !CheckUserInfo.IsValidName(lastName));
+        string lastName = PersonalDetails.AskLastName();
 
+        string email = PersonalDetails.AskEmailAddress();
 
-        string email;
-        do
-        {
-            Console.WriteLine("Enter a valid email (must start with a letter):");
-            email = Console.ReadLine();
-            if (email.ToLower() == "q")
-            {
-                return;
-            }
-            if (!CheckUserInfo.IsValidEmail(email))
-            {
-                Console.WriteLine("Email should be valid and start with a letter.");
-            }
-        } while (!CheckUserInfo.IsValidEmail(email));
-
-        string phoneNumber;
-        do
-        {
-            Console.WriteLine("Enter a valid phone number:");
-            phoneNumber = Console.ReadLine();
-            if (phoneNumber.ToLower() == "q")
-            {
-                return;
-            }
-        } while (!CheckUserInfo.IsValidPhoneNumber(phoneNumber));
+        string phoneNumber = PersonalDetails.AskPhoneNumber();
 
         string password;
         do
