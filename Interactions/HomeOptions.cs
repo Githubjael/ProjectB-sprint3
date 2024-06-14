@@ -21,7 +21,7 @@ static class HomeOptions
         System.Console.WriteLine(streep);
         if (Home.IsLoggedIn)
         {
-            System.Console.WriteLine($"Welcome back, {Home.guestName}!");
+            System.Console.WriteLine($"Welkome back, {Home.guestName}!");
         }
         else if(Home.ManagerLoggedIn)
         {
@@ -130,7 +130,12 @@ static class HomeOptions
                     return;
                 case "4":
                     Console.Clear();
+                    if (!Home.ManagerLoggedIn){
                     Contact.Options();
+                    }
+                    else{
+                        ManagerOptions.ChangeRestaurantInfo();
+                    }
                     return;
                 default:
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
