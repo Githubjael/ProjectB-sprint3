@@ -7,6 +7,7 @@ static class AccountManagment
 {
     public static void ChangePassword()
     {
+        System.Console.WriteLine("(At any time type 'Q' to go back)");
         Console.WriteLine("Email address:");
         string email = Console.ReadLine();
         if (email.ToLower() == "q")
