@@ -79,8 +79,9 @@ public class Reviews
     }
     
     // with this the manager can now enter a string into the ReplyFromManager string in Review objects
-    public static void ReplyToReview(int reviewID, string reply)
+public static void ReplyToReview(int reviewID, string reply)
     {
+        bool Found = false;
         for(int i = 0; i < _reviews.Count; i++)
         {
             if(_reviews[i].ID == reviewID)
@@ -88,8 +89,12 @@ public class Reviews
                 if(!string.IsNullOrEmpty(reply))
                 {
                     _reviews[i].ReplyFromManager = reply;
+                    Found = true;
                 }
             }
+        }
+        if (Found == false){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Review not found"); Console.ResetColor();
         }
         SaveReviews();
         LoadReviews();
