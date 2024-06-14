@@ -16,10 +16,6 @@ static class ContactOptions
                     Home.Options();
                     return;
 
-                case "???":
-                    // Add logic for the specific contact option
-                    return;
-
                 default:
                     Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please try again."); Console.ResetColor();
                     break;
