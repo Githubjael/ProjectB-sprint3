@@ -113,6 +113,7 @@ public class ReservationLogic
             PrintReservation(reservation);
             }
         }
+        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservations found."); Console.ResetColor();
     }
 
     public static void PrintReservationBasedOnTime(string Date, string Time)
@@ -127,6 +128,7 @@ public class ReservationLogic
             PrintReservation(reservation);
             } 
         }
+        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservations found."); Console.ResetColor();
     }
 
     public static void PrintReservation(ReservationDataModel reservation){
