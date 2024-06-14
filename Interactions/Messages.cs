@@ -12,6 +12,7 @@ static class Messages
     {
         if(Home.IsLoggedIn)
         {
+            System.Console.WriteLine("(At any time type 'Q' to go back)");
             System.Console.WriteLine($"Hi {Home.guestName}! please provide us with the following details:\n");
             System.Threading.Thread.Sleep(1500);
         }
