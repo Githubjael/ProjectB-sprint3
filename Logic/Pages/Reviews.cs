@@ -124,7 +124,7 @@ public class Reviews
                     // View reviews
                     if (_reviews == null || _reviews.Count == 0)
                     {
-                        Console.WriteLine("No reviews available.");
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No reviews available."); Console.ResetColor();
                     }
                     else
                     {
