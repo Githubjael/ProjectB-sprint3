@@ -12,9 +12,9 @@ static class ManagerOptions
     // Know Timeslot gap
         TimeSpan verschil = SecondTimeSlot - OldTimeSlot;
         List<string> NewTimes = new();
-        System.Console.WriteLine("[1]: Home");
-        System.Console.WriteLine("[2]: Edit first time slot");
-        System.Console.WriteLine("[3]: Edit last time slot");
+        System.Console.WriteLine("[H]: Home");
+        System.Console.WriteLine("[1]: Edit first time slot");
+        System.Console.WriteLine("[2]: Edit last time slot");
         string answer;
         do
         {
@@ -22,10 +22,10 @@ static class ManagerOptions
             try{
             switch (answer)
             {
-                case "1":
+                case "h":
                 Home.Options();
                 break;
-                case "2":
+                case "1":
                 Console.WriteLine("New first time slot:");
                 string newTime = Console.ReadLine();
                 while(DateTime.ParseExact(newTime, "HH:mm", CultureInfo.GetCultureInfo("nl-NL")) <= DateTime.ParseExact(Timeslots[Timeslots.Count - 1], "HH:mm", CultureInfo.GetCultureInfo("nl-NL")))
@@ -36,7 +36,7 @@ static class ManagerOptions
                 // Ik moet de liist eigenlijk returnen naar de logic laag en vervolgens daar writen naar json maar dat doe ik aan het eind! Done
                 Home.ChangeTimeSlots(NewTimes);
                 break;
-                case "3":
+                case "2":
                 Console.WriteLine("New last time slot:");
                 string lastTime = Console.ReadLine();
                 for (int i = Timeslots.Count - 1; i >= 0; i--)
@@ -56,7 +56,7 @@ static class ManagerOptions
             }
              catch(Exception)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input, please fill in your answer in the desired format: HH:mm"); Console.ResetColor();
+                    System.Console.WriteLine("Invalid input, please fill in your answer in the desired format: HH:mm");
                 }
             System.Console.WriteLine("New time slots:");
             Timeslots = Home.ShowTimeSlots();
@@ -65,7 +65,7 @@ static class ManagerOptions
                 System.Console.WriteLine(Time);
             }
             EditTimeslots();
-        }while(answer != "1" && answer != "2" && answer != "3"); // replace met checking method
+        }while(answer != "H" && answer != "1" && answer != "2" && answer != "3"); // replace met checking method
 
     }
 
@@ -181,31 +181,38 @@ static class ManagerOptions
     }
     public static void ChangeRestaurantInfo()
     {
-        System.Console.WriteLine("[1]: Change address");
-        System.Console.WriteLine("[2]: Change Email");
-        System.Console.WriteLine("[3]: Change phone number");
+        Console.Clear();
+        Contact.SeeContactInfo();
+        System.Console.WriteLine("[1]: Home");
+        System.Console.WriteLine("[2]: Change address");
+        System.Console.WriteLine("[3]: Change Email");
+        System.Console.WriteLine("[4]: Change phone number");
         string answer = Console.ReadLine();
         ContactDataModel restaurantInfo = ContactAccess.ReadFromJson()[0];
         switch (answer)
         {
             case "1":
+            Home.Options();
+            break;
+            case "2":
             System.Console.WriteLine("New address:");
             string ChangedAddress = Console.ReadLine();
             restaurantInfo.Adress = ChangedAddress;
             ContactAccess.WriteToJson(new(){new(ChangedAddress, restaurantInfo.PhoneNumber, restaurantInfo.Email)});
             break;
-            case "2":
+            case "3":
             System.Console.WriteLine("New email:");
             string ChangedEmail = Console.ReadLine();
             restaurantInfo.Email = ChangedEmail;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, restaurantInfo.PhoneNumber, ChangedEmail)});
             break;
-            case "3":
+            case "4":
             System.Console.WriteLine("New phone number:");
             string ChangedPhoneNumber = Console.ReadLine();
             restaurantInfo.PhoneNumber = ChangedPhoneNumber;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, ChangedPhoneNumber, restaurantInfo.Email)});
             break;
         }
+        Contact.SeeContactInfo();
     }
 }
