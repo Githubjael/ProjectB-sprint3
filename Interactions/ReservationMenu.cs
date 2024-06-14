@@ -69,7 +69,12 @@ public static class ReservationMenu
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("You need to log in to cancel a reservation."); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter your Guest id to cancel your Reservation:"); Console.ResetColor();
+                        // Cancel reservation of guest without acc
+                        int guestID = Convert.ToInt32(Console.ReadLine());
+                        ReservationLogic.CancelReservation(guestID);
+                        Options();
+                        return;
                     }
                     Options();
                     return;
