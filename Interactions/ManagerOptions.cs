@@ -94,7 +94,7 @@ static class ManagerOptions
         switch (answer)
         {
             // Maak jullie geen zorgen de fouthandling van userinput ga ik later doen
-            case "d":
+            case "2":
             string date;
             do{
             System.Console.WriteLine("What date? (day-month-year)");
@@ -109,7 +109,7 @@ static class ManagerOptions
             } while (!CheckReservationInfo.CheckOtherDates(date));
             ReservationLogic.PrintReservationsBasedOnDate(date);
             break;
-            case "t":
+            case "3":
             string datum;
             do{
             System.Console.WriteLine("What date? (day-month-year)");
@@ -126,7 +126,7 @@ static class ManagerOptions
             string tijd = Console.ReadLine();
             ReservationLogic.PrintReservationBasedOnTime(datum, tijd);
             break;
-            case "c":
+            case "4":
             System.Console.WriteLine("What is the guest Id?");
             int GuestId = Convert.ToInt32(Console.ReadLine());
             ReservationLogic.CancelReservation(GuestId);
