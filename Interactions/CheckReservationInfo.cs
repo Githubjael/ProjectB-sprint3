@@ -74,24 +74,29 @@ class CheckReservationInfo
         return true;
     }
 
-    // check of emailadres een '@' en '.' bevat
-    // ook nog met yahoo, gmail, hotmail etc etc dat moet ook nog containen
+
     public static bool CheckEmail(string EmailAddress)
     {
         if (string.IsNullOrEmpty(EmailAddress))
         {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Please fill something in."); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("*Please fill something in.");
+            Console.ResetColor();
             return false;
         }
-        string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|hr|nl|be|en)$";
+
+        
+        string regex = @"^[^@\s]+@(?:yahoo|gmail|hotmail|outlook|live|aol|icloud)\.(com|net|org|gov|hr|nl|be|en)$";
+        
         if (Regex.IsMatch(EmailAddress, regex, RegexOptions.IgnoreCase))
         {
             return true;
         }
-
         else
         {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("*Your email address is invalid."); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("*Your email address is invalid.");
+            Console.ResetColor();
             return false;
         }
     }
