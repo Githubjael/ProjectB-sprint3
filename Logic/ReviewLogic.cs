@@ -76,8 +76,20 @@ class ReviewLogic : IComparable<Review>
             }
         }
         int reviewID = Convert.ToInt32(enter);
-        Console.WriteLine("Enter your reply: ");
-        string reply = Console.ReadLine();
+        string reply;
+        do
+        {
+            Console.WriteLine("Enter your reply: (enter q to quit)");
+            reply = Console.ReadLine().ToLower();
+            if (string.IsNullOrEmpty(reply) || string.IsNullOrWhiteSpace(reply))
+            {
+                Console.WriteLine("Invalid input, please try again");
+            }
+            else if( reply == "q")
+            {
+                return;
+            }
+        } while(string.IsNullOrEmpty(reply) || string.IsNullOrWhiteSpace(reply));
         Reviews.ReplyToReview(reviewID, reply);
     }
 
