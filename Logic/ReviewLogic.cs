@@ -23,6 +23,7 @@ class ReviewLogic : IComparable<Review>
 
     public static void SeeReviewsBasedOnRating(int Rating) // Alleen manager
     {
+        bool IfFound = false;
         string star = new string ('★', Rating);
         List<Review> Reviews = ReviewAccess.ReadFromJson();
         foreach(var review in Reviews)
@@ -34,8 +35,12 @@ class ReviewLogic : IComparable<Review>
             System.Console.WriteLine($"Comment: {review.Comments}");
             if (review.ReplyFromManager != null){
             System.Console.WriteLine($"Restaurant's response: {review.ReplyFromManager}");
+            IfFound = true;
             }
             }
+        }
+        if (IfFound == false){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservation found with the rating of {Rating}."); Console.ResetColor();
         }
     }
 
