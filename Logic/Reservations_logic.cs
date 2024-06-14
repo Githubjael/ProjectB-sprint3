@@ -103,6 +103,7 @@ public class ReservationLogic
 
     public static void PrintReservationsBasedOnDate(string Date)
     {
+        bool found = false;
         for(int i = 0; i < _reservation.Count; i++)
         {
             ReservationDataModel reservation = _reservation[i];
@@ -111,13 +112,17 @@ public class ReservationLogic
             Console.WriteLine("===============");
             Console.WriteLine($"Reservation: {i + 1}");
             PrintReservation(reservation);
+            found = true;
             }
         }
+        if (found == false){
         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservations found."); Console.ResetColor();
+        }
     }
 
     public static void PrintReservationBasedOnTime(string Date, string Time)
     {
+        bool found = false;
         for(int i = 0; i < _reservation.Count; i++)
         {
             ReservationDataModel reservation = _reservation[i];
@@ -126,9 +131,12 @@ public class ReservationLogic
             Console.WriteLine("===============");
             Console.WriteLine($"Reservation: {i + 1}");
             PrintReservation(reservation);
+            found = true;
             } 
         }
+        if (found == false){
         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservations found."); Console.ResetColor();
+        }
     }
 
     public static void PrintReservation(ReservationDataModel reservation){
