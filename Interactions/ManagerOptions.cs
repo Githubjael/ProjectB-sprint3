@@ -64,8 +64,16 @@ static class ManagerOptions
             break;
             case "4":
             System.Console.WriteLine("What is the guest Id?");
-            int GuestId = Convert.ToInt32(Console.ReadLine());
-            ReservationLogic.CancelReservation(GuestId);
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int guestId))
+            {
+                ReservationLogic.CancelReservation(guestId);
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a valid number."); Console.ResetColor();
+            }
+            break;
             break;
         }
     }
