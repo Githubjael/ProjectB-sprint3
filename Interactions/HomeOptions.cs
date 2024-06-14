@@ -77,6 +77,7 @@ static class HomeOptions
                     else{
                         Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
                     }
+                    System.Threading.Thread.Sleep(1500);
                     Options();
                     return;
 
