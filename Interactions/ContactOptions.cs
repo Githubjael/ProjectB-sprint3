@@ -31,7 +31,7 @@ static class ContactOptions
         ContactDataModel restaurantInfo = ContactAccess.ReadFromJson()[0];
         Console.WriteLine("╔══════════════════════ CONTACT INFORMATION ════════════════════════╗");
         System.Console.WriteLine(" ");
-        System.Console.WriteLine("                     Welcome to Jake's Restaurant!               ");
+        System.Console.WriteLine("                     Welcome to Jane's Restaurant!               ");
         System.Console.WriteLine("               Please find our contact information below               ");
         System.Console.WriteLine(" ");
         System.Console.WriteLine();
