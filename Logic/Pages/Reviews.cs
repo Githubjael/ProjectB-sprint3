@@ -190,7 +190,7 @@ public class Reviews
             _reviews.Add(newReview);
             SaveReviews();
             LoadReviews();
-            Console.WriteLine("\nThank you for your review!");
+            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nThank you for your review!"); Console.ResetColor();
         }
 
         Reviews.Options();
