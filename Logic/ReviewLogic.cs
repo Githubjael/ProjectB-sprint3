@@ -47,7 +47,12 @@ class ReviewLogic : IComparable<Review>
     public static void DeleteReview() // Alleen manager
     {
         System.Console.WriteLine("What is the review id?");
-        int reviewID = Convert.ToInt32(System.Console.ReadLine());
+        string reviewIDReadLine = Console.ReadLine();
+        if (reviewIDReadLine == ""){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Only enter numbers"); Console.ResetColor();
+            return;
+        }
+        int reviewID = Convert.ToInt32(reviewIDReadLine);
         Reviews.Remove(reviewID);
     }
 
@@ -55,13 +60,18 @@ class ReviewLogic : IComparable<Review>
     {
         Reviews.RemoveAll();
         System.Console.WriteLine();
-        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"All reviews succesfully removed."); Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Successfully removed"); Console.ResetColor();
+
     }
     // added to reply to reviews
     public static void ReplyFromManager()
     {
         Console.WriteLine("enter the reviewID: (enter q to quit)");
         string enter = Console.ReadLine();
+        if (enter == ""){
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Enter a valid ID"); Console.ResetColor();
+            return;
+        }
         if(enter == "q")
         {
             return;
@@ -70,26 +80,14 @@ class ReviewLogic : IComparable<Review>
         {
             if (!char.IsDigit(test))
             {
-                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Invalid input"); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Only enter numbers"); Console.ResetColor();
                 Console.WriteLine("");
                 ManagerOptions.ReviewOptions();
             }
         }
         int reviewID = Convert.ToInt32(enter);
-        string reply;
-        do
-        {
-            Console.WriteLine("Enter your reply: (enter q to quit)");
-            reply = Console.ReadLine().ToLower();
-            if (string.IsNullOrEmpty(reply) || string.IsNullOrWhiteSpace(reply))
-            {
-                Console.WriteLine("Invalid input, please try again");
-            }
-            else if( reply == "q")
-            {
-                return;
-            }
-        } while(string.IsNullOrEmpty(reply) || string.IsNullOrWhiteSpace(reply));
+        Console.WriteLine("Enter your reply: ");
+        string reply = Console.ReadLine();
         Reviews.ReplyToReview(reviewID, reply);
     }
 
