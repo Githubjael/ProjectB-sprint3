@@ -129,18 +129,27 @@ public class ReservationLogic
         }
     }
 
-    public static void PrintReservation(ReservationDataModel reservation)
-    {
-        System.Console.WriteLine($"Date: {reservation.Date}");
-        System.Console.WriteLine($"Time: {reservation.Time}");
-        System.Console.WriteLine($"Guest id: {reservation.GuestID}");
-        System.Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
-        System.Console.WriteLine($"Email address: {reservation.EmailAddress}");
-        foreach(var table in reservation.Tables)
-        {
-            System.Console.WriteLine($"Table id: {table}");
+    public static void PrintReservation(ReservationDataModel reservation){
+            System.Console.WriteLine($"Date: {reservation.Date}");
+            System.Console.WriteLine($"Time: {reservation.Time}");
+            System.Console.WriteLine($"Guest id: {reservation.GuestID}");
+            System.Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
+            System.Console.WriteLine($"Email address: {reservation.EmailAddress}");
+            foreach(var table in reservation.Tables){
+                System.Console.WriteLine($"Table id: {table}");
+            }
+            
+            if (reservation.Preorder == null){
+                System.Console.WriteLine("Customer has not pre ordered");
+            }
+            else{
+            System.Console.WriteLine($"The reservation's pre-order:");
+            foreach(var dish in reservation.Preorder.Dishes){
+                System.Console.WriteLine($"- {dish} {PreOrdering.menuItems.Find(x => x.Name == dish).Symbol}, {PreOrdering.menuItems.Find(x => x.Name == dish).Price}");
+            }
+            }
+        Console.WriteLine();
         }
-    }
 
     public static void CancelReservation(int guestID)
     {
