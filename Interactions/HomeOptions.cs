@@ -41,12 +41,6 @@ static class HomeOptions
         Console.WriteLine("[6]: Sign up");
         }
 
-        if(Home.ManagerLoggedIn)
-        {
-            Console.WriteLine("[7]: Manage time slots");
-        }
-
-
         while (true)
         {
             string UserChoice = Console.ReadLine().ToUpper();
@@ -85,22 +79,7 @@ static class HomeOptions
                     }
                     Options();
                     return;
-                case "7":
-                Console.Clear();
-                    if(Home.ManagerLoggedIn)
-                    {
-                        ManagerOptions.EditTimeslots();
-                    }
-                    // if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
-                    // // Console.Clear();
-                    //     // Home.SignUp();
-                    //     Home.Options(); 
 
-                    // }
-                    else{
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
-                    }
-                    break;
                 case "1":
                     Console.Clear();
                     Menu.Options();
