@@ -8,7 +8,7 @@ static class HomeOptions
         //restaurant info print here (make into json)
         Manager manager = ManagerAccess.ReadFromJson()[0];
         System.Console.WriteLine();
-        System.Console.WriteLine(new string("𓌉◯ 𓇋 Jake's Restaurant 𓌉◯ 𓇋"));
+        System.Console.WriteLine(new string("𓌉◯ 𓇋 Jane's Restaurant 𓌉◯ 𓇋"));
         string streep = "";
         var TimeSlots = Home.ShowTimeSlots();
         string shortIntro = $"{Reviews.AverageRating()} - €{Menu.MaxPrice()} and lower - {TimeSlots[0]}-{TimeSlots[TimeSlots.Count - 1]}";
