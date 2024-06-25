@@ -461,7 +461,7 @@
 
 
         private static void DisplayMenuItems(JArray menuItems){
-        Console.WriteLine($"{"ID", -5}| {"Name", -19}| {"Price", -7}| {"Category", -16}| {"Ingredients"}");
+        Console.WriteLine($"{"ID", -6}| {"Name", -20}| {"Price", -9}| {"Category", -17}| {"Ingredients"}");
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
