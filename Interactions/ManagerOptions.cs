@@ -74,7 +74,6 @@ static class ManagerOptions
                 Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Please enter a valid number."); Console.ResetColor();
             }
             break;
-            break;
         }
     }
     public static void ReviewOptions()
