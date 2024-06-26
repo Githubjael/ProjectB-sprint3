@@ -64,12 +64,12 @@ public static class ReservationMenu
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No upcoming reservations found."); Console.ResetColor();
+                            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("No upcoming reservations found."); Console.ResetColor();
                         }
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Enter your Guest id to cancel your Reservation:"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Enter your Guest id to cancel your Reservation:"); Console.ResetColor();
                         // Cancel reservation of guest without acc
                         int guestID = Convert.ToInt32(Console.ReadLine());
                         ReservationLogic.CancelReservation(guestID);
