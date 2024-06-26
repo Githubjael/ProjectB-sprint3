@@ -65,7 +65,7 @@ static class PersonalDetails
     {
         string EmailAddress;
         do{
-        System.Console.WriteLine("What is your email address?");
+        System.Console.WriteLine("What is your email address? (valid emailadresses include: yahoo, gmail, hotmail, outlook, live, aol, icloud, hr)");
         EmailAddress = Console.ReadLine();
         if (EmailAddress == "q" || EmailAddress == "Q")
         {
