@@ -11,7 +11,12 @@ public class Guest : Person
             }
         }
     }
-    public Guest(string firstName, string lastName, string emailAddress, string phoneNumber, string password) : base(firstName, lastName, emailAddress, phoneNumber, password)
+    public Guest(string firstName, string lastName, string emailAddress, string phoneNumber, string password)
     {
+        FirstName = firstName;
+        LastName = lastName;
+        EmailAddress = emailAddress;
+        PhoneNumber = phoneNumber;
+        PassWord = password;
     }
 }
