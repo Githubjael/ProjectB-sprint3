@@ -1,22 +1,24 @@
 public class Guest : Person
 {
-    private bool PassWordIsSet = false;
-    private string _passWord;
-    public string PassWord 
+    private bool PasswordIsSet = false;
+
+    public Guest(string firstName, string lastName, string emailAddress, string phoneNumber, string password) 
+        : base(firstName, lastName, emailAddress, phoneNumber, password)
     {
-        get => _passWord;
-        set{
-            if(PassWordIsSet){
-                _passWord = value;
+        // wachtwoort word nu geset
+        this.PasswordIsSet = true;
+    }
+
+    // Wachtwoord word alleen geset als PasswordIsSet true is. 
+    public new string Password 
+    {
+        get => base.Password;
+        set
+        {
+            if (PasswordIsSet)
+            {
+                base.Password = value;
             }
         }
-    }
-    public Guest(string firstName, string lastName, string emailAddress, string phoneNumber, string password)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-        EmailAddress = emailAddress;
-        PhoneNumber = phoneNumber;
-        PassWord = password;
     }
 }
