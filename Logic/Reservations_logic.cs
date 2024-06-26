@@ -172,41 +172,54 @@ public class ReservationLogic
 
             if (DateTime.TryParse(reservationToRemove.Date + " " + reservationToRemove.Time, out reservationDateTime))
             {
-                if(!Home.ManagerLoggedIn){
-                // ik controleer hoelang er nog voor de reservatie is/ dus of er nog minder dan 2 uur is / want dan is het annuleren niet meer mogelijk !
-                if ((reservationDateTime - now).TotalHours < 2)
+                if (!Home.ManagerLoggedIn)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Sorry, you can't cancel the reservation as it's less than 2 hours before/Past the reservation time. "); Console.ResetColor();
-                    return;
+                    // Controleer hoelang het nog is tot de reservatie en of het minder dan 2 uur is
+                    if ((reservationDateTime - now).TotalHours < 2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Sorry, you can't cancel the reservation as it's less than 2 hours before/past the reservation time.");
+                        Console.ResetColor();
+                        return;
+                    }
                 }
-            }
 
-                // de rrservatie wordt geanulleerd 
+                // Annuleer de reservatie
                 _reservation.Remove(reservationToRemove);
                 var preOrder = PreOrderAccess.ReadFromJson();
                 PreOrder order;
-                if (preOrder != null || preOrder.Count != 0){
+                if (preOrder != null && preOrder.Count != 0)
+                {
                     order = preOrder.Find(x => x.GuestID == guestID.ToString());
-                    if (order != null){
-                    preOrder.Remove(order);
-                    PreOrderAccess.WriteToJson(preOrder);
-                    System.Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Your order is removed alongside the reservation."); Console.ResetColor();
-                }
+                    if (order != null)
+                    {
+                        preOrder.Remove(order);
+                        PreOrderAccess.WriteToJson(preOrder);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Your order is removed alongside the reservation.");
+                        Console.ResetColor();
+                    }
                 }
                 ReservationDataAccess.WriteToJson(_reservation);
-                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine($"Your Reservation is cancelled."); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Your reservation is cancelled.");
+                Console.ResetColor();
             }
             else
             {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Error converting reservation time."); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Error converting reservation time.");
+                Console.ResetColor();
             }
         }
         else
         {
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Reservation is not found."); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Reservation not found.");
+            Console.ResetColor();
         }
     }
+
 
 
     public static void CancelReservationByAcc(string email, string date, string time)
