@@ -1,24 +1,16 @@
-public class Reviews
+public static class Reviews
 {
-    public static List<Review> _reviews = PutInList();	
+    private static List<Review> _reviews = new List<Review>();
 
     static Reviews()
     {
         LoadReviews();
     }
 
-
     private static void LoadReviews()
     {
         _reviews = ReviewAccess.ReadFromJson();
     }
-
-    private static List<Review> PutInList()
-    {
-        _reviews = ReviewAccess.ReadFromJson();
-        return _reviews;
-    }
-
 
     private static void SaveReviews()
     {
@@ -27,79 +19,43 @@ public class Reviews
 
     public static string AverageRating()
     {
-        if (_reviews.Count == 0 || _reviews == null)
+        if (_reviews == null || _reviews.Count == 0)
             return "☆☆☆☆☆ 0";
-        string AverageReview = new string("");
-        double AverageRating = 0;
-       foreach(Review review in _reviews)
-       {
-        int Count = 0;
-        foreach( char star in review.Rating)
-        {
-            Count++;
-        }
-        AverageRating += Count;
-       }
-       try{
-        AverageRating = AverageRating / _reviews.Count;
-       }
-       catch(Exception)
-       {
-        AverageRating = 0;
-       }
-       if ( AverageRating > 0)
-       {
-        for (int i = 1; i <= (int)Math.Ceiling(AverageRating); i++)
-        {
-            AverageReview += new string("★");
-        }
-       }
-        if (AverageRating != 5)
-        {
-        for (int j = (int)Math.Ceiling(AverageRating) + 1; j <= 5; j++)
-        {
-            AverageReview += new string("☆");
-        }
-        }
-        return $"{AverageReview} {Math.Round(AverageRating, 1)}";
+
+        double averageRating = _reviews
+            .Select(review => review.Rating.Count(c => c == '★'))
+            .Average();
+
+        string averageReview = new string('★', (int)Math.Round(averageRating)) +
+                               new string('☆', 5 - (int)Math.Round(averageRating));
+
+        return $"{averageReview} {Math.Round(averageRating, 1)}";
     }
 
     public static void Remove(int reviewID)
     {
-        int ID = 0;
-        for(int i = 0; i < _reviews.Count; i++)
-        {
-            if (_reviews[i].ID == reviewID)
-            {
-                _reviews.RemoveAt(i);
-            }
-        }
+        _reviews.RemoveAll(review => review.ID == reviewID);
         SaveReviews();
         LoadReviews();
     }
-    
-    // with this the manager can now enter a string into the ReplyFromManager string in Review objects
-public static void ReplyToReview(int reviewID, string reply)
+
+    public static void ReplyToReview(int reviewID, string reply)
     {
-        bool Found = false;
-        for(int i = 0; i < _reviews.Count; i++)
+        var review = _reviews.FirstOrDefault(r => r.ID == reviewID);
+        if (review != null)
         {
-            if(_reviews[i].ID == reviewID)
-            {
-                if(!string.IsNullOrEmpty(reply))
-                {
-                    _reviews[i].ReplyFromManager = reply;
-                    Found = true;
-                }
-            }
+            review.ReplyFromManager = reply;
+            SaveReviews();
+            LoadReviews();
         }
-        if (Found == false){
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Review not found"); Console.ResetColor();
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Review not found");
+            Console.ResetColor();
         }
-        SaveReviews();
-        LoadReviews();
     }
-    
+
     public static void RemoveAll()
     {
         _reviews.Clear();
@@ -126,10 +82,11 @@ public static void ReplyToReview(int reviewID, string reply)
                     LeaveReview();
                     break;
                 case "3":
-                    // View reviews
                     if (_reviews == null || _reviews.Count == 0)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("No reviews available."); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("No reviews available.");
+                        Console.ResetColor();
                     }
                     else
                     {
@@ -140,7 +97,9 @@ public static void ReplyToReview(int reviewID, string reply)
                     }
                     break;
                 default:
-                    Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please try again."); Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please try again.");
+                    Console.ResetColor();
                     break;
             }
         }
@@ -158,47 +117,46 @@ public static void ReplyToReview(int reviewID, string reply)
         }
 
         string guestName = Home.guestName;
-        System.Console.WriteLine("(At any time type 'Q' to go back)");
+        Console.WriteLine("(At any time type 'Q' to go back)");
         Console.WriteLine("Rate our restaurant (from 1 to 5):");
         string input = Console.ReadLine();
-        int rating;
-        while (input == "q" || !int.TryParse(input, out rating) || rating < 1 || rating > 5)
+        int rating = 0;
+        while (input.ToLower() != "q" && (!int.TryParse(input, out rating) || rating < 1 || rating > 5))
         {
-            if (input.ToLower() == "q"){
-                    Console.WriteLine("Please log in to leave a review.");
-                    Console.WriteLine("[1]: Home");
-                    Console.WriteLine("[2]: Leave a review");
-                    Console.WriteLine("[3]: See all reviews");
+            if (input.ToLower() == "q")
+            {
+                Console.WriteLine("Please log in to leave a review.");
+                Console.WriteLine("[1]: Home");
+                Console.WriteLine("[2]: Leave a review");
+                Console.WriteLine("[3]: See all reviews");
                 return;
             }
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Please enter a number between 1 and 5."); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+            Console.ResetColor();
+            input = Console.ReadLine();
+        }
+
+        if (input.ToLower() == "q")
+        {
+            Reviews.Options();
+            return;
         }
 
         Console.WriteLine("Leave your comments (Optional):");
         string comments = Console.ReadLine();
         string stars = new string('★', rating);
-        int ID = 0;
-        if (_reviews == null || _reviews.Count == 0)
-        {
-            _reviews = new List<Review>();
-            ID = 1;
-        }
-        else
-        {
-            ID = _reviews[_reviews.Count - 1].ID + 1;
-        }
+        int id = _reviews.Count == 0 ? 1 : _reviews.Max(r => r.ID) + 1;
 
-        Review newReview = new Review(ID, guestName, stars, comments);
+        Review newReview = new Review(id, guestName, stars, comments);
 
-        if (newReview != null)
-        {
-            _reviews.Add(newReview);
-            SaveReviews();
-            LoadReviews();
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("\nThank you for your review!"); Console.ResetColor();
-        }
+        _reviews.Add(newReview);
+        SaveReviews();
+        LoadReviews();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Thank you for your review!");
+        Console.ResetColor();
 
         Reviews.Options();
     }
-
 }
