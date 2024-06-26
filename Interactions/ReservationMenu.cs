@@ -10,8 +10,11 @@ public static class ReservationMenu
             Console.WriteLine("[1]: Home");
             Console.WriteLine("[2]: Make reservation");
             Console.WriteLine("[3]: Cancel reservation");
-            Console.WriteLine("[4]: View reservation history");
-
+            if (Home.IsLoggedIn || Home.ManagerLoggedIn)
+            {
+                Console.WriteLine("[4]: View reservation history");
+            }
+            
             string userChoice = Console.ReadLine().ToUpper();
 
             switch (userChoice)
