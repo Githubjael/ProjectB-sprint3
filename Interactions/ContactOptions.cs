@@ -32,9 +32,9 @@ static class ContactOptions
         System.Console.WriteLine(" ");
         System.Console.WriteLine();
         System.Console.WriteLine();
-        System.Console.WriteLine($"                      ⚲ Address: {restaurantInfo.Adress}");
-        System.Console.WriteLine($"                     ☏ Phone number: {restaurantInfo.PhoneNumber}");
-        System.Console.WriteLine($"                  ✉ Email: {restaurantInfo.Email}");
+        System.Console.WriteLine($"                 ⚲ Address: {restaurantInfo.Adress}");
+        System.Console.WriteLine($"                 ☏ Phone number: {restaurantInfo.PhoneNumber}");
+        System.Console.WriteLine($"                 ✉ Email: {restaurantInfo.Email}");
         System.Console.WriteLine();
         System.Console.WriteLine();
         System.Console.WriteLine();
