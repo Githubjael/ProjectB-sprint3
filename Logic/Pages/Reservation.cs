@@ -66,7 +66,7 @@ class Reservation : Page
             {
                 preOrder = PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
             }
-            ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.phoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
+            ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.PhoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
             ReservationLogic.AddReservationToList(Reservation);
             Messages.Thanking4Reservation(Reservation.GuestID);
         }
