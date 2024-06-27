@@ -16,10 +16,5 @@ class Manager : Person
     {
         ManagerOptions.ReviewOptions();
     }
-
-    public void ChangeRestaurantInfo()
-    {
-        ManagerOptions.ChangeRestaurantInfo();
-    }
 }
 
