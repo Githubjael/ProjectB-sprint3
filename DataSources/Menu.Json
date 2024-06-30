@@ -84,10 +84,10 @@
   },
   {
     "Id": "7",
-    "Name": "Caprese Salad♣",
+    "Name": "Caprese Salad",
     "Price": 12.99,
     "Category": "Salad",
-    "Symbol": null,
+    "Symbol": "♣",
     "Ingredients": [
       "Mozzarella cheese",
       "Ripe tomatoes",
