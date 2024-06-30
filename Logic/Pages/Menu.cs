@@ -76,8 +76,8 @@
                     {
                         return;
                     }
-                    else if(itemPrice2.Length > 4){
-                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Keep the price under or equal to 4 characters."); Console.ResetColor();
+                    else if(itemPrice2.Length > 6){
+                        Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Invalid input. Keep the price under or equal to 6 characters."); Console.ResetColor();
                     }
                     else if (itemPrice2.Contains("."))
                     {
@@ -461,7 +461,7 @@
 
 
         private static void DisplayMenuItems(JArray menuItems){
-        Console.WriteLine($"{"ID", -6}| {"Name", -20}| {"Price", -9}| {"Category", -17}| {"Ingredients"}");
+        Console.WriteLine($"{"ID", -6}| {"Name", -20}| {"Price", -10}| {"Category", -17}| {"Ingredients"}");
         Console.WriteLine("-------------------------------------------------------------------------------------");
 
         foreach (JObject menuItem in menuItems)
@@ -499,17 +499,17 @@
                 formattedIngredients.Add(currentLine);
                 
                 if(symbol == "🌶"){
-                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
+                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-8:0.00} | {category,-16} | {formattedIngredients[0],-75}");
                 }
                 else if(symbol == "♣🌶"){
-                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
+                    Console.WriteLine($"{id,-2} {symbol,-4}| {name,-19} | €{price,-8:0.00} | {category,-16} | {formattedIngredients[0],-75}");
                 }
                 else{
-                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-7:0.00} | {category,-16} | {formattedIngredients[0],-75}");
+                Console.WriteLine($"{id,-2} {symbol,-3}| {name,-19} | €{price,-8:0.00} | {category,-16} | {formattedIngredients[0],-75}");
                 }
                 for (int i = 1; i < formattedIngredients.Count; i++)
                 {
-                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-19} |  {' ',-7:0.00} | {' ',-16} | {formattedIngredients[i],-75}");
+                    Console.WriteLine($"{' ',-2} {' ',-3}| {' ',-19} |  {' ',-8:0.00} | {' ',-16} | {formattedIngredients[i],-75}");
                 }
 
 
