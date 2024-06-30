@@ -211,8 +211,14 @@
             }
 
             // Generate a new unique ID
-            string newId = menuItems.Count > 0 ? (menuItems.Max(item => int.Parse(item.Id)) + 1).ToString() : "1";
-
+            var existingIds = menuItems.Select(item => int.Parse(item.Id)).ToList();
+            int newIdInt = 1;
+            while (existingIds.Contains(newIdInt))
+            {
+                newIdInt++;
+            }
+            string newId = newIdInt.ToString();
+            
             // Create the new MenuItem object
             MenuItem newItem = new MenuItem(newId, itemName, itemPrice, itemCategory, ingredients, itemSymbol);
 
