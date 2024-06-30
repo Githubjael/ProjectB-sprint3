@@ -319,17 +319,21 @@
                 switch (userChoice)
                 {
                     case "2":
+                        Console.Clear();
                         SortMenuOptions();
                         break;
                     case "3":
+                        Console.Clear();
                         DisplayCategories();
                         break;
                     case "1":
+                        Console.Clear();
                         Home.Options();
                         break;
                     case "4":
                         if (Home.ManagerLoggedIn)
                         {
+                            Console.Clear();
                             AddItem();
                         }
                         else
@@ -374,21 +378,25 @@
                 switch (userChoiceSort)
                 {
                     case "1":
+                        Console.Clear();
                         // Implement sorting by price
                         WayToSort = "Price";
                         Options(); // After sorting, return to options
                         break;
                     case "2":
+                        Console.Clear();
                         // Implement sorting by name
                         WayToSort = "Name";
                         Options(); // After sorting, return to options
                         break;
                     case "3":
+                        Console.Clear();
                         // Implement sorting by category
                         WayToSort = "Category";
                         Options(); // After sorting, return to options
                         break;
                     case "4":
+                        Console.Clear();
                         Options(); // Go back to main options menu
                         break;
                     default:
@@ -445,9 +453,11 @@
             switch (userChoiceSort)
             {
                 case "1":
+                    Console.Clear();
                     DisplayCategories();
                     break;
                 case "2":
+                    Console.Clear();
                     Options(); // Go back to main options menu
                     break;
                 default:
