@@ -34,9 +34,19 @@ public static class Reviews
 
     public static void Remove(int reviewID)
     {
-        _reviews.RemoveAll(review => review.ID == reviewID);
-        SaveReviews();
-        LoadReviews();
+        int removedCount = _reviews.RemoveAll(review => review.ID == reviewID);
+
+        if (removedCount == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Review with ID {reviewID} not found.");
+            Console.ResetColor();
+        }
+        else
+        {
+            SaveReviews();
+            LoadReviews();
+        }
     }
 
     public static void ReplyToReview(int reviewID, string reply)
