@@ -33,8 +33,12 @@ static class ManagerOptions
             case "2":
             string date;
             do{
-            System.Console.WriteLine("What date? (day-month-year)");
+            System.Console.WriteLine("What date? (day-month-year)(enter 'q' to quit)");
             date = Console.ReadLine();
+            if(date.ToLower().Contains("q"))
+            {
+                return;
+            }
             string[] dateParts = date.Split("-");
             if (dateParts.Length == 3)
             {
@@ -48,8 +52,12 @@ static class ManagerOptions
             case "3":
             string datum;
             do{
-            System.Console.WriteLine("What date? (day-month-year)");
+            System.Console.WriteLine("What date? (day-month-year)(enter 'q' to quit)");
             datum = Console.ReadLine();
+            if(datum.ToLower().Contains("q"))
+            {
+                return;
+            }
             string[] datumParts = datum.Split("-");
             if (datumParts.Length == 3)
             {
@@ -58,13 +66,21 @@ static class ManagerOptions
                 datum = string.Join("-", datumParts);
             }
             } while (!CheckReservationInfo.CheckOtherDates(datum));
-            System.Console.WriteLine("What time? (hours:minutes)");
+            System.Console.WriteLine("What time? (hours:minutes)(enter 'q' to quit)");
             string tijd = Console.ReadLine();
+            if(tijd.ToLower().Contains("q"))
+            {
+                return;
+            }
             ReservationLogic.PrintReservationBasedOnTime(datum, tijd);
             break;
             case "4":
-            System.Console.WriteLine("What is the guest Id?");
+            System.Console.WriteLine("What is the guest Id?(enter 'q' to quit)");
             string input = Console.ReadLine();
+            if(input.ToLower().Contains("q"))
+            {
+                return;
+            }
             if (int.TryParse(input, out int guestId))
             {
                 ReservationLogic.CancelReservation(guestId);
