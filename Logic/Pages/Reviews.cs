@@ -137,7 +137,7 @@ public static class Reviews
             return;
         }
 
-        Console.WriteLine("Leave your comments (Optional):");
+        Console.WriteLine("Leave your comments (Leave empty if you do not want to comment):");
         string comments = Console.ReadLine();
         string stars = new string('★', rating);
         int id = _reviews.Count == 0 ? 1 : _reviews.Max(r => r.ID) + 1;
