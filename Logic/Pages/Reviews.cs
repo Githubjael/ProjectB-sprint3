@@ -109,7 +109,9 @@ public static class Reviews
     {
         if (!Home.IsLoggedIn)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please log in to leave a review.");
+            Console.ResetColor();
             Console.WriteLine("[1]: Home");
             Console.WriteLine("[2]: Leave a review");
             Console.WriteLine("[3]: See all reviews");
@@ -123,14 +125,6 @@ public static class Reviews
         int rating = 0;
         while (input.ToLower() != "q" && (!int.TryParse(input, out rating) || rating < 1 || rating > 5))
         {
-            if (input.ToLower() == "q")
-            {
-                Console.WriteLine("Please log in to leave a review.");
-                Console.WriteLine("[1]: Home");
-                Console.WriteLine("[2]: Leave a review");
-                Console.WriteLine("[3]: See all reviews");
-                return;
-            }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
             Console.ResetColor();
