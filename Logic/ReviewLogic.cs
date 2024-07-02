@@ -63,6 +63,7 @@ class ReviewLogic : IComparable<Review>
             continue; 
         }
         Reviews.Remove(reviewID);
+        break;
     }
     }
 
