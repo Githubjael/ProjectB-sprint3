@@ -89,7 +89,7 @@ static class HomeOptions
                     if (Home.ManagerLoggedIn)
                     {
                     Console.Clear();
-                    manager.ReservationOptions();
+                    ManagerOptions.ReservationOptions();
                     }
                     else{
                     Console.Clear();
@@ -100,7 +100,7 @@ static class HomeOptions
                 if (Home.ManagerLoggedIn)
                     {
                     Console.Clear();
-                    manager.ReviewOptions();
+                    ManagerOptions.ReviewOptions();
                     }
                     else
                     {
