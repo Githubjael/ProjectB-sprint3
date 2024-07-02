@@ -99,7 +99,16 @@ static class AccountManagment
                 return;
             }
             var user = UsersAccess.GetUser(email);
-            Manager manager = ManagerAccess.ReadFromJson()[0];
+           
+            List<Manager> managers = ManagerAccess.ReadFromJson();
+            Manager manager = new Manager(
+            firstName: managers[0].FirstName,
+            lastName: managers[0].LastName,
+            emailAddress: managers[0].EmailAddress,
+            phoneNumber: managers[0].PhoneNumber,
+            password: managers[0].Password
+            
+            );            
             if (user != null && user.Password == password)
             {
                 Console.WriteLine(". . . . .\n");
