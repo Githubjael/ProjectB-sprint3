@@ -111,7 +111,7 @@ static class ManagerOptions
                 Console.WriteLine("Choose rating from 1 up to 5 (Type 'Q' to quit):");
                 string input = Console.ReadLine().Trim();
 
-                if (input == "Q"){
+                if (input.ToLower() == "Q"){
                     break;
                 }
 
