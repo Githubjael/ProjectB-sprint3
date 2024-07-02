@@ -139,7 +139,7 @@ static class ManagerOptions
             break;
         }  
     }
-    public static void ChangeRestaurantInfo()
+public static void ChangeRestaurantInfo()
     {
         Console.Clear();
         Contact.SeeContactInfo();
@@ -159,20 +159,23 @@ static class ManagerOptions
             string ChangedAddress = Console.ReadLine();
             restaurantInfo.Adress = ChangedAddress;
             ContactAccess.WriteToJson(new(){new(ChangedAddress, restaurantInfo.PhoneNumber, restaurantInfo.Email)});
+            ChangeRestaurantInfo();
             break;
             case "3":
             System.Console.WriteLine("New email:");
             string ChangedEmail = Console.ReadLine();
             restaurantInfo.Email = ChangedEmail;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, restaurantInfo.PhoneNumber, ChangedEmail)});
+            ChangeRestaurantInfo();
             break;
             case "4":
             System.Console.WriteLine("New phone number:");
             string ChangedPhoneNumber = Console.ReadLine();
             restaurantInfo.PhoneNumber = ChangedPhoneNumber;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, ChangedPhoneNumber, restaurantInfo.Email)});
+            ChangeRestaurantInfo();
             break;
         }
-        Contact.SeeContactInfo();
     }
 }
+
