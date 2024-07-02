@@ -107,9 +107,24 @@ static class ManagerOptions
             ReviewLogic.SeeAllReviews();
             break;
             case "3":
-            System.Console.WriteLine("Choose rating from 1 up to 5");
-            int rating = Convert.ToInt32(Console.ReadLine());
-            ReviewLogic.SeeReviewsBasedOnRating(rating);
+            while (true){
+                Console.WriteLine("Choose rating from 1 up to 5 (Type 'Q' to quit):");
+                string input = Console.ReadLine().Trim();
+
+                if (input == "Q"){
+                    break;
+                }
+
+                if (!int.TryParse(input, out int rating) || rating < 1 || rating > 5){
+                    Console.WriteLine("Invalid input. Please enter a whole number between 1 and 5.");
+                    continue;
+                }
+
+                ReviewLogic.SeeReviewsBasedOnRating(rating);
+                break; 
+            }
+
+            break;
             break;
             case "4":
             ReviewLogic.ReplyFromManager();
