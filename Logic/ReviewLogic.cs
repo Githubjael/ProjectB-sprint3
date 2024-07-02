@@ -46,14 +46,24 @@ class ReviewLogic : IComparable<Review>
 
     public static void DeleteReview() // Alleen manager
     {
-        System.Console.WriteLine("What is the review id?");
-        string reviewIDReadLine = Console.ReadLine();
-        if (reviewIDReadLine == ""){
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Invalid input. Only enter numbers"); Console.ResetColor();
+    while (true)
+    {
+        Console.WriteLine("What is the review id? (Enter 'Q' to quit)");
+        string reviewIDReadLine = Console.ReadLine().Trim();
+
+        if (reviewIDReadLine.ToLower() == "Q"){
             return;
         }
-        int reviewID = Convert.ToInt32(reviewIDReadLine);
+
+        if (!int.TryParse(reviewIDReadLine, out int reviewID))
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Invalid input. Please enter a valid integer or 'Q' to quit.");
+            Console.ResetColor();
+            continue; 
+        }
         Reviews.Remove(reviewID);
+    }
     }
 
     public static void DeleteAllReviews()
