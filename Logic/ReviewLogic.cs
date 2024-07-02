@@ -40,7 +40,7 @@ class ReviewLogic : IComparable<Review>
             }
         }
         if (IfFound == false){
-            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No reservation found with the rating of {Rating}."); Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"No review found with the rating of {Rating}."); Console.ResetColor();
         }
     }
 
