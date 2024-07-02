@@ -61,6 +61,9 @@
             {
                 Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine("Name must be at least 2 and under 18 characters long. Please try again:"); Console.ResetColor();
                 itemName = Console.ReadLine();
+                if (itemName.ToLower() == "q"){
+                    return;
+                }
             }
 
             // Catch bad input, make sure price is a (positive) number
