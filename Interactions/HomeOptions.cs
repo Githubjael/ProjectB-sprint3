@@ -33,7 +33,6 @@ static class HomeOptions
         Console.WriteLine("[4]: Info"); //in de code heet het contact
         if (Home.IsLoggedIn || Home.ManagerLoggedIn){
             Console.WriteLine("[5]: Log Out");
-            Console.WriteLine("[6]: Change Password");
         }
 
         if (!Home.IsLoggedIn && !Home.ManagerLoggedIn){
@@ -65,7 +64,7 @@ static class HomeOptions
                     break;
                 case "6":
                 Console.Clear();
-                    if (Home.IsLoggedIn || Home.ManagerLoggedIn)
+                    if (Home.IsLoggedIn)
                     {
                         AccountManagment.ChangePassword();
                     }
