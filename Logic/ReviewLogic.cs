@@ -51,7 +51,7 @@ class ReviewLogic : IComparable<Review>
         Console.WriteLine("What is the review id? (Enter 'Q' to quit)");
         string reviewIDReadLine = Console.ReadLine().Trim();
 
-        if (reviewIDReadLine.ToLower() == "Q"){
+        if (reviewIDReadLine.ToLower() == "q"){
             return;
         }
 
