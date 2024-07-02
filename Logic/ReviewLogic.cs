@@ -77,7 +77,7 @@ class ReviewLogic : IComparable<Review>
     // added to reply to reviews
     public static void ReplyFromManager()
     {
-        Console.WriteLine("enter the reviewID: (enter q to quit)");
+        Console.WriteLine("Enter the reviewID: (enter q to quit)");
         string enter = Console.ReadLine();
         if (enter == ""){
             Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"Enter a valid ID"); Console.ResetColor();
