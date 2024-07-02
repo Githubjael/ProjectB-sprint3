@@ -126,7 +126,7 @@ public static class Reviews
         while (input.ToLower() != "q" && (!int.TryParse(input, out rating) || rating < 1 || rating > 5))
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Invalid input. Please enter a number between 1 and 5.");
+            Console.WriteLine("Invalid input. Please enter a number between 1 and 5 (without a decimal).");
             Console.ResetColor();
             input = Console.ReadLine();
         }
