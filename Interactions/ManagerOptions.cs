@@ -171,23 +171,62 @@ public static void ChangeRestaurantInfo()
             Home.Options();
             break;
             case "2":
+            string ChangedAddress;
+            do
+            {    
             System.Console.WriteLine("New address:");
-            string ChangedAddress = Console.ReadLine();
+            ChangedAddress = Console.ReadLine();
+            if(string.IsNullOrEmpty(ChangedAddress) || string.IsNullOrWhiteSpace(ChangedAddress))
+            {
+                System.Console.WriteLine("do not leave empty.");
+            }
+            if(ChangedAddress.ToLower() == "q")
+            {
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Info.."); Console.ResetColor();
+                System.Threading.Thread.Sleep(1000);
+                Console.WriteLine(". . . . .");
+                System.Threading.Thread.Sleep(1000);
+                ChangeRestaurantInfo();
+            }
+            }while(string.IsNullOrEmpty(ChangedAddress) && string.IsNullOrWhiteSpace(ChangedAddress));
             restaurantInfo.Adress = ChangedAddress;
             ContactAccess.WriteToJson(new(){new(ChangedAddress, restaurantInfo.PhoneNumber, restaurantInfo.Email)});
             ChangeRestaurantInfo();
             break;
             case "3":
             System.Console.WriteLine("New email:");
-            string ChangedEmail = Console.ReadLine();
+            string ChangedEmail;
+            do{
+            System.Console.WriteLine("What is your email address? (valid emailadresses include: yahoo, gmail, hotmail, outlook, live, aol, icloud, hr)");
+            ChangedEmail = Console.ReadLine();
+            if (ChangedEmail == "q" || ChangedEmail == "Q")
+            {
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Info.."); Console.ResetColor();
+                System.Threading.Thread.Sleep(1000);
+                Console.WriteLine(". . . . .");
+                System.Threading.Thread.Sleep(1000);
+                ChangeRestaurantInfo();
+            }
+            } while (!CheckReservationInfo.CheckEmail(ChangedEmail));
             restaurantInfo.Email = ChangedEmail;
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, restaurantInfo.PhoneNumber, ChangedEmail)});
             ChangeRestaurantInfo();
             break;
             case "4":
             System.Console.WriteLine("New phone number:");
-            string ChangedPhoneNumber = Console.ReadLine();
-            restaurantInfo.PhoneNumber = ChangedPhoneNumber;
+            string ChangedPhoneNumber;
+            do{
+            System.Console.WriteLine("What is your phone number?");
+            ChangedPhoneNumber = Console.ReadLine();
+            if (ChangedPhoneNumber == "q" || ChangedPhoneNumber == "Q")
+            {
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Info.."); Console.ResetColor();
+                System.Threading.Thread.Sleep(1000);
+                Console.WriteLine(". . . . .");
+                System.Threading.Thread.Sleep(1000);
+                ChangeRestaurantInfo();
+            }
+            } while (!CheckReservationInfo.CheckPhoneNumber(ChangedPhoneNumber));
             ContactAccess.WriteToJson(new(){new(restaurantInfo.Adress, ChangedPhoneNumber, restaurantInfo.Email)});
             ChangeRestaurantInfo();
             break;
