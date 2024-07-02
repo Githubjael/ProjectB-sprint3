@@ -111,12 +111,14 @@ static class ManagerOptions
                 Console.WriteLine("Choose rating from 1 up to 5 (Type 'Q' to quit):");
                 string input = Console.ReadLine().Trim();
 
-                if (input.ToLower() == "Q"){
+                if (input.ToLower() == "q"){
                     break;
                 }
 
                 if (!int.TryParse(input, out int rating) || rating < 1 || rating > 5){
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input. Please enter a whole number between 1 and 5.");
+                    Console.ResetColor();  
                     continue;
                 }
 
