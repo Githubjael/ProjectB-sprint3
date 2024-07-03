@@ -17,6 +17,6 @@ public abstract class Person
 
     public string PhoneNumber { get; }
     
-    protected internal string Password { get; set; }
+    protected internal string Password { get; protected set; }
 
 }
