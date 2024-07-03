@@ -50,13 +50,23 @@ static class Messages
 
     public static bool AskForPreOrder()
     {
-        string input;
-        System.Console.WriteLine("Do you want to place an order? Y/N");
-        input = Console.ReadLine().ToLower();
-        if (input == "y")
+        while (true)
         {
-            return true;
+            Console.WriteLine("Do you want to place an order? Y/N");
+            string input = Console.ReadLine().ToLower();
+            if (input == "y")
+            {
+                return true;
+            }
+            else if (input == "n")
+            {
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter 'Y' or 'N'.");
+            }
         }
-        return false;
     }
+
 }
