@@ -173,26 +173,42 @@ public static void ChangeRestaurantInfo()
             case "2":
             string ChangedAddress;
             do
-            {    
-            System.Console.WriteLine("New address:");
-            ChangedAddress = Console.ReadLine();
-            if(string.IsNullOrEmpty(ChangedAddress) || string.IsNullOrWhiteSpace(ChangedAddress))
             {
-                System.Console.WriteLine("do not leave empty.");
+                Console.WriteLine("New address:");
+                ChangedAddress = Console.ReadLine();
+                
+                if (ChangedAddress.ToLower() == "q")
+                {
+                    Console.ForegroundColor = ConsoleColor.Green; 
+                    Console.WriteLine("Going back to Info.."); 
+                    Console.ResetColor();
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine(". . . . .");
+                    System.Threading.Thread.Sleep(1000);
+                    ChangeRestaurantInfo();
+                    return; // Exit the method to go back to Info
+                }
+
+                if (string.IsNullOrEmpty(ChangedAddress) || string.IsNullOrWhiteSpace(ChangedAddress))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; 
+                    Console.WriteLine("Do not leave empty."); 
+                    Console.ResetColor();
+                }
+                else if (ChangedAddress.Length < 4 || ChangedAddress.Length > 20)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red; 
+                    Console.WriteLine("Address character range is between 4 and 20."); 
+                    Console.ResetColor();
+                }
             }
-            if(ChangedAddress.ToLower() == "q")
-            {
-                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Info.."); Console.ResetColor();
-                System.Threading.Thread.Sleep(1000);
-                Console.WriteLine(". . . . .");
-                System.Threading.Thread.Sleep(1000);
-                ChangeRestaurantInfo();
-            }
-            }while(string.IsNullOrEmpty(ChangedAddress) && string.IsNullOrWhiteSpace(ChangedAddress));
+            while (string.IsNullOrEmpty(ChangedAddress) || string.IsNullOrWhiteSpace(ChangedAddress) || ChangedAddress.Length < 4 || ChangedAddress.Length > 20);
+
             restaurantInfo.Adress = ChangedAddress;
-            ContactAccess.WriteToJson(new(){new(ChangedAddress, restaurantInfo.PhoneNumber, restaurantInfo.Email)});
+            ContactAccess.WriteToJson(new() { new(ChangedAddress, restaurantInfo.PhoneNumber, restaurantInfo.Email) });
             ChangeRestaurantInfo();
             break;
+
             case "3":
             System.Console.WriteLine("New email:");
             string ChangedEmail;
