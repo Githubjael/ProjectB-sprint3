@@ -21,7 +21,7 @@ public static class CheckReservationInfo
         }
         foreach (char letter in firstName)
         {
-            if (!char.IsLetter(letter))
+            if (!char.IsLetter(letter) && !char.IsWhiteSpace(letter))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("*Your first name must only contain letters.");
