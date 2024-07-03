@@ -10,7 +10,6 @@ public static class Home
     public static bool ManagerLoggedIn { get; set; }
     public static string guestName { get; set; }
     public static string guestEmail { get; set; }
-    public static string Name => "Home";
 
     // Methodes revereren naar methodes in de interactie laag
     public static List<string> ShowTimeSlots() => TimeSlots.ReadFromJson();
