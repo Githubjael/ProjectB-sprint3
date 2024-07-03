@@ -48,8 +48,8 @@ static class Messages
 
     public static bool AskForPreOrder()
     {
-        System.Console.WriteLine("Do you want to place an order? Y/N");
-        if (Console.ReadLine().ToLower() == "y")
+        System.Console.WriteLine("Do you want to place an order? Y/N (enter 'q' to quit)");
+        if (Console.ReadLine().ToLower() == "y"&&Console.ReadLine().ToLower().Contains("q") == false)
             return true;
         return false;
     }

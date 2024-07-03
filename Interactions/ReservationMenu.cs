@@ -25,8 +25,6 @@ public static class ReservationMenu
                     Options();
                     return;
                 case "3":
-                    
-
                     // Cancel reservation
                     if (Home.IsLoggedIn && !Home.ManagerLoggedIn)
                     {
@@ -49,8 +47,16 @@ public static class ReservationMenu
                             DateTime parsedDate;
                             do
                             {
-                                Console.WriteLine("On which date would you like to cancel your reservation? (dd-MM-yyyy)");
+                                Console.WriteLine("On which date would you like to cancel your reservation? (dd-MM-yyyy) (enter q to quit)");
                                 date = Console.ReadLine();
+                                if(date.ToLower().Contains("q"))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
+                                    System.Threading.Thread.Sleep(1000);
+                                    Console.WriteLine(". . . . .");
+                                    System.Threading.Thread.Sleep(1000);
+                                    return;
+                                }
                             }
                             while (!DateTime.TryParseExact(date, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out parsedDate));
 
@@ -58,8 +64,16 @@ public static class ReservationMenu
                             TimeSpan parsedTime;
                             do
                             {
-                                Console.WriteLine("Enter the time of your reservation: (hh:mm)");
+                                Console.WriteLine("Enter the time of your reservation: (hh:mm) (enter q to quit)");
                                 time = Console.ReadLine();
+                                if (time.ToLower().Contains("q"))
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
+                                    System.Threading.Thread.Sleep(1000);
+                                    Console.WriteLine(". . . . .");
+                                    System.Threading.Thread.Sleep(1000);
+                                    return;
+                                }
                             }
                             while (!TimeSpan.TryParseExact(time, "hh\\:mm", null, System.Globalization.TimeSpanStyles.None, out parsedTime));
 
@@ -92,9 +106,7 @@ public static class ReservationMenu
                         return;
                     }
                     Options();
-                    return;
-
-
+                    break;
                 case "4":
                     // View reservation history
                     if (Home.IsLoggedIn && !Home.ManagerLoggedIn)

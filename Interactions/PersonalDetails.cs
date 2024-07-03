@@ -104,7 +104,7 @@ static class PersonalDetails
             date = Console.ReadLine();
             if (date == "q" || date == "Q")
             {
-            Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Going back to Home.."); Console.ResetColor();
                 System.Threading.Thread.Sleep(1000);
                 Console.WriteLine(". . . . .");
                 System.Threading.Thread.Sleep(1000);
