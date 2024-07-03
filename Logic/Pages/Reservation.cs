@@ -40,10 +40,18 @@ class Reservation
             if (Messages.AskForPreOrder())
             {
                 preOrder = PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
+                ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
+                ReservationLogic.AddReservationToList(Reservation);
+                Messages.Thanking4Reservation(GuestID);
             }
-            ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
-            ReservationLogic.AddReservationToList(Reservation);
-            Messages.Thanking4Reservation(GuestID);
+            else
+            {   
+                Console.WriteLine("\nYou chose for No Preorder!\nYour reservation is succesfully made.\n");
+                ReservationDataModel Reservation = new(GuestID, FirstName, LastName, PhoneNumber, Email, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
+                ReservationLogic.AddReservationToList(Reservation);
+                Messages.Thanking4Reservation(GuestID);
+            }
+
         }
         else
         {
@@ -59,14 +67,22 @@ class Reservation
             if (Messages.AskForPreOrder())
             {
                 preOrder = PreOrdering.AskDish(GuestID.ToString(), Date.ToString("dd-MM-yyyy"), TimeSlot);
+                ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.PhoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
+                ReservationLogic.AddReservationToList(Reservation);
+                Messages.Thanking4Reservation(Reservation.GuestID);
             }
-            ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.PhoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
-            ReservationLogic.AddReservationToList(Reservation);
-            Messages.Thanking4Reservation(Reservation.GuestID);
+            else
+            {
+                Console.WriteLine("\nYou chose for No Preorder!\nYour reservation is succesfully made.\n");
+                ReservationDataModel Reservation = new(GuestID, guest.FirstName, guest.LastName, guest.PhoneNumber, guest.EmailAddress, Date.ToString("dd-MM-yyyy"), TimeSlot, Tables, preOrder);
+                ReservationLogic.AddReservationToList(Reservation);
+                Messages.Thanking4Reservation(Reservation.GuestID);
+            }
+
         }
     }
-    public static void CancelReservation(int guestID)
-    {
-        ReservationLogic.CancelReservation(guestID); 
-    }
+    // public static void CancelReservation(int guestID)
+    // {
+    //     ReservationLogic.CancelReservation(guestID); 
+    // }
 }
