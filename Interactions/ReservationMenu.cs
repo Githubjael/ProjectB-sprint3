@@ -39,7 +39,7 @@ public static class ReservationMenu
                         {
                             foreach (var reservation in reservations)
                             {
-                                Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
+                                Console.WriteLine($"\nName: {reservation.FirstName} {reservation.LastName}");
                                 Console.WriteLine($"Date: {reservation.Date}");
                                 Console.WriteLine($"Time: {reservation.Time}");
                                 Console.WriteLine();
@@ -117,7 +117,7 @@ public static class ReservationMenu
                         {
                             foreach (var reservation in reservations)
                             {
-                                Console.WriteLine($"Name: {reservation.FirstName} {reservation.LastName}");
+                                Console.WriteLine($"\nName: {reservation.FirstName} {reservation.LastName}");
                                 Console.WriteLine($"Date: {reservation.Date}");
                                 Console.WriteLine($"Time: {reservation.Time}");
                                 if (reservation.Preorder != null){
