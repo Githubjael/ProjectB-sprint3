@@ -31,7 +31,7 @@ static class HomeOptions
         Console.WriteLine("[2]: Reservation");
         Console.WriteLine("[3]: Review");
         Console.WriteLine("[4]: Info"); //in de code heet het contact
-        if (Home.IsLoggedIn || Home.ManagerLoggedIn){
+        if (Home.IsLoggedIn){
             Console.WriteLine("[5]: Log Out");
             Console.WriteLine("[6]: Change Password");
         }
