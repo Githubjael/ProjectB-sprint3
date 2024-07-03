@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 static class Messages
 {
 
@@ -48,10 +50,13 @@ static class Messages
 
     public static bool AskForPreOrder()
     {
+        string input;
         System.Console.WriteLine("Do you want to place an order? Y/N");
-        string input = Console.ReadLine().ToLower();
+        input = Console.ReadLine().ToLower();
         if (input == "y")
+        {
             return true;
+        }
         return false;
     }
 }
